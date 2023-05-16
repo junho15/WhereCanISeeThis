@@ -76,8 +76,6 @@
 			isa = PBXGroup;
 			children = (
 				EB8B05032A12475E00C1BC37 /* WhereCanISeeThis */,
-				EB8B051A2A12475F00C1BC37 /* WhereCanISeeThisTests */,
-				EB8B05242A12475F00C1BC37 /* WhereCanISeeThisUITests */,
 				EB8B05022A12475E00C1BC37 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,29 +93,87 @@
 		EB8B05032A12475E00C1BC37 /* WhereCanISeeThis */ = {
 			isa = PBXGroup;
 			children = (
-				EB8B05042A12475E00C1BC37 /* AppDelegate.swift */,
-				EB8B05062A12475E00C1BC37 /* SceneDelegate.swift */,
-				EB8B05082A12475E00C1BC37 /* ViewController.swift */,
-				EB8B050A2A12475E00C1BC37 /* Main.storyboard */,
-				EB8B050D2A12475F00C1BC37 /* Assets.xcassets */,
-				EB8B050F2A12475F00C1BC37 /* LaunchScreen.storyboard */,
 				EB8B05122A12475F00C1BC37 /* Info.plist */,
+				EBE2E1FC2A13809D00373E75 /* Resources */,
+				EBE2E1FA2A137F9500373E75 /* Sources */,
 			);
 			path = WhereCanISeeThis;
 			sourceTree = "<group>";
 		};
-		EB8B051A2A12475F00C1BC37 /* WhereCanISeeThisTests */ = {
+		EBE2E1FA2A137F9500373E75 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				EBE2E1FB2A137FAB00373E75 /* AppLifeCycle */,
+				EBE2E2002A13812600373E75 /* Extensions */,
+				EBE2E1FD2A1380B500373E75 /* Models */,
+				EBE2E2012A13812E00373E75 /* Networking */,
+				EBE2E2022A13813A00373E75 /* Utilites */,
+				EBE2E1FF2A1380C800373E75 /* ViewModels */,
+				EBE2E1FE2A1380BE00373E75 /* Views */,
 			);
-			path = WhereCanISeeThisTests;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		EB8B05242A12475F00C1BC37 /* WhereCanISeeThisUITests */ = {
+		EBE2E1FB2A137FAB00373E75 /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				EB8B05042A12475E00C1BC37 /* AppDelegate.swift */,
+				EB8B05062A12475E00C1BC37 /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		EBE2E1FC2A13809D00373E75 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EB8B050A2A12475E00C1BC37 /* Main.storyboard */,
+				EB8B050D2A12475F00C1BC37 /* Assets.xcassets */,
+				EB8B050F2A12475F00C1BC37 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EBE2E1FD2A1380B500373E75 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = WhereCanISeeThisUITests;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EBE2E1FE2A1380BE00373E75 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EB8B05082A12475E00C1BC37 /* ViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EBE2E1FF2A1380C800373E75 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		EBE2E2002A13812600373E75 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EBE2E2012A13812E00373E75 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		EBE2E2022A13813A00373E75 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -458,6 +514,7 @@
 				DEVELOPMENT_TEAM = Q76RZAC2A2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhereCanISeeThis/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -469,7 +526,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.whereCanISeeThis.WhereCanISeeThis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.whereCanISeeThis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -490,6 +547,7 @@
 				DEVELOPMENT_TEAM = Q76RZAC2A2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhereCanISeeThis/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -501,7 +559,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.whereCanISeeThis.WhereCanISeeThis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.whereCanISeeThis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
