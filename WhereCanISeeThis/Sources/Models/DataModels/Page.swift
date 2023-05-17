@@ -1,6 +1,6 @@
-struct Page<Result: PageResultProtocol> {
+struct Page<Result: PageResultProtocol>: Decodable {
     let page: Int
-    let result: [Result]
+    let results: [Result]
     let totalPages: Int
     let totalResults: Int
 }

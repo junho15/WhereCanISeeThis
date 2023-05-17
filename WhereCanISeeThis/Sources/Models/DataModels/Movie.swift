@@ -21,3 +21,22 @@ struct Movie: PageResultProtocol {
         return DateFormatter().date(from: releaseDateText)
     }
 }
+
+extension Movie {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case overview
+        case posterPath
+        case releaseDateText = "releaseDate"
+        case adult
+        case backdropPath
+        case genreIds
+        case originalLanguage
+        case originalTitle
+        case popularity
+        case video
+        case voteAverage
+        case voteCount
+    }
+}

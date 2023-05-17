@@ -21,3 +21,22 @@ struct TVShow: PageResultProtocol {
         return DateFormatter().date(from: firstAirDateText)
     }
 }
+
+extension TVShow {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case overview
+        case posterPath
+        case firstAirDateText = "firstAirDate"
+        case adult
+        case backdropPath
+        case genreIds
+        case originCountry
+        case originalLanguage
+        case originalName
+        case popularity
+        case voteAverage
+        case voteCount
+    }
+}
