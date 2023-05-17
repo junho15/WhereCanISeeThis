@@ -21,6 +21,7 @@
 		EBE2E20F2A14A38D00373E75 /* GenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E20E2A14A38D00373E75 /* GenreList.swift */; };
 		EBE2E2112A14A9E300373E75 /* WatchProviderResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2102A14A9E300373E75 /* WatchProviderResult.swift */; };
 		EBE2E2132A14A9EA00373E75 /* WatchProviderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2122A14A9EA00373E75 /* WatchProviderList.swift */; };
+		EBE2E2152A14AFC500373E75 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2142A14AFC500373E75 /* JSONDecoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		EBE2E20E2A14A38D00373E75 /* GenreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreList.swift; sourceTree = "<group>"; };
 		EBE2E2102A14A9E300373E75 /* WatchProviderResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProviderResult.swift; sourceTree = "<group>"; };
 		EBE2E2122A14A9EA00373E75 /* WatchProviderList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProviderList.swift; sourceTree = "<group>"; };
+		EBE2E2142A14AFC500373E75 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 		EBE2E2002A13812600373E75 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EBE2E2142A14AFC500373E75 /* JSONDecoder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBE2E2152A14AFC500373E75 /* JSONDecoder.swift in Sources */,
 				EB8B05092A12475E00C1BC37 /* ViewController.swift in Sources */,
 				EBE2E2112A14A9E300373E75 /* WatchProviderResult.swift in Sources */,
 				EB8B05052A12475E00C1BC37 /* AppDelegate.swift in Sources */,
