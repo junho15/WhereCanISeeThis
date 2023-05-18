@@ -1,3 +1,4 @@
+"DECODING_ERROR" = "Decoding Error";
 "INVALID_REQUEST" = "Invalid Request";
 "NETWORK_ERROR" = "Network Error: %@";
 "BAD_STATUS" = "Bad Status";

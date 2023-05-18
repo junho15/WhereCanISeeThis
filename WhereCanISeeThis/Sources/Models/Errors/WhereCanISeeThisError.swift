@@ -1,6 +1,7 @@
 import Foundation
 
 enum WhereCanISeeThisError: Error {
+    case decodingError
     case invalidRequest
     case networkError(error: Error)
     case badStatus
@@ -9,6 +10,8 @@ enum WhereCanISeeThisError: Error {
 extension WhereCanISeeThisError: LocalizedError {
     var errorDescription: String? {
         switch self {
+        case .decodingError:
+            return NSLocalizedString("DECODING_ERROR", comment: "Decoding Error")
         case .invalidRequest:
             return NSLocalizedString("INVALID_REQUEST", comment: "Invalid Request")
         case .networkError(error: let error):
