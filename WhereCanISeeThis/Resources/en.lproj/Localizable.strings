@@ -2,3 +2,4 @@
 "INVALID_REQUEST" = "Invalid Request";
 "NETWORK_ERROR" = "Network Error: %@";
 "BAD_STATUS" = "Bad Status";
+"EMPTY_DATA" = "Data is Empty";

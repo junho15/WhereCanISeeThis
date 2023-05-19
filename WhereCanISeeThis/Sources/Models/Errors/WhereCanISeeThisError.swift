@@ -5,6 +5,7 @@ enum WhereCanISeeThisError: Error {
     case invalidRequest
     case networkError(error: Error)
     case badStatus
+    case emptyData
 }
 
 extension WhereCanISeeThisError: LocalizedError {
@@ -19,6 +20,8 @@ extension WhereCanISeeThisError: LocalizedError {
                           error.localizedDescription)
         case .badStatus:
             return NSLocalizedString("BAD_STATUS", comment: "Bad Status")
+        case .emptyData:
+            return NSLocalizedString("EMPTY_DATA", comment: "Empty Data")
         }
     }
 }

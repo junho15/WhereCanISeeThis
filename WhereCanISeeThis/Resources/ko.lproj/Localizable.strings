@@ -2,3 +2,4 @@
 "INVALID_REQUEST" = "유효하지 않은 요청";
 "NETWORK_ERROR" = "네트워크 오류: %@";
 "BAD_STATUS" = "잘못된 상태";
+"Data is Empty" = "데이터가 없음";

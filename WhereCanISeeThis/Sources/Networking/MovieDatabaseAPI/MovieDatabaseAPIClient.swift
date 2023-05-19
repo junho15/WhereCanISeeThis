@@ -129,5 +129,4 @@ final class MovieDatabaseAPIClient {
 
         return UIImage(data: data)
     }
-
 }
