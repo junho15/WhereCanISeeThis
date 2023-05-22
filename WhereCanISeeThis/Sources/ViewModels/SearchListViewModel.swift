@@ -6,6 +6,8 @@ final class SearchListViewModel {
     private var moviePages: [Page<Movie>]
     private var tvShowQuery: String?
     private var tvShowPages: [Page<TVShow>]
+    private var movieGenresList: GenreList?
+    private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
 
     private var movies: [Movie] {
@@ -19,6 +21,9 @@ final class SearchListViewModel {
     }
     private var tvShowIDs: [TVShow.ID] {
         return tvShows.map { $0.id }
+    }
+    private var language: String? {
+        return Locale.current.language.languageCode?.identifier
     }
 
     init(
@@ -38,6 +43,10 @@ extension SearchListViewModel {
         case searchTVShow(query: String, completion: ([TVShow.ID]) -> Void)
         case fetchNextMoviePage(completion: ((all: [Movie.ID], updated: [Movie.ID])) -> Void)
         case fetchNextTVShowPage(completion: ((all: [TVShow.ID], updated: [TVShow.ID])) -> Void)
+        case fetchMovieGenresList
+        case fetchTVShowGenresList
+        case movieDetail(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
+        case tvShowDetail(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
     }
 
     func action(_ action: Action) {
@@ -50,6 +59,14 @@ extension SearchListViewModel {
             fetchNextMoviePage(completion: completion)
         case .fetchNextTVShowPage(let completion):
             fetchNextTVShowPage(completion: completion)
+        case .fetchMovieGenresList:
+            fetchMovieGenresList()
+        case .fetchTVShowGenresList:
+            fetchTVShowGenresList()
+        case .movieDetail(let id, let completion):
+            completion(movieDetail(for: id))
+        case .tvShowDetail(id: let id, completion: let completion):
+            completion(tvShowDetail(for: id))
         }
     }
 
@@ -119,5 +136,41 @@ extension SearchListViewModel {
                 onError?(error.localizedDescription)
             }
         }
+    }
+
+    private func fetchMovieGenresList() {
+        Task {
+            do {
+                guard let language else { return }
+                self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
+            } catch let error as WhereCanISeeThisError {
+                onError?(error.localizedDescription)
+            }
+        }
+    }
+
+    private func fetchTVShowGenresList() {
+        Task {
+            do {
+                guard let language else { return }
+                self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
+            } catch let error as WhereCanISeeThisError {
+                onError?(error.localizedDescription)
+            }
+        }
+    }
+
+    private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {
+        guard let movie = movie(for: id),
+              let language,
+              let movieGenresList else { return nil }
+        return MediaDetailViewModel(media: .movie(movie: movie), country: language, genreList: movieGenresList)
+    }
+
+    private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
+        guard let tvShow = tvShow(for: id),
+              let language,
+              let tvShowGenresList else { return nil }
+        return MediaDetailViewModel(media: .tvShow(tvShow: tvShow), country: language, genreList: tvShowGenresList)
     }
 }
