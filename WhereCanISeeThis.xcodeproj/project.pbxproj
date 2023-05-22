@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB0A74B62A1B3DEB007FB254 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */; };
 		EB3B83202A14B79D00617CEA /* JSONDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */; };
 		EB3B83272A14B7C600617CEA /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B83262A14B7C600617CEA /* TestData.swift */; };
 		EB5064A22A16053300690730 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5064A12A16053300690730 /* Secrets.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
 		EB3B831D2A14B79D00617CEA /* WhereCanISeeThisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhereCanISeeThisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingTests.swift; sourceTree = "<group>"; };
 		EB3B83262A14B7C600617CEA /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		EBE2E1FF2A1380C800373E75 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				EB5064AB2A16365600690730 /* WhereCanISeeThisError.swift in Sources */,
 				EBE2E2132A14A9EA00373E75 /* WatchProviderList.swift in Sources */,
 				EB5064A82A1634DD00690730 /* URLSessionProtocol.swift in Sources */,
+				EB0A74B62A1B3DEB007FB254 /* SearchListViewModel.swift in Sources */,
 				EB8B05072A12475E00C1BC37 /* SceneDelegate.swift in Sources */,
 				EB5064A22A16053300690730 /* Secrets.swift in Sources */,
 				EBE2E20D2A14A2D200373E75 /* Genre.swift in Sources */,
