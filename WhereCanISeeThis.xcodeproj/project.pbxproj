@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB0A74B62A1B3DEB007FB254 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */; };
+		EB0A74BA2A1B9731007FB254 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B92A1B9731007FB254 /* Media.swift */; };
 		EB3B83202A14B79D00617CEA /* JSONDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */; };
 		EB3B83272A14B7C600617CEA /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B83262A14B7C600617CEA /* TestData.swift */; };
 		EB5064A22A16053300690730 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5064A12A16053300690730 /* Secrets.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
+		EB0A74B92A1B9731007FB254 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		EB3B831D2A14B79D00617CEA /* WhereCanISeeThisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhereCanISeeThisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingTests.swift; sourceTree = "<group>"; };
 		EB3B83262A14B7C600617CEA /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 			children = (
 				EBE2E20C2A14A2D200373E75 /* Genre.swift */,
 				EBE2E20E2A14A38D00373E75 /* GenreList.swift */,
+				EB0A74B92A1B9731007FB254 /* Media.swift */,
 				EBE2E2042A13831900373E75 /* Movie.swift */,
 				EBE2E2082A139FCE00373E75 /* Page.swift */,
 				EBE2E2062A139B3D00373E75 /* TVShow.swift */,
@@ -413,6 +416,7 @@
 				EBE2E2072A139B3D00373E75 /* TVShow.swift in Sources */,
 				EB5064AB2A16365600690730 /* WhereCanISeeThisError.swift in Sources */,
 				EBE2E2132A14A9EA00373E75 /* WatchProviderList.swift in Sources */,
+				EB0A74BA2A1B9731007FB254 /* Media.swift in Sources */,
 				EB5064A82A1634DD00690730 /* URLSessionProtocol.swift in Sources */,
 				EB0A74B62A1B3DEB007FB254 /* SearchListViewModel.swift in Sources */,
 				EB8B05072A12475E00C1BC37 /* SceneDelegate.swift in Sources */,
