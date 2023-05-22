@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB0A74B62A1B3DEB007FB254 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */; };
+		EB0A74B82A1B8A1F007FB254 /* MediaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */; };
 		EB0A74BA2A1B9731007FB254 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B92A1B9731007FB254 /* Media.swift */; };
 		EB3B83202A14B79D00617CEA /* JSONDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */; };
 		EB3B83272A14B7C600617CEA /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B83262A14B7C600617CEA /* TestData.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
+		EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewModel.swift; sourceTree = "<group>"; };
 		EB0A74B92A1B9731007FB254 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		EB3B831D2A14B79D00617CEA /* WhereCanISeeThisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhereCanISeeThisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB3B831F2A14B79D00617CEA /* JSONDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingTests.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				EB0A74B52A1B3DEB007FB254 /* SearchListViewModel.swift */,
+				EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				EBE2E2092A139FCE00373E75 /* Page.swift in Sources */,
 				EBE2E20F2A14A38D00373E75 /* GenreList.swift in Sources */,
 				EBE2E2052A13831900373E75 /* Movie.swift in Sources */,
+				EB0A74B82A1B8A1F007FB254 /* MediaDetailViewModel.swift in Sources */,
 				EB5064A42A160AC500690730 /* MovieDatabaseURL.swift in Sources */,
 				EBE2E20B2A149DC600373E75 /* WatchProvider.swift in Sources */,
 				EB5064A62A16346B00690730 /* MovieDatabaseAPIClient.swift in Sources */,
