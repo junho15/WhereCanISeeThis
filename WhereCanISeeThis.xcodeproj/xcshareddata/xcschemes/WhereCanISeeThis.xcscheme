@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:WhereCanISeeThis.xctestplan"
+            reference = "container:WhereCanISeeThisTests/WhereCanISeeThis.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

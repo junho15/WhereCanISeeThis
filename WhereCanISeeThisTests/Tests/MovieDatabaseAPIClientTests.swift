@@ -1,6 +1,8 @@
 import XCTest
 @testable import WhereCanISeeThis
 
+// swiftlint:disable file_length
+
 final class MovieDatabaseAPIClientTests: XCTestCase {
     var sut: MovieDatabaseAPIClient!
     var session: MockURLSession!
@@ -378,3 +380,113 @@ extension MovieDatabaseAPIClientTests {
         }
     }
 }
+
+// MARK: - fetchTrendingMovies
+
+extension MovieDatabaseAPIClientTests {
+    func test_fetchTrendingMovies호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = moviePageData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let timeWindow = MovieDatabaseURL.TimeWindow.day
+        let language = "en-US"
+
+        // when
+        do {
+            let result = try await sut.fetchTrendingMovies(timeWindow: timeWindow, language: language)
+
+            // then
+            XCTAssertEqual(result.page, 1)
+            XCTAssertEqual(result.totalResults, 264)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_fetchTrendingMovies호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let timeWindow = MovieDatabaseURL.TimeWindow.day
+        let language = "en-US"
+
+        // when
+        do {
+            _ = try await sut.fetchTrendingMovies(timeWindow: timeWindow, language: language)
+            XCTFail("Should return WhereCanISeeThisError.badStatus")
+        } catch {
+            if let error = error as? WhereCanISeeThisError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return WhereCanISeeThisError.badStatus")
+            }
+        }
+    }
+}
+
+// MARK: - fetchTrendingTVShows
+
+extension MovieDatabaseAPIClientTests {
+    func test_fetchTrendingTVShows호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = tvShowPageData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let timeWindow = MovieDatabaseURL.TimeWindow.day
+        let language = "en-US"
+
+        // when
+        do {
+            let result = try await sut.fetchTrendingTVShows(timeWindow: timeWindow, language: language)
+
+            // then
+            XCTAssertEqual(result.page, 1)
+            XCTAssertEqual(result.totalResults, 14)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_ffetchTrendingTVShows호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let timeWindow = MovieDatabaseURL.TimeWindow.day
+        let language = "en-US"
+
+        // when
+        do {
+            _ = try await sut.fetchTrendingTVShows(timeWindow: timeWindow, language: language)
+            XCTFail("Should return WhereCanISeeThisError.badStatus")
+        } catch {
+            if let error = error as? WhereCanISeeThisError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return WhereCanISeeThisError.badStatus")
+            }
+        }
+    }
+}
+
+// swiftlint:enable file_length
