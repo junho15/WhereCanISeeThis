@@ -129,4 +129,32 @@ final class MovieDatabaseAPIClient {
 
         return UIImage(data: data)
     }
+
+    func fetchTrendingMovies(timeWindow: MovieDatabaseURL.TimeWindow, language: String) async throws -> Page<Movie> {
+        guard let url = MovieDatabaseURL.fetchTrendingMovies(timeWindow: timeWindow, language: language).url else {
+            throw WhereCanISeeThisError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Page<Movie>.self, from: data)
+        } catch {
+            throw WhereCanISeeThisError.decodingError
+        }
+    }
+
+    func fetchTrendingTVShows(timeWindow: MovieDatabaseURL.TimeWindow, language: String) async throws -> Page<TVShow> {
+        guard let url = MovieDatabaseURL.fetchTrendingTVShows(timeWindow: timeWindow, language: language).url else {
+            throw WhereCanISeeThisError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Page<TVShow>.self, from: data)
+        } catch {
+            throw WhereCanISeeThisError.decodingError
+        }
+    }
 }

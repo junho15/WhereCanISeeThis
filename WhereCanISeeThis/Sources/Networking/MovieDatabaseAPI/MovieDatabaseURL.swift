@@ -13,6 +13,8 @@ enum MovieDatabaseURL {
     case fetchMovieGenresList(language: String)
     case fetchTVShowGenresList(language: String)
     case fetchImage(imageSize: ImageSize, imagePath: String)
+    case fetchTrendingMovies(timeWindow: TimeWindow, language: String)
+    case fetchTrendingTVShows(timeWindow: TimeWindow, language: String)
 }
 
 extension MovieDatabaseURL {
@@ -32,6 +34,10 @@ extension MovieDatabaseURL {
             return url(path: path, queryItems: ["language": language])
         case .fetchImage:
             return url(path: path)
+        case .fetchTrendingMovies(_, let language):
+            return url(path: path, queryItems: ["language": language])
+        case .fetchTrendingTVShows(_, let language):
+            return url(path: path, queryItems: ["language": language])
         }
     }
 
@@ -51,6 +57,10 @@ extension MovieDatabaseURL {
             return "/genre/tv/list"
         case .fetchImage(let imageSize, let imagePath):
             return "\(imageSize.stringValue)\(imagePath)"
+        case .fetchTrendingMovies(let timeWindow, _):
+            return "/trending/movie\(timeWindow.stringValue)"
+        case .fetchTrendingTVShows(let timeWindow, _):
+            return "/trending/tv\(timeWindow.stringValue)"
         }
     }
 
@@ -160,6 +170,18 @@ extension MovieDatabaseURL {
             switch self {
             case .original: return "/original"
             case .w500: return "/w500"
+            }
+        }
+    }
+
+    enum TimeWindow {
+        case day
+        case week
+
+        fileprivate var stringValue: String {
+            switch self {
+            case .day: return "/day"
+            case .week: return "/week"
             }
         }
     }
