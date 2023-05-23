@@ -2,12 +2,11 @@ import Foundation
 
 final class SearchListViewModel {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private var movieQuery: String?
+    private let query: String
     private var moviePages: [Page<Movie>]
-    private var tvShowQuery: String?
     private var tvShowPages: [Page<TVShow>]
-    private var movieGenresList: GenreList?
-    private var tvShowGenresList: GenreList?
+    private var movieGenresList: GenreList
+    private var tvShowGenresList: GenreList
     private var onError: ((String) -> Void)?
 
     private var movies: [Movie] {
@@ -28,12 +27,18 @@ final class SearchListViewModel {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = .init(),
+        query: String,
         moviePages: [Page<Movie>] = [],
-        tvShowPages: [Page<TVShow>] = []
+        tvShowPages: [Page<TVShow>] = [],
+        movieGenresList: GenreList,
+        tvShowGenresList: GenreList
     ) {
         self.movieDatabaseAPIClient = movieDatabaseAPIClient
+        self.query = query
         self.moviePages = moviePages
         self.tvShowPages = tvShowPages
+        self.movieGenresList = movieGenresList
+        self.tvShowGenresList = tvShowGenresList
     }
 }
 
@@ -43,8 +48,6 @@ extension SearchListViewModel {
         case searchTVShow(query: String, completion: ([TVShow.ID]) -> Void)
         case fetchNextMoviePage(completion: ((all: [Movie.ID], updated: [Movie.ID])) -> Void)
         case fetchNextTVShowPage(completion: ((all: [TVShow.ID], updated: [TVShow.ID])) -> Void)
-        case fetchMovieGenresList
-        case fetchTVShowGenresList
         case movieDetail(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
         case tvShowDetail(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
     }
@@ -59,10 +62,7 @@ extension SearchListViewModel {
             fetchNextMoviePage(completion: completion)
         case .fetchNextTVShowPage(let completion):
             fetchNextTVShowPage(completion: completion)
-        case .fetchMovieGenresList:
-            fetchMovieGenresList()
-        case .fetchTVShowGenresList:
-            fetchTVShowGenresList()
+
         case .movieDetail(let id, let completion):
             completion(movieDetail(for: id))
         case .tvShowDetail(id: let id, completion: let completion):
@@ -105,13 +105,12 @@ extension SearchListViewModel {
     }
 
     private func fetchNextMoviePage(completion: @escaping ((all: [Movie.ID], updated: [Movie.ID])) -> Void) {
-        guard let movieQuery,
-              let lastPage = moviePages.last?.page,
+        guard let lastPage = moviePages.last?.page,
               let totalPages = moviePages.last?.totalPages,
               lastPage < totalPages else { return }
         Task {
             do {
-                let moviePage = try await movieDatabaseAPIClient.searchMovies(query: movieQuery,
+                let moviePage = try await movieDatabaseAPIClient.searchMovies(query: query,
                                                                               page: lastPage + 1)
                 moviePages.append(moviePage)
                 completion((movieIDs, moviePage.results.map { $0.id }))
@@ -122,13 +121,12 @@ extension SearchListViewModel {
     }
 
     private func fetchNextTVShowPage(completion: @escaping ((all: [TVShow.ID], updated: [TVShow.ID])) -> Void) {
-        guard let tvShowQuery,
-              let lastPage = tvShowPages.last?.page,
+        guard let lastPage = tvShowPages.last?.page,
               let totalPages = tvShowPages.last?.totalPages,
               lastPage < totalPages else { return }
         Task {
             do {
-                let tvShowPage = try await movieDatabaseAPIClient.searchTVShows(query: tvShowQuery,
+                let tvShowPage = try await movieDatabaseAPIClient.searchTVShows(query: query,
                                                                                 page: lastPage + 1)
                 tvShowPages.append(tvShowPage)
                 completion((tvShowIDs, tvShowPage.results.map { $0.id }))
@@ -138,39 +136,15 @@ extension SearchListViewModel {
         }
     }
 
-    private func fetchMovieGenresList() {
-        Task {
-            do {
-                guard let language else { return }
-                self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-            } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
-            }
-        }
-    }
-
-    private func fetchTVShowGenresList() {
-        Task {
-            do {
-                guard let language else { return }
-                self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-            } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
-            }
-        }
-    }
-
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {
         guard let movie = movie(for: id),
-              let language,
-              let movieGenresList else { return nil }
+              let language else { return nil }
         return MediaDetailViewModel(media: .movie(movie: movie), country: language, genreList: movieGenresList)
     }
 
     private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
         guard let tvShow = tvShow(for: id),
-              let language,
-              let tvShowGenresList else { return nil }
+              let language else { return nil }
         return MediaDetailViewModel(media: .tvShow(tvShow: tvShow), country: language, genreList: tvShowGenresList)
     }
 }
