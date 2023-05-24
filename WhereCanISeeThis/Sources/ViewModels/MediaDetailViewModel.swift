@@ -2,7 +2,7 @@ import Foundation
 
 final class MediaDetailViewModel {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private let media: Media
+    private let media: MediaProtocol
     private let country: String
     private let genreList: GenreList
     private var watchProviderList: WatchProviderList?
@@ -10,7 +10,7 @@ final class MediaDetailViewModel {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(),
-        media: Media,
+        media: MediaProtocol,
         country: String,
         genreList: GenreList
     ) {
@@ -23,7 +23,7 @@ final class MediaDetailViewModel {
 
 extension MediaDetailViewModel {
     enum Action {
-        case fetchMediaDetail(completion: ((Media) -> Void))
+        case fetchMediaDetail(completion: ((MediaProtocol) -> Void))
         case fetchWatchProviders(completion: ((WatchProviderList) -> Void))
     }
 
@@ -48,11 +48,11 @@ extension MediaDetailViewModel {
         Task {
             do {
                 let result: WatchProviderResult
-                switch media {
-                case .movie(let movie):
-                    result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: movie.id)
-                case .tvShow(let tvShow):
-                    result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: tvShow.id)
+                switch media.mediaType {
+                case .movie:
+                    result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: media.id)
+                case .tvShow:
+                    result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: media.id)
                 }
 
                 guard let watchProviderList = result.results?[country] else { return }

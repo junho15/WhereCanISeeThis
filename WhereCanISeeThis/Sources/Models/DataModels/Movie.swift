@@ -1,6 +1,6 @@
 import Foundation
 
-struct Movie: PageResultProtocol {
+struct Movie: PageResultProtocol, MediaProtocol {
     let id: Int
     let title: String?
     let overview: String?
@@ -19,6 +19,14 @@ struct Movie: PageResultProtocol {
     var releaseDate: Date? {
         guard let releaseDateText else { return nil }
         return DateFormatter().date(from: releaseDateText)
+    }
+
+    var mediaType: MediaType {
+        return .movie
+    }
+
+    var date: Date? {
+        return releaseDate
     }
 }
 

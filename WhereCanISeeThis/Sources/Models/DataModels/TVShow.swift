@@ -1,6 +1,6 @@
 import Foundation
 
-struct TVShow: PageResultProtocol {
+struct TVShow: PageResultProtocol, MediaProtocol {
     let id: Int
     let name: String?
     let overview: String?
@@ -19,6 +19,18 @@ struct TVShow: PageResultProtocol {
     var firstAirDate: Date? {
         guard let firstAirDateText else { return nil }
         return DateFormatter().date(from: firstAirDateText)
+    }
+
+    var title: String? {
+        return name
+    }
+
+    var mediaType: MediaType {
+        return .tvShow
+    }
+
+    var date: Date? {
+        return firstAirDate
     }
 }
 
