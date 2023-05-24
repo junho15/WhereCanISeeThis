@@ -2,7 +2,7 @@ import Foundation
 
 final class SearchListViewModel {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private let query: String
+    private var query: String
     private var moviePages: [Page<Movie>]
     private var tvShowPages: [Page<TVShow>]
     private var movieGenresList: GenreList

@@ -1,25 +1,21 @@
 import Foundation
 
 final class TrendingViewModel {
-    enum Constants {
-        static let trendingTimeWindow = MovieDatabaseURL.TimeWindow.day
-    }
-
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private var moviePage: Page<Movie>
-    private var tvShowPage: Page<TVShow>
+    private var moviePage: Page<Movie>?
+    private var tvShowPage: Page<TVShow>?
     private var movieGenresList: GenreList?
     private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
 
     private var movies: [Movie] {
-        return moviePage.results
+        return moviePage?.results ?? []
     }
     private var movieIDs: [Movie.ID] {
         return movies.map { $0.id }
     }
     private var tvShows: [TVShow] {
-        return tvShowPage.results
+        return tvShowPage?.results ?? []
     }
     private var tvShowIDs: [TVShow.ID] {
         return tvShows.map { $0.id }
@@ -32,9 +28,9 @@ final class TrendingViewModel {
     }
 
     init(
-        movieDatabaseAPIClient: MovieDatabaseAPIClient,
-        moviePage: Page<Movie>,
-        tvShowPage: Page<TVShow>,
+        movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(),
+        moviePage: Page<Movie>? = nil,
+        tvShowPage: Page<TVShow>? = nil,
         movieGenresList: GenreList? = nil,
         tvShowGenresList: GenreList? = nil,
         onError: ((String) -> Void)? = nil
@@ -164,5 +160,11 @@ extension TrendingViewModel {
               let tvShow = tvShow(for: id),
               let language else { return nil }
         return MediaDetailViewModel(media: .tvShow(tvShow: tvShow), country: language, genreList: tvShowGenresList)
+    }
+}
+
+extension TrendingViewModel {
+    private enum Constants {
+        static let trendingTimeWindow = MovieDatabaseURL.TimeWindow.day
     }
 }
