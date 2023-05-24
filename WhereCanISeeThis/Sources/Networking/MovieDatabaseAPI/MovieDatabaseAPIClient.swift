@@ -2,9 +2,11 @@ import UIKit
 
 final class MovieDatabaseAPIClient {
     private let session: URLSessionProtocol
+    private let imageCache: ImageCacheProtocol
 
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProtocol = URLSession.shared, imageCache: ImageCacheProtocol = ImageCache.shared) {
         self.session = session
+        self.imageCache = imageCache
     }
 
     func searchMovies(
@@ -125,9 +127,14 @@ final class MovieDatabaseAPIClient {
             throw WhereCanISeeThisError.invalidRequest
         }
 
-        let data = try await session.execute(url: url)
-
-        return UIImage(data: data)
+        if let cachedImage = imageCache.cachedImage(for: url) {
+            return cachedImage
+        } else {
+            let data = try await session.execute(url: url)
+            guard let image = UIImage(data: data) else { return nil }
+            imageCache.store(image, forKey: url)
+            return image
+        }
     }
 
     func fetchTrendingMovies(timeWindow: MovieDatabaseURL.TimeWindow, language: String) async throws -> Page<Movie> {
