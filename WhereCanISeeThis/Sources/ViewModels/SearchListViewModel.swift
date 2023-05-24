@@ -1,6 +1,6 @@
-import Foundation
+import UIKit
 
-final class SearchListViewModel {
+final class SearchListViewModel: MediaItemViewModelProtocol {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private var query: String
     private var moviePages: [Page<Movie>]
@@ -62,24 +62,43 @@ extension SearchListViewModel {
             fetchNextMoviePage(completion: completion)
         case .fetchNextTVShowPage(let completion):
             fetchNextTVShowPage(completion: completion)
-
         case .movieDetail(let id, let completion):
             completion(movieDetail(for: id))
-        case .tvShowDetail(id: let id, completion: let completion):
+        case .tvShowDetail(let id, let completion):
             completion(tvShowDetail(for: id))
         }
     }
 
-    func movie(for id: Movie.ID) -> Movie? {
-        return movies.first(where: { $0.id == id })
+    func movieItem(for id: Movie.ID) -> MediaItem? {
+        guard let movie = movie(for: id) else { return nil }
+        return MediaItem(media: movie, genreList: movieGenresList)
     }
 
-    func tvShow(for id: TVShow.ID) -> TVShow? {
-        return tvShows.first(where: { $0.id == id })
+    func tvShowItem(for id: TVShow.ID) -> MediaItem? {
+        guard let tvShow = tvShow(for: id) else { return nil }
+        return MediaItem(media: tvShow, genreList: tvShowGenresList)
+    }
+
+    func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async -> UIImage? {
+        do {
+            let image = try await movieDatabaseAPIClient.fetchImage(imageSize: imageSize, imagePath: imagePath)
+            return image
+        } catch {
+            onError?(error.localizedDescription)
+            return nil
+        }
     }
 
     func bind(onError: @escaping (String) -> Void) {
         self.onError = onError
+    }
+
+    private func movie(for id: Movie.ID) -> Movie? {
+        return movies.first(where: { $0.id == id })
+    }
+
+    private func tvShow(for id: TVShow.ID) -> TVShow? {
+        return tvShows.first(where: { $0.id == id })
     }
 
     private func searchMovie(query: String, completion: @escaping ([Movie.ID]) -> Void) {
