@@ -6,16 +6,19 @@ import XCTest
 final class MovieDatabaseAPIClientTests: XCTestCase {
     var sut: MovieDatabaseAPIClient!
     var session: MockURLSession!
+    var imageCache: ImageCache!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         session = MockURLSession()
-        sut = MovieDatabaseAPIClient(session: session)
+        imageCache = ImageCache()
+        sut = MovieDatabaseAPIClient(session: session, imageCache: imageCache)
     }
 
     override func tearDownWithError() throws {
         sut = nil
         session = nil
+        imageCache = nil
         try super.tearDownWithError()
     }
 }
@@ -355,6 +358,24 @@ extension MovieDatabaseAPIClientTests {
         }
     }
 
+    func test_fetchImage호출시_캐싱된_이미지가_있으면_캐싱된_이미지를_반환하는지() async {
+        // given
+        let imagePath = "/test"
+        let url = MovieDatabaseURL.fetchImage(imageSize: .original, imagePath: imagePath).url!
+        let image = UIImage.add
+        imageCache.store(image, forKey: url)
+
+        // when
+        do {
+            let result = try await sut.fetchImage(imageSize: .original, imagePath: imagePath)
+
+            // then
+            XCTAssertEqual(image, result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func test_fetchImage호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
         // given
         session.response = HTTPURLResponse(
@@ -462,7 +483,7 @@ extension MovieDatabaseAPIClientTests {
         }
     }
 
-    func test_ffetchTrendingTVShows호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+    func test_fetchTrendingTVShows호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
         // given
         session.response = HTTPURLResponse(
             url: URL(string: "https://test.com")!,
