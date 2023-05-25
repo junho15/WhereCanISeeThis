@@ -7,7 +7,10 @@ final class MediaCollectionContentView: UIView, UIContentView {
         }
     }
     override var intrinsicContentSize: CGSize {
-        CGSize(width: 300, height: 300)
+        guard let screenSize = window?.windowScene?.screen.bounds.size else {
+            return CGSize(width: 300, height: 300)
+        }
+        return CGSize(width: screenSize.width, height: screenSize.height * 0.35)
     }
     private var collectionView: UICollectionView?
     private var dataSource: DataSource?

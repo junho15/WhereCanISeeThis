@@ -41,8 +41,10 @@ final class MediaContentView: UIView, UIContentView {
         innerStackView.spacing = Constants.spacing
         outerStackView.alignment = .top
         outerStackView.spacing = Constants.spacing
+        titleLabel.font = Constants.titleFont
+        dateLabel.font = Constants.defaultFont
+        genreLabel.font = Constants.defaultFont
         [titleLabel, dateLabel, genreLabel].forEach { label in
-            label.font = Constants.font
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             innerStackView.addArrangedSubview(label)
@@ -58,9 +60,9 @@ final class MediaContentView: UIView, UIContentView {
         NSLayoutConstraint.activate([
             outerStackView.topAnchor.constraint(equalTo: topAnchor),
             outerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            outerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            outerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing),
             outerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.widthAnchor.constraint(lessThanOrEqualTo: imageView.heightAnchor, multiplier: 2/3)
+            imageView.widthAnchor.constraint(lessThanOrEqualTo: imageView.heightAnchor, multiplier: 1/1.3)
         ])
     }
 }
@@ -84,7 +86,8 @@ extension MediaContentView {
 
 extension MediaContentView {
     private enum Constants {
-        static let font = UIFont.preferredFont(forTextStyle: .body)
+        static let titleFont = UIFont.preferredFont(forTextStyle: .body)
+        static let defaultFont = UIFont.preferredFont(forTextStyle: .caption1)
         static let spacing = CGFloat(10)
     }
 }
