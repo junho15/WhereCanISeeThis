@@ -2,6 +2,9 @@ import UIKit
 
 struct MediaItem {
     var genre: String?
+    var id: Int {
+        return media.id
+    }
     var title: String? {
         return media.title
     }
@@ -10,6 +13,9 @@ struct MediaItem {
     }
     var posterPath: String? {
         return media.posterPath
+    }
+    var mediaType: MediaType {
+        return media.mediaType
     }
     private let media: any MediaProtocol
 

@@ -156,14 +156,14 @@ extension SearchListViewModel {
     }
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {
-        guard let movie = movie(for: id),
+        guard let movieItem = movieItem(for: id),
               let language else { return nil }
-        return MediaDetailViewModel(media: movie, country: language, genreList: movieGenresList)
+        return MediaDetailViewModel(mediaItem: movieItem, country: language, genreList: movieGenresList)
     }
 
     private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
-        guard let tvShow = tvShow(for: id),
+        guard let tvShowItem = tvShowItem(for: id),
               let language else { return nil }
-        return MediaDetailViewModel(media: tvShow, country: language, genreList: tvShowGenresList)
+        return MediaDetailViewModel(mediaItem: tvShowItem, country: language, genreList: tvShowGenresList)
     }
 }

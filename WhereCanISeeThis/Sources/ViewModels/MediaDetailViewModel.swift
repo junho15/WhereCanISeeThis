@@ -2,7 +2,7 @@ import Foundation
 
 final class MediaDetailViewModel {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private let media: MediaProtocol
+    private let mediaItem: MediaItem
     private let country: String
     private let genreList: GenreList
     private var watchProviderList: WatchProviderList?
@@ -10,12 +10,12 @@ final class MediaDetailViewModel {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(),
-        media: MediaProtocol,
+        mediaItem: MediaItem,
         country: String,
         genreList: GenreList
     ) {
         self.movieDatabaseAPIClient = movieDatabaseAPIClient
-        self.media = media
+        self.mediaItem = mediaItem
         self.country = country
         self.genreList = genreList
     }
@@ -23,14 +23,14 @@ final class MediaDetailViewModel {
 
 extension MediaDetailViewModel {
     enum Action {
-        case fetchMediaDetail(completion: ((MediaProtocol) -> Void))
+        case fetchMediaDetail(completion: ((MediaItem) -> Void))
         case fetchWatchProviders(completion: ((WatchProviderList) -> Void))
     }
 
     func action(_ action: Action) {
         switch action {
         case .fetchMediaDetail(let completion):
-            completion(media)
+            completion(mediaItem)
         case .fetchWatchProviders(let completion):
             if let watchProviderList {
                 completion(watchProviderList)
@@ -48,11 +48,11 @@ extension MediaDetailViewModel {
         Task {
             do {
                 let result: WatchProviderResult
-                switch media.mediaType {
+                switch mediaItem.mediaType {
                 case .movie:
-                    result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: media.id)
+                    result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: mediaItem.id)
                 case .tvShow:
-                    result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: media.id)
+                    result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: mediaItem.id)
                 }
 
                 guard let watchProviderList = result.results?[country] else { return }
