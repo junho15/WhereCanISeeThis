@@ -1,6 +1,6 @@
 import UIKit
 
-struct MediaItem {
+struct MediaItem: Identifiable {
     var genre: String?
     var id: Int {
         return media.id
