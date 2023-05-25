@@ -3,3 +3,6 @@
 "NETWORK_ERROR" = "Network Error: %@";
 "BAD_STATUS" = "Bad Status";
 "EMPTY_DATA" = "Data is Empty";
+"MOVIE_TITLE" = "Movies";
+"TVSHOW_TITLE" = "TVShows";
+"TRENDING" = "Trending - %@";

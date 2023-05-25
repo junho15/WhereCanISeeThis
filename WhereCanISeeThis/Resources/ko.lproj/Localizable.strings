@@ -3,3 +3,6 @@
 "NETWORK_ERROR" = "네트워크 오류: %@";
 "BAD_STATUS" = "잘못된 상태";
 "Data is Empty" = "데이터가 없음";
+"MOVIE_TITLE" = "영화";
+"TVSHOW_TITLE" = "TV프로그램";
+"TRENDING" = "트렌딩 - %@";
