@@ -7,6 +7,7 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
     private var movieGenresList: GenreList?
     private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
+    private var onUpdate: (() -> Void)?
 
     private var movies: [Movie] {
         return moviePage?.results ?? []
@@ -48,11 +49,11 @@ extension TrendingViewModel {
     enum Action {
         case fetchMovieGenresList
         case fetchTVShowGenresList
-        case fetchTrendingMovies(completion: ([Movie.ID]) -> Void)
-        case fetchTrendingTVShows(completion: ([TVShow.ID]) -> Void)
+        case fetchTrendingMovies
+        case fetchTrendingTVShows
         case searchListViewModel(query: String, completion: (SearchListViewModel?) -> Void)
-        case movieDetail(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
-        case tvShowDetail(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
+        case movieDetailViewModel(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
+        case tvShowDetailViewModel(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
     }
 
     func action(_ action: Action) {
@@ -61,15 +62,15 @@ extension TrendingViewModel {
             fetchMovieGenresList()
         case .fetchTVShowGenresList:
             fetchTVShowGenresList()
-        case .fetchTrendingMovies(let completion):
-            fetchTrendingMovies(completion: completion)
-        case .fetchTrendingTVShows(let completion):
-            fetchTrendingTVShows(completion: completion)
+        case .fetchTrendingMovies:
+            fetchTrendingMovies()
+        case .fetchTrendingTVShows:
+            fetchTrendingTVShows()
         case .searchListViewModel(let query, let completion):
             completion(searchListViewModel(query: query))
-        case .movieDetail(let id, let completion):
+        case .movieDetailViewModel(let id, let completion):
             completion(movieDetail(for: id))
-        case .tvShowDetail(let id, let completion):
+        case .tvShowDetailViewModel(let id, let completion):
             completion(tvShowDetail(for: id))
         }
     }
@@ -104,6 +105,10 @@ extension TrendingViewModel {
 
     func bind(onError: @escaping (String) -> Void) {
         self.onError = onError
+    }
+
+    func bind(onUpdate: @escaping () -> Void) {
+        self.onUpdate = onUpdate
     }
 
     private func movie(for id: Movie.ID) -> Movie? {
@@ -148,7 +153,7 @@ extension TrendingViewModel {
         }
     }
 
-    private func fetchTrendingMovies(completion: @escaping ([Movie.ID]) -> Void) {
+    private func fetchTrendingMovies() {
         Task {
             do {
                 guard let language,
@@ -158,14 +163,14 @@ extension TrendingViewModel {
                     timeWindow: Constants.trendingTimeWindow,
                     language: languageCode
                 )
-                completion(movieIDs)
+                onUpdate?()
             } catch let error as WhereCanISeeThisError {
                 onError?(error.localizedDescription)
             }
         }
     }
 
-    private func fetchTrendingTVShows(completion: @escaping ([TVShow.ID]) -> Void) {
+    private func fetchTrendingTVShows() {
         Task {
             do {
                 guard let language,
@@ -175,7 +180,7 @@ extension TrendingViewModel {
                     timeWindow: Constants.trendingTimeWindow,
                     language: languageCode
                 )
-                completion(tvShowIDs)
+                onUpdate?()
             } catch let error as WhereCanISeeThisError {
                 onError?(error.localizedDescription)
             }
