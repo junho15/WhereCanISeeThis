@@ -1,6 +1,6 @@
 import Foundation
 
-struct TVShow: PageResultProtocol, MediaProtocol {
+struct TVShow: MediaProtocol {
     let id: Int
     let name: String?
     let overview: String?

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Movie: PageResultProtocol, MediaProtocol {
+struct Movie: MediaProtocol {
     let id: Int
     let title: String?
     let overview: String?

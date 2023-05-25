@@ -1,6 +1,6 @@
 import Foundation
 
-protocol MediaProtocol {
+protocol MediaProtocol: Identifiable, Decodable {
     var id: Int { get }
     var mediaType: MediaType { get }
     var posterPath: String? { get }
