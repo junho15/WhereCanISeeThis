@@ -18,7 +18,7 @@ struct Movie: MediaProtocol {
 
     var releaseDate: Date? {
         guard let releaseDateText else { return nil }
-        return DateFormatter().date(from: releaseDateText)
+        return releaseDateText.date()
     }
 
     var mediaType: MediaType {

@@ -18,7 +18,7 @@ struct TVShow: MediaProtocol {
 
     var firstAirDate: Date? {
         guard let firstAirDateText else { return nil }
-        return DateFormatter().date(from: firstAirDateText)
+        return firstAirDateText.date()
     }
 
     var title: String? {
