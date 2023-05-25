@@ -69,14 +69,13 @@ extension SearchListViewModel {
         }
     }
 
-    func movieItem(for id: Movie.ID) -> MediaItem? {
-        guard let movie = movie(for: id) else { return nil }
-        return MediaItem(media: movie, genreList: movieGenresList)
-    }
-
-    func tvShowItem(for id: TVShow.ID) -> MediaItem? {
-        guard let tvShow = tvShow(for: id) else { return nil }
-        return MediaItem(media: tvShow, genreList: tvShowGenresList)
+    func mediaItem(for id: MediaItem.ID, type: MediaType) -> MediaItem? {
+        switch type {
+        case .movie:
+            return movieItem(for: id)
+        case .tvShow:
+            return tvShowItem(for: id)
+        }
     }
 
     func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async -> UIImage? {
@@ -99,6 +98,16 @@ extension SearchListViewModel {
 
     private func tvShow(for id: TVShow.ID) -> TVShow? {
         return tvShows.first(where: { $0.id == id })
+    }
+
+    private func movieItem(for id: Movie.ID) -> MediaItem? {
+        guard let movie = movie(for: id) else { return nil }
+        return MediaItem(media: movie, genreList: movieGenresList)
+    }
+
+    private func tvShowItem(for id: TVShow.ID) -> MediaItem? {
+        guard let tvShow = tvShow(for: id) else { return nil }
+        return MediaItem(media: tvShow, genreList: tvShowGenresList)
     }
 
     private func searchMovie(query: String, completion: @escaping ([Movie.ID]) -> Void) {
