@@ -2,8 +2,8 @@ import Foundation
 
 enum MovieDatabaseURL {
     private static let apiKey = Secrets.apiKey
-    private static let baseURL = "https://api.themoviedb.org/3"
-    private static let imageURL = "https://image.tmdb.org/t/p"
+    private static let baseURL = "api.themoviedb.org"
+    private static let imageURL = "image.tmdb.org"
     private static let scheme = "https"
 
     case searchMovies(searchQuery: MoviesSearchQuery)
@@ -44,30 +44,39 @@ extension MovieDatabaseURL {
     private var path: String {
         switch self {
         case .searchMovies:
-            return "/search/movie"
+            return "/3/search/movie"
         case .searchTVShows:
-            return "/search/tv"
+            return "/3/search/tv"
         case .fetchMovieWatchProviders(let movieID):
-            return "/movie/\(movieID)/watch/providers"
+            return "/3/movie/\(movieID)/watch/providers"
         case .fetchTVShowWatchProviders(let tvShowID):
-            return "/tv/\(tvShowID)/watch/providers"
+            return "/3/tv/\(tvShowID)/watch/providers"
         case .fetchMovieGenresList:
-            return "/genre/movie/list"
+            return "/3/genre/movie/list"
         case .fetchTVShowGenresList:
-            return "/genre/tv/list"
+            return "/3/genre/tv/list"
         case .fetchImage(let imageSize, let imagePath):
-            return "\(imageSize.stringValue)\(imagePath)"
+            return "/t/p\(imageSize.stringValue)\(imagePath)"
         case .fetchTrendingMovies(let timeWindow, _):
-            return "/trending/movie\(timeWindow.stringValue)"
+            return "/3/trending/movie\(timeWindow.stringValue)"
         case .fetchTrendingTVShows(let timeWindow, _):
-            return "/trending/tv\(timeWindow.stringValue)"
+            return "/3/trending/tv\(timeWindow.stringValue)"
+        }
+    }
+
+    private var host: String {
+        switch self {
+        case .fetchImage:
+            return Self.imageURL
+        default:
+            return Self.baseURL
         }
     }
 
     private func url(path: String, queryItems: [String: String] = [:]) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = Self.scheme
-        urlComponents.host = Self.baseURL
+        urlComponents.host = host
         urlComponents.path = path
         urlComponents.queryItems = urlQueryItems(by: queryItems)
         return urlComponents.url
