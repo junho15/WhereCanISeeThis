@@ -87,9 +87,7 @@ extension TrendingViewController {
     func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .header(let mediaType) = itemIdentifier else { return }
         var contentConfiguration = cell.defaultContentConfiguration()
-        let attributedTitle = NSAttributedString(
-            string: mediaType.trendingTitle, attributes: [.font: UIFont.preferredFont(forTextStyle: .headline)]
-        )
+        let attributedTitle = AttributedStringMaker.trending(title: mediaType.trendingTitle).attributedString
         contentConfiguration.attributedText = attributedTitle
         cell.contentConfiguration = contentConfiguration
     }

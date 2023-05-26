@@ -62,7 +62,9 @@ final class MediaContentView: UIView, UIContentView {
             outerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             outerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing),
             outerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.widthAnchor.constraint(lessThanOrEqualTo: imageView.heightAnchor, multiplier: 1/1.3)
+            imageView.widthAnchor.constraint(
+                lessThanOrEqualTo: imageView.heightAnchor, multiplier: Constants.imageViewRatio
+            )
         ])
     }
 }
@@ -89,6 +91,7 @@ extension MediaContentView {
         static let titleFont = UIFont.preferredFont(forTextStyle: .body)
         static let defaultFont = UIFont.preferredFont(forTextStyle: .caption1)
         static let spacing = CGFloat(10)
+        static let imageViewRatio = 1/1.3
     }
 }
 

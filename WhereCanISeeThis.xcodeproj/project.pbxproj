@@ -35,6 +35,7 @@
 		EBDDA39C2A1DFCC100A67637 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39B2A1DFCC100A67637 /* ImageCache.swift */; };
 		EBDDA39E2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39D2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift */; };
 		EBDDA3A02A1F32D800A67637 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39F2A1F32D800A67637 /* String.swift */; };
+		EBDDA3A42A20522C00A67637 /* AttributedStringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA3A32A20522C00A67637 /* AttributedStringMaker.swift */; };
 		EBE2E2052A13831900373E75 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2042A13831900373E75 /* Movie.swift */; };
 		EBE2E2072A139B3D00373E75 /* TVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2062A139B3D00373E75 /* TVShow.swift */; };
 		EBE2E2092A139FCE00373E75 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2082A139FCE00373E75 /* Page.swift */; };
@@ -91,6 +92,7 @@
 		EBDDA39B2A1DFCC100A67637 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		EBDDA39D2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItemViewModelProtocol.swift; sourceTree = "<group>"; };
 		EBDDA39F2A1F32D800A67637 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		EBDDA3A32A20522C00A67637 /* AttributedStringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringMaker.swift; sourceTree = "<group>"; };
 		EBE2E2042A13831900373E75 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		EBE2E2062A139B3D00373E75 /* TVShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShow.swift; sourceTree = "<group>"; };
 		EBE2E2082A139FCE00373E75 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 		EBE2E2022A13813A00373E75 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
+				EBDDA3A32A20522C00A67637 /* AttributedStringMaker.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				EBDDA3912A1DE40B00A67637 /* MediaCollectionContentView.swift in Sources */,
 				EBE2E2072A139B3D00373E75 /* TVShow.swift in Sources */,
 				EB5064AB2A16365600690730 /* WhereCanISeeThisError.swift in Sources */,
+				EBDDA3A42A20522C00A67637 /* AttributedStringMaker.swift in Sources */,
 				EBE2E2132A14A9EA00373E75 /* WatchProviderList.swift in Sources */,
 				EBDDA3932A1DE66500A67637 /* MediaProtocol.swift in Sources */,
 				EBDDA38B2A1DB1EA00A67637 /* TrendingViewController.swift in Sources */,
