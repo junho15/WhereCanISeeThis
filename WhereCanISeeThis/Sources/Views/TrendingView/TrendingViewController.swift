@@ -25,13 +25,15 @@ final class TrendingViewController: UICollectionViewController {
         view.backgroundColor = Constants.viewBackgroundColor
 
         configureDataSource()
-        trendingViewModel.bind { errorMessage in
+        configureSearchBar()
+        trendingViewModel.bind(onError: { errorMessage in
             print(errorMessage)
-        }
-        trendingViewModel.bind { [weak self] in
-            guard let self else { return }
-            updateSnapshot()
-        }
+        })
+        trendingViewModel.bind(onUpdate: { [weak self] mediaType in
+
+                guard let self else { return }
+                updateSnapshot([mediaType])
+        })
 
         trendingViewModel.action(.fetchMovieGenresList)
         trendingViewModel.action(.fetchTVShowGenresList)
@@ -92,12 +94,13 @@ extension TrendingViewController {
         cell.contentConfiguration = contentConfiguration
     }
 
-    private func updateSnapshot() {
+    private func updateSnapshot(_ reloadSections: [MediaType] = []) {
         var snapShot = Snapshot()
         snapShot.appendSections(MediaType.allCases)
         MediaType.allCases.forEach { mediaType in
             snapShot.appendItems([.header(mediaType), .media(mediaType)], toSection: mediaType)
         }
+        snapShot.reloadSections(reloadSections)
         dataSource?.apply(snapShot)
     }
 }

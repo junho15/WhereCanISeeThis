@@ -7,7 +7,7 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
     private var movieGenresList: GenreList?
     private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
-    private var onUpdate: (() -> Void)?
+    private var onUpdate: ((MediaType) -> Void)?
 
     private var movies: [Movie] {
         return moviePage?.results ?? []
@@ -107,7 +107,7 @@ extension TrendingViewModel {
         self.onError = onError
     }
 
-    func bind(onUpdate: @escaping () -> Void) {
+    func bind(onUpdate: @escaping (MediaType) -> Void) {
         self.onUpdate = onUpdate
     }
 
@@ -163,7 +163,7 @@ extension TrendingViewModel {
                     timeWindow: Constants.trendingTimeWindow,
                     language: languageCode
                 )
-                onUpdate?()
+                onUpdate?(.movie)
             } catch let error as WhereCanISeeThisError {
                 onError?(error.localizedDescription)
             }
@@ -180,7 +180,7 @@ extension TrendingViewModel {
                     timeWindow: Constants.trendingTimeWindow,
                     language: languageCode
                 )
-                onUpdate?()
+                onUpdate?(.tvShow)
             } catch let error as WhereCanISeeThisError {
                 onError?(error.localizedDescription)
             }
