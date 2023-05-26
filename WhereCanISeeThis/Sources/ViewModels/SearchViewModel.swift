@@ -1,6 +1,6 @@
 import UIKit
 
-final class SearchListViewModel: MediaItemViewModelProtocol {
+final class SearchViewModel: MediaItemViewModelProtocol {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private var query: String
     private var moviePages: [Page<Movie>]
@@ -42,7 +42,7 @@ final class SearchListViewModel: MediaItemViewModelProtocol {
     }
 }
 
-extension SearchListViewModel {
+extension SearchViewModel {
     enum Action {
         case searchMovie(query: String, completion: ([Movie.ID]) -> Void)
         case searchTVShow(query: String, completion: ([TVShow.ID]) -> Void)

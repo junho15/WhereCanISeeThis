@@ -1,10 +1,15 @@
 import UIKit
 
 final class TrendingViewController: UICollectionViewController {
+
+    // MARK: Properties
+
     private let trendingViewModel: TrendingViewModel
     private var dataSource: DataSource?
     private var searchBar: UISearchBar?
     private var tapGestureRecognizer: UIGestureRecognizer?
+
+    // MARK: View Lifecycle
 
     init(trendingViewModel: TrendingViewModel = TrendingViewModel()) {
         self.trendingViewModel = trendingViewModel
@@ -32,9 +37,8 @@ final class TrendingViewController: UICollectionViewController {
             print(errorMessage)
         })
         trendingViewModel.bind(onUpdate: { [weak self] mediaType in
-
-                guard let self else { return }
-                updateSnapshot([mediaType])
+            guard let self else { return }
+            updateSnapshot([mediaType])
         })
 
         trendingViewModel.action(.fetchMovieGenresList)
@@ -53,7 +57,11 @@ final class TrendingViewController: UICollectionViewController {
         super.viewWillDisappear(animated)
         removeTapGestureRecognizer()
     }
+}
 
+// MARK: - Methods
+
+extension TrendingViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
         let headerRegistration = UICollectionView.CellRegistration(handler: headerRegistrationHandler)
@@ -94,7 +102,18 @@ final class TrendingViewController: UICollectionViewController {
     @objc private func dismissSearchBarKeyboard() {
         searchBar?.endEditing(true)
     }
+
+    private func pushSearchViewController(query: String) {
+        trendingViewModel.action(.searchViewModel(query: query) { [weak self] searchViewModel in
+            guard let self,
+                  let searchViewModel else { return }
+            let viewController = SearchViewController(searchViewModel: searchViewModel, query: query)
+            navigationController?.pushViewController(viewController, animated: true)
+        })
+    }
 }
+
+// MARK: - DataSource
 
 extension TrendingViewController {
     enum Row: Hashable {
@@ -105,7 +124,7 @@ extension TrendingViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<MediaType, Row>
     typealias Snapshot = NSDiffableDataSourceSnapshot<MediaType, Row>
 
-    func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
+    private func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .media(let mediaType) = itemIdentifier else { return }
         var contentConfiguration = cell.mediaCollectionContentView(viewModel: trendingViewModel)
         contentConfiguration.mediaType = mediaType
@@ -113,7 +132,7 @@ extension TrendingViewController {
         cell.contentConfiguration = contentConfiguration
     }
 
-    func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
+    private func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .header(let mediaType) = itemIdentifier else { return }
         var contentConfiguration = cell.defaultContentConfiguration()
         let attributedTitle = AttributedStringMaker.trending(title: mediaType.trendingTitle).attributedString
@@ -132,9 +151,13 @@ extension TrendingViewController {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
 extension TrendingViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text else { return }
         searchBar.endEditing(true)
+        pushSearchViewController(query: query)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -142,6 +165,8 @@ extension TrendingViewController: UISearchBarDelegate {
         searchBar.endEditing(true)
     }
 }
+
+// MARK: - Constants
 
 extension TrendingViewController {
     private enum Constants {
