@@ -4,5 +4,6 @@
 "BAD_STATUS" = "Bad Status";
 "EMPTY_DATA" = "Data is Empty";
 "MOVIE_TITLE" = "Movies";
-"TVSHOW_TITLE" = "TVShows";
+"TVSHOW_TITLE" = "TV Shows";
 "TRENDING" = "Trending - %@";
+"SEARCH_BAR_PLACEHOLDER" = "Search for a movie, tv show";

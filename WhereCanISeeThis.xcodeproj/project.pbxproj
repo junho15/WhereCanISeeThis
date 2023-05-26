@@ -35,6 +35,7 @@
 		EBDDA39C2A1DFCC100A67637 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39B2A1DFCC100A67637 /* ImageCache.swift */; };
 		EBDDA39E2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39D2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift */; };
 		EBDDA3A02A1F32D800A67637 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA39F2A1F32D800A67637 /* String.swift */; };
+		EBDDA3A22A204F0400A67637 /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA3A12A204F0400A67637 /* UISearchBar.swift */; };
 		EBDDA3A42A20522C00A67637 /* AttributedStringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA3A32A20522C00A67637 /* AttributedStringMaker.swift */; };
 		EBE2E2052A13831900373E75 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2042A13831900373E75 /* Movie.swift */; };
 		EBE2E2072A139B3D00373E75 /* TVShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2E2062A139B3D00373E75 /* TVShow.swift */; };
@@ -92,6 +93,7 @@
 		EBDDA39B2A1DFCC100A67637 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		EBDDA39D2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItemViewModelProtocol.swift; sourceTree = "<group>"; };
 		EBDDA39F2A1F32D800A67637 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		EBDDA3A12A204F0400A67637 /* UISearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
 		EBDDA3A32A20522C00A67637 /* AttributedStringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringMaker.swift; sourceTree = "<group>"; };
 		EBE2E2042A13831900373E75 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		EBE2E2062A139B3D00373E75 /* TVShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShow.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				EBDDA3942A1DEF2300A67637 /* Date.swift */,
 				EBE2E2142A14AFC500373E75 /* JSONDecoder.swift */,
 				EBDDA39F2A1F32D800A67637 /* String.swift */,
+				EBDDA3A12A204F0400A67637 /* UISearchBar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				EB5064A42A160AC500690730 /* MovieDatabaseURL.swift in Sources */,
 				EBDDA3A02A1F32D800A67637 /* String.swift in Sources */,
 				EBE2E20B2A149DC600373E75 /* WatchProvider.swift in Sources */,
+				EBDDA3A22A204F0400A67637 /* UISearchBar.swift in Sources */,
 				EBDDA3852A1CEA4200A67637 /* TrendingViewModel.swift in Sources */,
 				EB5064A62A16346B00690730 /* MovieDatabaseAPIClient.swift in Sources */,
 				EBDDA3972A1DF4C700A67637 /* MediaItem.swift in Sources */,
