@@ -53,6 +53,7 @@ final class MediaCollectionContentView: UIView, UIContentView {
         let layout = UICollectionViewCompositionalLayout(section: section, configuration: configuration)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView?.isPagingEnabled = true
+        collectionView?.delegate = self
     }
 
     private func configureDataSource() {
@@ -81,6 +82,33 @@ final class MediaCollectionContentView: UIView, UIContentView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+}
+
+extension MediaCollectionContentView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath
+    ) {
+        guard let configuration = configuration as? Configuration,
+              indexPath.row == (configuration.itemIDs?.count ?? 0) - 1,
+              let viewModel = configuration.viewModel as? SearchViewModel,
+              let mediaType = configuration.mediaType else { return }
+        switch mediaType {
+        case .movie:
+            viewModel.action(.fetchNextMoviePage { [weak self] itemIDs in
+                guard let self,
+                      var configuration = self.configuration as? Configuration else { return }
+                configuration.itemIDs = itemIDs
+                self.configuration = configuration
+            })
+        case .tvShow:
+            viewModel.action(.fetchNextTVShowPage { [weak self] itemIDs in
+                guard let self,
+                      var configuration = self.configuration as? Configuration else { return }
+                configuration.itemIDs = itemIDs
+                self.configuration = configuration
+            })
+        }
     }
 }
 
