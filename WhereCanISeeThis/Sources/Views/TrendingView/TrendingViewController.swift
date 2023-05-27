@@ -39,9 +39,9 @@ final class TrendingViewController: UICollectionViewController {
         trendingViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
-        trendingViewModel.bind(onUpdate: { [weak self] mediaType in
+        trendingViewModel.bind(onUpdate: { [weak self] in
             guard let self else { return }
-            updateSnapshot([mediaType])
+            updateSnapshot()
         })
     }
 
@@ -118,35 +118,37 @@ extension TrendingViewController {
 extension TrendingViewController {
     enum Row: Hashable {
         case header(MediaType)
-        case media(MediaType)
+        case media(mediaType: MediaType, itemIDs: [MediaItem.ID])
     }
 
     typealias DataSource = UICollectionViewDiffableDataSource<MediaType, Row>
     typealias Snapshot = NSDiffableDataSourceSnapshot<MediaType, Row>
 
     private func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
-        guard case .media(let mediaType) = itemIdentifier else { return }
+        guard case .media(let mediaType, let itemIDs) = itemIdentifier else { return }
         var contentConfiguration = cell.mediaCollectionContentView(viewModel: trendingViewModel)
         contentConfiguration.mediaType = mediaType
-        contentConfiguration.itemIDs = trendingViewModel.mediaItemIDs(type: mediaType)
+        contentConfiguration.itemIDs = itemIDs
         cell.contentConfiguration = contentConfiguration
     }
 
     private func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .header(let mediaType) = itemIdentifier else { return }
         var contentConfiguration = cell.defaultContentConfiguration()
-        let attributedTitle = AttributedStringMaker.trending(title: mediaType.trendingTitle).attributedString
+        let attributedTitle = AttributedStringMaker.trendingHeader(title: mediaType.trendingTitle).attributedString
         contentConfiguration.attributedText = attributedTitle
         cell.contentConfiguration = contentConfiguration
     }
 
-    private func updateSnapshot(_ reloadSections: [MediaType] = []) {
+    private func updateSnapshot() {
         var snapShot = Snapshot()
         snapShot.appendSections(MediaType.allCases)
         MediaType.allCases.forEach { mediaType in
-            snapShot.appendItems([.header(mediaType), .media(mediaType)], toSection: mediaType)
+            let itemIDs = trendingViewModel.mediaItemIDs(of: mediaType)
+            snapShot.appendItems(
+                [.header(mediaType), .media(mediaType: mediaType, itemIDs: itemIDs)], toSection: mediaType
+            )
         }
-        snapShot.reloadSections(reloadSections)
         dataSource?.apply(snapShot)
     }
 }
