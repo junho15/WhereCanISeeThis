@@ -1,10 +1,15 @@
 import UIKit
 
 class SearchViewController: UICollectionViewController {
+
+    // MARK: Properties
+
     private let searchViewModel: SearchViewModel
     private var dataSource: DataSource?
     private var searchBar: UISearchBar?
     private var tapGestureRecognizer: UIGestureRecognizer?
+
+    // MARK: View Lifecycle
 
     init(searchViewModel: SearchViewModel, query: String? = nil) {
         self.searchViewModel = searchViewModel
@@ -55,6 +60,8 @@ class SearchViewController: UICollectionViewController {
     }
 }
 
+// MARK: - Methods
+
 extension SearchViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
@@ -96,6 +103,8 @@ extension SearchViewController {
         searchBar?.endEditing(true)
     }
 }
+
+// MARK: - DataSource
 
 extension SearchViewController {
     enum Row: Hashable {
@@ -139,6 +148,8 @@ extension SearchViewController {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text else { return }
@@ -152,6 +163,8 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.endEditing(true)
     }
 }
+
+// MARK: - Constants
 
 extension SearchViewController {
     private enum Constants {

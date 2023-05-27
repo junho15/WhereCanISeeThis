@@ -101,7 +101,9 @@ extension SearchViewModel {
             let image = try await movieDatabaseAPIClient.fetchImage(imageSize: imageSize, imagePath: imagePath)
             return image
         } catch {
-            onError?(error.localizedDescription)
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
             return nil
         }
     }
@@ -145,9 +147,13 @@ extension SearchViewModel {
         Task {
             do {
                 moviePages = try await [movieDatabaseAPIClient.searchMovies(query: query, language: languageCode)]
-                onUpdate?()
+                await MainActor.run {
+                    onUpdate?()
+                }
             } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
+                await MainActor.run {
+                    onError?(error.localizedDescription)
+                }
             }
         }
     }
@@ -156,9 +162,13 @@ extension SearchViewModel {
         Task {
             do {
                 tvShowPages = try await [movieDatabaseAPIClient.searchTVShows(query: query, language: languageCode)]
-                onUpdate?()
+                await MainActor.run {
+                    onUpdate?()
+                }
             } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
+                await MainActor.run {
+                    onError?(error.localizedDescription)
+                }
             }
         }
     }
@@ -173,9 +183,13 @@ extension SearchViewModel {
                                                                               language: languageCode,
                                                                               page: lastPage + 1)
                 moviePages.append(moviePage)
-                completion(movieIDs)
+                await MainActor.run {
+                    completion(movieIDs)
+                }
             } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
+                await MainActor.run {
+                    onError?(error.localizedDescription)
+                }
             }
         }
     }
@@ -190,9 +204,13 @@ extension SearchViewModel {
                                                                                 language: languageCode,
                                                                                 page: lastPage + 1)
                 tvShowPages.append(tvShowPage)
-                completion(tvShowIDs)
+                await MainActor.run {
+                    completion(tvShowIDs)
+                }
             } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
+                await MainActor.run {
+                    onError?(error.localizedDescription)
+                }
             }
         }
     }

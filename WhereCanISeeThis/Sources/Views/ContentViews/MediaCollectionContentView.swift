@@ -141,7 +141,9 @@ extension MediaCollectionContentView {
             let image = await configuration.viewModel.image(imageSize: .w500, imagePath: posterPath)
             if indexPath == collectionView?.indexPath(for: cell) {
                 contentConfiguration.image = image
-                cell.contentConfiguration = contentConfiguration
+                await MainActor.run {
+                    cell.contentConfiguration = contentConfiguration
+                }
             }
         }
     }
