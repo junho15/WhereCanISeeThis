@@ -120,14 +120,12 @@ extension TrendingViewModel {
     }
 
     private func movieItem(for id: Movie.ID) -> MediaItem? {
-        guard let movie = movie(for: id),
-              let movieGenresList else { return nil }
+        guard let movie = movie(for: id) else { return nil }
         return MediaItem(media: movie, genreList: movieGenresList)
     }
 
     private func tvShowItem(for id: TVShow.ID) -> MediaItem? {
-        guard let tvShow = tvShow(for: id),
-              let tvShowGenresList  else { return nil }
+        guard let tvShow = tvShow(for: id) else { return nil }
         return MediaItem(media: tvShow, genreList: tvShowGenresList)
     }
 

@@ -31,6 +31,9 @@ final class TrendingViewController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = Constants.viewBackgroundColor
 
+        trendingViewModel.action(.fetchMovieGenresList)
+        trendingViewModel.action(.fetchTVShowGenresList)
+
         configureDataSource()
         configureSearchBar()
         trendingViewModel.bind(onError: { errorMessage in
@@ -40,9 +43,6 @@ final class TrendingViewController: UICollectionViewController {
             guard let self else { return }
             updateSnapshot([mediaType])
         })
-
-        trendingViewModel.action(.fetchMovieGenresList)
-        trendingViewModel.action(.fetchTVShowGenresList)
     }
 
     override func viewWillAppear(_ animated: Bool) {

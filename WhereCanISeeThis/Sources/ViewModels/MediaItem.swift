@@ -19,9 +19,13 @@ struct MediaItem: Identifiable {
     }
     private let media: any MediaProtocol
 
-    init(media: any MediaProtocol, genreList: GenreList) {
+    init(media: any MediaProtocol, genreList: GenreList?) {
         self.media = media
         guard let genreIds = media.genreIds else { return }
-        self.genre = genreList.genres.filter { genreIds.contains($0.id) }.compactMap { $0.name }.joined(separator: ", ")
+        self.genre = genreList?.genres.filter {
+            genreIds.contains($0.id)
+        }.compactMap {
+            $0.name
+        }.joined(separator: ", ")
     }
 }
