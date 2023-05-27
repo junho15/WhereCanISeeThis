@@ -2,6 +2,7 @@ import UIKit
 
 class SearchViewController: UICollectionViewController {
     private let searchViewModel: SearchViewModel
+    private var dataSource: DataSource?
     private var searchBar: UISearchBar?
     private var tapGestureRecognizer: UIGestureRecognizer?
 
@@ -26,18 +27,52 @@ class SearchViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Constants.viewBackgroundColor
+
+        configureDataSource()
+        configureSearchBar()
+        searchViewModel.bind { errorMessage in
+            print(errorMessage)
+        }
+        searchViewModel.bind(onUpdate: { [weak self] in
+            guard let self else { return }
+            updateSnapshot()
+        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         addTapGestureRecognizer()
+        guard let query = searchBar?.text else { return }
+        searchViewModel.action(.searchMovie(query: query))
+        searchViewModel.action(.searchTVShow(query: query))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         removeTapGestureRecognizer()
+    }
+}
+
+extension SearchViewController {
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
+        let headerRegistration = UICollectionView.CellRegistration(handler: headerRegistrationHandler)
+        dataSource = DataSource(
+            collectionView: collectionView,
+            cellProvider: { collectionView, indexPath, itemIdentifier in
+                switch itemIdentifier {
+                case .header:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: headerRegistration, for: indexPath, item: itemIdentifier
+                    )
+                case .media:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: cellRegistration, for: indexPath, item: itemIdentifier
+                    )
+                }
+            })
     }
 
     private func configureSearchBar() {
@@ -62,8 +97,60 @@ class SearchViewController: UICollectionViewController {
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
+extension SearchViewController {
+    enum Row: Hashable {
+        case header(mediaType: MediaType, itemCount: Int)
+        case media(mediaType: MediaType, itemIDs: [MediaItem.ID])
+    }
 
+    typealias DataSource = UICollectionViewDiffableDataSource<MediaType, Row>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<MediaType, Row>
+
+    private func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
+        guard case .media(let mediaType, let itemIDs) = itemIdentifier else { return }
+        var contentConfiguration = cell.mediaCollectionContentView(viewModel: searchViewModel)
+        contentConfiguration.mediaType = mediaType
+        contentConfiguration.itemIDs = itemIDs
+        cell.contentConfiguration = contentConfiguration
+    }
+
+    private func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
+        guard case .header(let mediaType, let itemCount) = itemIdentifier else { return }
+        var contentConfiguration = cell.defaultContentConfiguration()
+        let attributedTitle = AttributedStringMaker.searchListHeader(
+            title: mediaType.title, count: itemCount
+        ).attributedString
+        contentConfiguration.attributedText = attributedTitle
+        cell.contentConfiguration = contentConfiguration
+    }
+
+    private func updateSnapshot() {
+        var snapShot = Snapshot()
+        snapShot.appendSections(MediaType.allCases)
+        MediaType.allCases.forEach { mediaType in
+            let itemCount = searchViewModel.itemCount(of: mediaType)
+            let itemIDs = searchViewModel.mediaItemIDs(of: mediaType)
+            snapShot.appendItems(
+                [.header(mediaType: mediaType, itemCount: itemCount), .media(mediaType: mediaType, itemIDs: itemIDs)],
+                toSection: mediaType
+            )
+        }
+        dataSource?.apply(snapShot)
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text else { return }
+        searchBar.endEditing(true)
+        searchViewModel.action(.searchMovie(query: query))
+        searchViewModel.action(.searchTVShow(query: query))
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.endEditing(true)
+    }
 }
 
 extension SearchViewController {
