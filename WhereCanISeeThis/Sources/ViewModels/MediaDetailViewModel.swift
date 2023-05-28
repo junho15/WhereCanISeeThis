@@ -22,17 +22,6 @@ final class MediaDetailViewModel {
 }
 
 extension MediaDetailViewModel {
-    enum Action {
-        case fetchWatchProviders(completion: (WatchProviderList) -> Void)
-    }
-
-    func action(_ action: Action) {
-        switch action {
-        case .fetchWatchProviders(let completion):
-            fetchWatchProviderList(completion: completion)
-        }
-    }
-
     func mediaItemDetail() -> MediaItem {
         return mediaItem
     }
@@ -53,31 +42,28 @@ extension MediaDetailViewModel {
         }
     }
 
-    func bind(onError: @escaping (String) -> Void) {
-        self.onError = onError
+    func fetchWatchProviderList() async -> WatchProviderList? {
+        do {
+            let result: WatchProviderResult
+            switch mediaItem.mediaType {
+            case .movie:
+                result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: mediaItem.id)
+            case .tvShow:
+                result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: mediaItem.id)
+            }
+
+            guard let watchProviderList = result.results?[country] else { return nil }
+            self.watchProviderList = watchProviderList
+            return watchProviderList
+        } catch {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
+        }
     }
 
-    private func fetchWatchProviderList(completion: @escaping (WatchProviderList) -> Void) {
-        Task {
-            do {
-                let result: WatchProviderResult
-                switch mediaItem.mediaType {
-                case .movie:
-                    result = try await movieDatabaseAPIClient.fetchMovieWatchProviders(movieID: mediaItem.id)
-                case .tvShow:
-                    result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: mediaItem.id)
-                }
-
-                guard let watchProviderList = result.results?[country] else { return }
-                self.watchProviderList = watchProviderList
-                await MainActor.run {
-                    completion(watchProviderList)
-                }
-            } catch let error as WhereCanISeeThisError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
+    func bind(onError: @escaping (String) -> Void) {
+        self.onError = onError
     }
 }
