@@ -85,33 +85,6 @@ final class MediaCollectionContentView: UIView, UIContentView {
     }
 }
 
-extension MediaCollectionContentView: UICollectionViewDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath
-    ) {
-        guard let configuration = configuration as? Configuration,
-              indexPath.row == (configuration.itemIDs?.count ?? 0) - 1,
-              let viewModel = configuration.viewModel as? SearchViewModel,
-              let mediaType = configuration.mediaType else { return }
-        switch mediaType {
-        case .movie:
-            viewModel.action(.fetchNextMoviePage { [weak self] itemIDs in
-                guard let self,
-                      var configuration = self.configuration as? Configuration else { return }
-                configuration.itemIDs = itemIDs
-                self.configuration = configuration
-            })
-        case .tvShow:
-            viewModel.action(.fetchNextTVShowPage { [weak self] itemIDs in
-                guard let self,
-                      var configuration = self.configuration as? Configuration else { return }
-                configuration.itemIDs = itemIDs
-                self.configuration = configuration
-            })
-        }
-    }
-}
-
 extension MediaCollectionContentView {
     enum Section {
         case main
@@ -159,11 +132,53 @@ extension MediaCollectionContentView {
     }
 }
 
+extension MediaCollectionContentView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath
+    ) {
+        guard let configuration = configuration as? Configuration,
+              indexPath.row == (configuration.itemIDs?.count ?? 0) - 1,
+              let viewModel = configuration.viewModel as? SearchViewModel,
+              let mediaType = configuration.mediaType else { return }
+        switch mediaType {
+        case .movie:
+            viewModel.action(.fetchNextMoviePage { [weak self] itemIDs in
+                guard let self,
+                      var configuration = self.configuration as? Configuration else { return }
+                configuration.itemIDs = itemIDs
+                self.configuration = configuration
+            })
+        case .tvShow:
+            viewModel.action(.fetchNextTVShowPage { [weak self] itemIDs in
+                guard let self,
+                      var configuration = self.configuration as? Configuration else { return }
+                configuration.itemIDs = itemIDs
+                self.configuration = configuration
+            })
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard let configuration = configuration as? Configuration,
+              let mediaType = configuration.mediaType,
+              let itemID = dataSource?.itemIdentifier(for: indexPath),
+              let viewModel = configuration.viewModel.mediaDetailViewModel(for: itemID, type: mediaType),
+              let viewController = configuration.viewController else {
+            return false
+        }
+        let mediaDetailViewController = MediaDetailViewController(mediaDetailViewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+        viewController.present(navigationController, animated: true)
+        return false
+    }
+}
+
 extension MediaCollectionContentView {
     struct Configuration: UIContentConfiguration {
         let viewModel: MediaItemViewModelProtocol
         var mediaType: MediaType?
         var itemIDs: [MediaItem.ID]?
+        var viewController: UIViewController?
 
         func makeContentView() -> UIView & UIContentView {
             return MediaCollectionContentView(self)

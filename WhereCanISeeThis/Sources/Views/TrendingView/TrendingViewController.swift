@@ -129,6 +129,7 @@ extension TrendingViewController {
         var contentConfiguration = cell.mediaCollectionContentView(viewModel: trendingViewModel)
         contentConfiguration.mediaType = mediaType
         contentConfiguration.itemIDs = itemIDs
+        contentConfiguration.viewController = self
         cell.contentConfiguration = contentConfiguration
     }
 
@@ -160,6 +161,7 @@ extension TrendingViewController: UISearchBarDelegate {
         guard let query = searchBar.text else { return }
         searchBar.endEditing(true)
         pushSearchViewController(query: query)
+        searchBar.text = nil
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

@@ -120,6 +120,7 @@ extension SearchViewController {
         var contentConfiguration = cell.mediaCollectionContentView(viewModel: searchViewModel)
         contentConfiguration.mediaType = mediaType
         contentConfiguration.itemIDs = itemIDs
+        contentConfiguration.viewController = self
         cell.contentConfiguration = contentConfiguration
     }
 
