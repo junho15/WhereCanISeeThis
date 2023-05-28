@@ -52,8 +52,6 @@ extension TrendingViewModel {
         case fetchTrendingMovies
         case fetchTrendingTVShows
         case searchViewModel(query: String, completion: (SearchViewModel?) -> Void)
-        case movieDetailViewModel(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
-        case tvShowDetailViewModel(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
     }
 
     func action(_ action: Action) {
@@ -68,10 +66,6 @@ extension TrendingViewModel {
             fetchTrendingTVShows()
         case .searchViewModel(let query, let completion):
             completion(searchViewModel(query: query))
-        case .movieDetailViewModel(let id, let completion):
-            completion(movieDetail(for: id))
-        case .tvShowDetailViewModel(let id, let completion):
-            completion(tvShowDetail(for: id))
         }
     }
 
@@ -102,6 +96,15 @@ extension TrendingViewModel {
                 onError?(error.localizedDescription)
             }
             return nil
+        }
+    }
+
+    func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType) -> MediaDetailViewModel? {
+        switch type {
+        case .movie:
+            return movieDetail(for: id)
+        case .tvShow:
+            return tvShowDetail(for: id)
         }
     }
 

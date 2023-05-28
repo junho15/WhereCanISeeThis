@@ -57,8 +57,6 @@ extension SearchViewModel {
         case searchTVShow(query: String)
         case fetchNextMoviePage(completion: ([MediaItem.ID]) -> Void)
         case fetchNextTVShowPage(completion: ([MediaItem.ID]) -> Void)
-        case movieDetail(id: Movie.ID, completion: (MediaDetailViewModel?) -> Void)
-        case tvShowDetail(id: TVShow.ID, completion: (MediaDetailViewModel?) -> Void)
     }
 
     func action(_ action: Action) {
@@ -71,10 +69,6 @@ extension SearchViewModel {
             fetchNextMoviePage(completion: completion)
         case .fetchNextTVShowPage(let completion):
             fetchNextTVShowPage(completion: completion)
-        case .movieDetail(let id, let completion):
-            completion(movieDetail(for: id))
-        case .tvShowDetail(let id, let completion):
-            completion(tvShowDetail(for: id))
         }
     }
 
@@ -114,6 +108,15 @@ extension SearchViewModel {
             return moviePages.first?.totalResults ?? 0
         case .tvShow:
             return tvShowPages.first?.totalResults ?? 0
+        }
+    }
+
+    func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType) -> MediaDetailViewModel? {
+        switch type {
+        case .movie:
+            return movieDetail(for: id)
+        case .tvShow:
+            return tvShowDetail(for: id)
         }
     }
 
@@ -175,7 +178,7 @@ extension SearchViewModel {
 
     private func fetchNextMoviePage(completion: @escaping ([MediaItem.ID]) -> Void) {
         guard let lastPage = moviePages.last?.page,
-              let totalPages = moviePages.last?.totalPages,
+              let totalPages = moviePages.first?.totalPages,
               lastPage < totalPages else { return }
         Task {
             do {
@@ -196,7 +199,7 @@ extension SearchViewModel {
 
     private func fetchNextTVShowPage(completion: @escaping ([MediaItem.ID]) -> Void) {
         guard let lastPage = tvShowPages.last?.page,
-              let totalPages = tvShowPages.last?.totalPages,
+              let totalPages = tvShowPages.first?.totalPages,
               lastPage < totalPages else { return }
         Task {
             do {
