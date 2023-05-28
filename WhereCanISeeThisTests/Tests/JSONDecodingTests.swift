@@ -76,7 +76,8 @@ final class JSONDecodingTests: XCTestCase {
 
             // then
             XCTAssertEqual(result.id, 10195)
-            XCTAssertEqual(result.results!["AD"]!.flatrate![0].id, 337)
+            XCTAssertEqual(result.results!["AD"]!.results[WatchProviderType.flatrate]![0].id, 337)
+            XCTAssertEqual(result.results!["AE"]!.results[WatchProviderType.buy]![0].id, 2)
         } catch {
             XCTFail(error.localizedDescription)
         }
