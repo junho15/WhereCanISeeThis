@@ -134,6 +134,9 @@ extension MediaCollectionContentView {
         contentConfiguration.title = mediaItem.title
         contentConfiguration.date = mediaItem.date
         contentConfiguration.genre = mediaItem.genre
+        if mediaItem.posterPath == nil {
+            contentConfiguration.image = Constants.emptyPosterImage
+        }
         cell.contentConfiguration = contentConfiguration
 
         guard let posterPath = mediaItem.posterPath else { return }
@@ -175,6 +178,7 @@ extension MediaCollectionContentView {
 extension MediaCollectionContentView {
     private enum Constants {
         static let spacing = CGFloat(10)
+        static let emptyPosterImage = UIImage(named: "EmptyPoster")
     }
 }
 

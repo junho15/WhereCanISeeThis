@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB068AC12A2226C600D1E2F5 /* ImageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB068AC02A2226C600D1E2F5 /* ImageContentView.swift */; };
 		EB0A74B62A1B3DEB007FB254 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */; };
 		EB0A74B82A1B8A1F007FB254 /* MediaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */; };
 		EB0A74BA2A1B9731007FB254 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B92A1B9731007FB254 /* MediaType.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB068AC02A2226C600D1E2F5 /* ImageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContentView.swift; sourceTree = "<group>"; };
 		EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewModel.swift; sourceTree = "<group>"; };
 		EB0A74B92A1B9731007FB254 /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			children = (
 				EBDDA3902A1DE40B00A67637 /* MediaCollectionContentView.swift */,
 				EBDDA38D2A1DDE4900A67637 /* MediaContentView.swift */,
+				EB068AC02A2226C600D1E2F5 /* ImageContentView.swift */,
 			);
 			path = ContentViews;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				EBE2E2092A139FCE00373E75 /* Page.swift in Sources */,
 				EBDDA39A2A1DFC4100A67637 /* ImageCacheProtocol.swift in Sources */,
 				EBE2E20F2A14A38D00373E75 /* GenreList.swift in Sources */,
+				EB068AC12A2226C600D1E2F5 /* ImageContentView.swift in Sources */,
 				EBE2E2052A13831900373E75 /* Movie.swift in Sources */,
 				EBDDA3952A1DEF2300A67637 /* Date.swift in Sources */,
 				EBDDA39E2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift in Sources */,
