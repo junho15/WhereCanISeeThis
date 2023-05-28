@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 final class MediaDetailViewModel {
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
@@ -23,20 +23,33 @@ final class MediaDetailViewModel {
 
 extension MediaDetailViewModel {
     enum Action {
-        case fetchMediaDetail(completion: ((MediaItem) -> Void))
-        case fetchWatchProviders(completion: ((WatchProviderList) -> Void))
+        case fetchWatchProviders(completion: (WatchProviderList) -> Void)
     }
 
     func action(_ action: Action) {
         switch action {
-        case .fetchMediaDetail(let completion):
-            completion(mediaItem)
         case .fetchWatchProviders(let completion):
-            if let watchProviderList {
-                completion(watchProviderList)
-            } else {
-                fetchWatchProviderList(completion: completion)
+            fetchWatchProviderList(completion: completion)
+        }
+    }
+
+    func mediaItemDetail() -> MediaItem {
+        return mediaItem
+    }
+
+    func watchProviderListDetail() -> WatchProviderList? {
+        return watchProviderList
+    }
+
+    func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async -> UIImage? {
+        do {
+            let image = try await movieDatabaseAPIClient.fetchImage(imageSize: imageSize, imagePath: imagePath)
+            return image
+        } catch {
+            await MainActor.run {
+                onError?(error.localizedDescription)
             }
+            return nil
         }
     }
 
@@ -57,9 +70,13 @@ extension MediaDetailViewModel {
 
                 guard let watchProviderList = result.results?[country] else { return }
                 self.watchProviderList = watchProviderList
-                completion(watchProviderList)
+                await MainActor.run {
+                    completion(watchProviderList)
+                }
             } catch let error as WhereCanISeeThisError {
-                onError?(error.localizedDescription)
+                await MainActor.run {
+                    onError?(error.localizedDescription)
+                }
             }
         }
     }
