@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB068ABF2A21E26D00D1E2F5 /* MediaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB068ABE2A21E26D00D1E2F5 /* MediaDetailViewController.swift */; };
 		EB068AC12A2226C600D1E2F5 /* ImageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB068AC02A2226C600D1E2F5 /* ImageContentView.swift */; };
 		EB0A74B62A1B3DEB007FB254 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */; };
 		EB0A74B82A1B8A1F007FB254 /* MediaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB068ABE2A21E26D00D1E2F5 /* MediaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewController.swift; sourceTree = "<group>"; };
 		EB068AC02A2226C600D1E2F5 /* ImageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContentView.swift; sourceTree = "<group>"; };
 		EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewModel.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		EBDDA3882A1DB1AF00A67637 /* MediaDetailView */ = {
 			isa = PBXGroup;
 			children = (
+				EB068ABE2A21E26D00D1E2F5 /* MediaDetailViewController.swift */,
 			);
 			path = MediaDetailView;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				EB8B05072A12475E00C1BC37 /* SceneDelegate.swift in Sources */,
 				EB5064A22A16053300690730 /* Secrets.swift in Sources */,
 				EBDDA39C2A1DFCC100A67637 /* ImageCache.swift in Sources */,
+				EB068ABF2A21E26D00D1E2F5 /* MediaDetailViewController.swift in Sources */,
 				EBE2E20D2A14A2D200373E75 /* Genre.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

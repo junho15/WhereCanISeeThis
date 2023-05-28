@@ -7,4 +7,5 @@ protocol MediaProtocol: Identifiable, Decodable {
     var title: String? { get }
     var genreIds: [Int]? { get }
     var date: Date? { get }
+    var overview: String? { get }
 }

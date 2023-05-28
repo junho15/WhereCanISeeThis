@@ -17,6 +17,9 @@ struct MediaItem: Identifiable {
     var mediaType: MediaType {
         return media.mediaType
     }
+    var overView: String? {
+        return media.overview
+    }
     private let media: any MediaProtocol
 
     init(media: any MediaProtocol, genreList: GenreList?) {

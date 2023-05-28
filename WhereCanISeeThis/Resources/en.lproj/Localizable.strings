@@ -7,3 +7,5 @@
 "TVSHOW_TITLE" = "TV Shows";
 "TRENDING" = "Trending - %@";
 "SEARCH_BAR_PLACEHOLDER" = "Search for a movie, tv show";
+"GENRE_HEADER" = "Genre";
+"OVERVIEW_HEADER" = "Overview";
