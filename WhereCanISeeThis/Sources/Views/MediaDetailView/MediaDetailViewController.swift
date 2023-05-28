@@ -28,6 +28,11 @@ final class MediaDetailViewController: UICollectionViewController {
 
         configureDataSource()
         configureNavigationItem()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         updateSnapshot()
     }
 }
@@ -38,6 +43,9 @@ extension MediaDetailViewController {
     private func configureDataSource() {
         let textCellRegistration = UICollectionView.CellRegistration(handler: textCellRegistrationHandler)
         let imageCellRegistration = UICollectionView.CellRegistration(handler: imageCellRegistrationHandler)
+        let watchProviderCellRegistration = UICollectionView.CellRegistration(
+            handler: watchProviderCellRegistrationHandler
+        )
         dataSource = DataSource(
             collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
                 switch itemIdentifier {
@@ -49,6 +57,9 @@ extension MediaDetailViewController {
                     return collectionView.dequeueConfiguredReusableCell(
                         using: imageCellRegistration, for: indexPath, item: itemIdentifier
                     )
+                case .watchProvider:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: watchProviderCellRegistration, for: indexPath, item: itemIdentifier)
                 }
             }
         )
@@ -70,10 +81,9 @@ extension MediaDetailViewController {
 // MARK: - DataSource
 
 extension MediaDetailViewController {
-    enum Section {
+    enum Section: Hashable {
         case poster
-        case genre
-        case watchProvider
+        case watchProvider(WatchProviderType)
         case overView
     }
 
@@ -81,6 +91,7 @@ extension MediaDetailViewController {
         case header(String?)
         case text(String?)
         case image(UIImage?)
+        case watchProvider(type: WatchProviderType, watchProvider: WatchProvider)
     }
 
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
@@ -108,19 +119,53 @@ extension MediaDetailViewController {
         cell.contentConfiguration = contentConfiguration
     }
 
+    private func watchProviderCellRegistrationHandler(
+        cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
+    ) {
+        guard case .watchProvider(_, let watchProvider) = itemIdentifier else {
+            return
+        }
+        var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.text = watchProvider.providerName
+        cell.contentConfiguration = contentConfiguration
+        Task {
+            if let logoPath = watchProvider.logoPath {
+                let image = await mediaDetailViewModel.image(imageSize: .original, imagePath: logoPath)
+                if indexPath == collectionView.indexPath(for: cell) {
+                    await MainActor.run {
+                        contentConfiguration.image = image?.resized(targetSize: Constants.watchProviderLogoSize)
+                        cell.contentConfiguration = contentConfiguration
+                    }
+                }
+            }
+        }
+    }
+
     private func updateSnapshot() {
         Task {
             let mediaItem = mediaDetailViewModel.mediaItemDetail()
             var snapShot = Snapshot()
-            snapShot.appendSections([.poster, .genre, .overView])
             var image: UIImage?
             if let posterPath = mediaItem.posterPath {
                 image = await mediaDetailViewModel.image(imageSize: .w500, imagePath: posterPath)
             } else {
                 image = Constants.emptyPosterImage
             }
-            snapShot.appendItems([.header(nil), .image(image)], toSection: .poster)
-            snapShot.appendItems([.header(Constants.genreHeader), .text(mediaItem.genre)], toSection: .genre)
+            snapShot.appendSections([.poster])
+            snapShot.appendItems([.image(image)], toSection: .poster)
+            if let watchProviderList = await mediaDetailViewModel.fetchWatchProviderList() {
+                WatchProviderType.allCases.forEach { type in
+                    if let result = watchProviderList.results[type] {
+                        snapShot.appendSections([.watchProvider(type)])
+                        snapShot.appendItems([.header(type.title)], toSection: .watchProvider(type))
+                        snapShot.appendItems(
+                            result.map { .watchProvider(type: type, watchProvider: $0) },
+                            toSection: .watchProvider(type)
+                        )
+                    }
+                }
+            }
+            snapShot.appendSections([.overView])
             snapShot.appendItems([.header(Constants.overViewHeader), .text(mediaItem.overView)], toSection: .overView)
             await MainActor.run {
                 dataSource?.apply(snapShot)
@@ -147,5 +192,6 @@ extension MediaDetailViewController {
         static let emptyPosterImage = UIImage(named: "EmptyPoster")
         static let genreHeader = NSLocalizedString("GENRE_HEADER", comment: "Genre Header")
         static let overViewHeader = NSLocalizedString("OVERVIEW_HEADER", comment: "Overview Header")
+        static let watchProviderLogoSize = CGSize(width: 40, height: 40)
     }
 }
