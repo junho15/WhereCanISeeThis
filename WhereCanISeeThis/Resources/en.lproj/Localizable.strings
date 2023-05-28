@@ -9,3 +9,8 @@
 "SEARCH_BAR_PLACEHOLDER" = "Search for a movie, tv show";
 "GENRE_HEADER" = "Genre";
 "OVERVIEW_HEADER" = "Overview";
+"WATCH_PROVIDER_TYPE_FLATRATE" = "Flatrate";
+"WATCH_PROVIDER_TYPE_BUY" = "Buy";
+"WATCH_PROVIDER_TYPE_ADS" = "Ads";
+"WATCH_PROVIDER_TYPE_RENT" = "Rent";
+"WATCH_PROVIDER_TYPE_FREE" = "Free";

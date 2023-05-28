@@ -1,4 +1,4 @@
-struct WatchProvider: Identifiable {
+struct WatchProvider: Identifiable, Hashable {
     let id: Int
     let logoPath: String?
     let providerName: String?
