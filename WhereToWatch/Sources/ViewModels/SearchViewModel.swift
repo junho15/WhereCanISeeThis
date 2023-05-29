@@ -153,7 +153,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -168,7 +168,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -189,7 +189,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     completion(movieIDs)
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -210,7 +210,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     completion(tvShowIDs)
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }

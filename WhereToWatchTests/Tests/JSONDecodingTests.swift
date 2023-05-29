@@ -1,5 +1,5 @@
 import XCTest
-@testable import WhereCanISeeThis
+@testable import WhereToWatch
 
 final class JSONDecodingTests: XCTestCase {
     var decoder: JSONDecoder!

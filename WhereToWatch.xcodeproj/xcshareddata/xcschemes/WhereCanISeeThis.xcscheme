@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EB8B05002A12475E00C1BC37"
-               BuildableName = "WhereCanISeeThis.app"
-               BlueprintName = "WhereCanISeeThis"
-               ReferencedContainer = "container:WhereCanISeeThis.xcodeproj">
+               BuildableName = "WhereToWatch.app"
+               BlueprintName = "WhereToWatch"
+               ReferencedContainer = "container:WhereToWatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:WhereCanISeeThisTests/WhereCanISeeThis.xctestplan"
+            reference = "container:WhereToWatchTests/WhereToWatch.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -40,9 +40,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EB3B831C2A14B79D00617CEA"
-               BuildableName = "WhereCanISeeThisTests.xctest"
-               BlueprintName = "WhereCanISeeThisTests"
-               ReferencedContainer = "container:WhereCanISeeThis.xcodeproj">
+               BuildableName = "WhereToWatchTests.xctest"
+               BlueprintName = "WhereToWatchTests"
+               ReferencedContainer = "container:WhereToWatch.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EB8B05002A12475E00C1BC37"
-            BuildableName = "WhereCanISeeThis.app"
-            BlueprintName = "WhereCanISeeThis"
-            ReferencedContainer = "container:WhereCanISeeThis.xcodeproj">
+            BuildableName = "WhereToWatch.app"
+            BlueprintName = "WhereToWatch"
+            ReferencedContainer = "container:WhereToWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -79,9 +79,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EB8B05002A12475E00C1BC37"
-            BuildableName = "WhereCanISeeThis.app"
-            BlueprintName = "WhereCanISeeThis"
-            ReferencedContainer = "container:WhereCanISeeThis.xcodeproj">
+            BuildableName = "WhereToWatch.app"
+            BlueprintName = "WhereToWatch"
+            ReferencedContainer = "container:WhereToWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -9,7 +9,7 @@ extension URLSession: URLSessionProtocol {
         let (data, response) = try await data(from: url)
         guard let response = response as? HTTPURLResponse,
               (200...299).contains(response.statusCode) else {
-            throw WhereCanISeeThisError.badStatus
+            throw WhereToWatchError.badStatus
         }
         return data
     }

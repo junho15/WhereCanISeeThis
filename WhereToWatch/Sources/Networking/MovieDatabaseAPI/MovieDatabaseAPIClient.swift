@@ -27,7 +27,7 @@ final class MovieDatabaseAPIClient {
             year: year,
             primaryReleaseYear: primaryReleaseYear
         )).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -35,7 +35,7 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(Page<Movie>.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
 
     }
@@ -54,7 +54,7 @@ final class MovieDatabaseAPIClient {
             includeAdult: includeAdult,
             firstAirDateYear: firstAirDateYear
         )).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -62,13 +62,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(Page<TVShow>.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchMovieWatchProviders(movieID: Int) async throws -> WatchProviderResult {
         guard let url = MovieDatabaseURL.fetchMovieWatchProviders(movieID: movieID).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -76,13 +76,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(WatchProviderResult.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchTVShowWatchProviders(tvShowID: Int) async throws -> WatchProviderResult {
         guard let url = MovieDatabaseURL.fetchTVShowWatchProviders(tvShowID: tvShowID).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -90,13 +90,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(WatchProviderResult.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchMovieGenresList(language: String) async throws -> GenreList {
         guard let url = MovieDatabaseURL.fetchMovieGenresList(language: language).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -104,13 +104,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(GenreList.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchTVShowGenresList(language: String) async throws -> GenreList {
         guard let url = MovieDatabaseURL.fetchTVShowGenresList(language: language).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -118,13 +118,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(GenreList.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchImage(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async throws -> UIImage? {
         guard let url = MovieDatabaseURL.fetchImage(imageSize: imageSize, imagePath: imagePath).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         if let cachedImage = imageCache.cachedImage(for: url) {
@@ -139,7 +139,7 @@ final class MovieDatabaseAPIClient {
 
     func fetchTrendingMovies(timeWindow: MovieDatabaseURL.TimeWindow, language: String) async throws -> Page<Movie> {
         guard let url = MovieDatabaseURL.fetchTrendingMovies(timeWindow: timeWindow, language: language).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -147,13 +147,13 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(Page<Movie>.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 
     func fetchTrendingTVShows(timeWindow: MovieDatabaseURL.TimeWindow, language: String) async throws -> Page<TVShow> {
         guard let url = MovieDatabaseURL.fetchTrendingTVShows(timeWindow: timeWindow, language: language).url else {
-            throw WhereCanISeeThisError.invalidRequest
+            throw WhereToWatchError.invalidRequest
         }
 
         let data = try await session.execute(url: url)
@@ -161,7 +161,7 @@ final class MovieDatabaseAPIClient {
         do {
             return try JSONDecoder.movieDatabaseDecoder.decode(Page<TVShow>.self, from: data)
         } catch {
-            throw WhereCanISeeThisError.decodingError
+            throw WhereToWatchError.decodingError
         }
     }
 }

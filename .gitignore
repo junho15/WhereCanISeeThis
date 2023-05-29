@@ -88,4 +88,4 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
-WhereCanISeeThis/Sources/Networking/MovieDatabaseAPI/Secrets.swift
+WhereToWatch/Sources/Networking/MovieDatabaseAPI/Secrets.swift

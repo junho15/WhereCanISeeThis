@@ -1,6 +1,6 @@
 import Foundation
 
-enum WhereCanISeeThisError: Error {
+enum WhereToWatchError: Error {
     case decodingError
     case invalidRequest
     case networkError(error: Error)
@@ -8,7 +8,7 @@ enum WhereCanISeeThisError: Error {
     case emptyData
 }
 
-extension WhereCanISeeThisError: LocalizedError {
+extension WhereToWatchError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .decodingError:

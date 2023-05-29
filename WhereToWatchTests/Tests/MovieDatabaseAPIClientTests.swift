@@ -1,5 +1,5 @@
 import XCTest
-@testable import WhereCanISeeThis
+@testable import WhereToWatch
 
 // swiftlint:disable file_length
 
@@ -62,14 +62,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.searchMovies(query: query)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -114,14 +114,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.searchTVShows(query: query)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -165,14 +165,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchMovieWatchProviders(movieID: movieID)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -216,14 +216,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchTVShowWatchProviders(tvShowID: tvShowID)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -268,14 +268,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchMovieGenresList(language: language)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -320,14 +320,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchTVShowGenresList(language: language)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -389,14 +389,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchImage(imageSize: .original, imagePath: imagePath)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -443,14 +443,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchTrendingMovies(timeWindow: timeWindow, language: language)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }
@@ -497,14 +497,14 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchTrendingTVShows(timeWindow: timeWindow, language: language)
-            XCTFail("Should return WhereCanISeeThisError.badStatus")
+            XCTFail("Should return WhereToWatchError.badStatus")
         } catch {
-            if let error = error as? WhereCanISeeThisError,
+            if let error = error as? WhereToWatchError,
                case .badStatus = error {
                 // then
                 XCTAssert(true)
             } else {
-                XCTFail("Should return WhereCanISeeThisError.badStatus")
+                XCTFail("Should return WhereToWatchError.badStatus")
             }
         }
     }

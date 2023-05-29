@@ -139,7 +139,7 @@ extension TrendingViewModel {
             do {
                 guard let language else { return }
                 self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -152,7 +152,7 @@ extension TrendingViewModel {
             do {
                 guard let language else { return }
                 self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -173,7 +173,7 @@ extension TrendingViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -194,7 +194,7 @@ extension TrendingViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereCanISeeThisError {
+            } catch let error as WhereToWatchError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }

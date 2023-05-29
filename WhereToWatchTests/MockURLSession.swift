@@ -1,5 +1,5 @@
 import Foundation
-@testable import WhereCanISeeThis
+@testable import WhereToWatch
 
 final class MockURLSession: URLSessionProtocol {
     var data: Data?
@@ -10,14 +10,14 @@ final class MockURLSession: URLSessionProtocol {
     func execute(url: URL) async throws -> Data {
         try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
         guard error == nil else {
-            throw WhereCanISeeThisError.networkError(error: error!)
+            throw WhereToWatchError.networkError(error: error!)
         }
         guard let response = response as? HTTPURLResponse,
               (200...299).contains(response.statusCode) else {
-            throw WhereCanISeeThisError.badStatus
+            throw WhereToWatchError.badStatus
         }
         guard let data else {
-            throw WhereCanISeeThisError.emptyData
+            throw WhereToWatchError.emptyData
         }
         return data
     }
