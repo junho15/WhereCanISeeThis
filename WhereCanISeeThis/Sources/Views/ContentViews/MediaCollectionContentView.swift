@@ -193,7 +193,7 @@ extension MediaCollectionContentView {
 extension MediaCollectionContentView {
     private enum Constants {
         static let spacing = CGFloat(10)
-        static let emptyPosterImage = UIImage(named: "EmptyPoster")
+        static let emptyPosterImage = UIImage(named: "Empty")
     }
 }
 

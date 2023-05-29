@@ -42,10 +42,11 @@ final class MediaDetailViewController: UICollectionViewController {
 extension MediaDetailViewController {
     private func configureDataSource() {
         let textCellRegistration = UICollectionView.CellRegistration(handler: textCellRegistrationHandler)
-        let imageCellRegistration = UICollectionView.CellRegistration(handler: imageCellRegistrationHandler)
+        let posterCellRegistration = UICollectionView.CellRegistration(handler: posterCellRegistrationHandler)
         let watchProviderCellRegistration = UICollectionView.CellRegistration(
             handler: watchProviderCellRegistrationHandler
         )
+        let imageCellRegistration = UICollectionView.CellRegistration(handler: imageCellRegistrationHandler)
         dataSource = DataSource(
             collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
                 switch itemIdentifier {
@@ -53,13 +54,17 @@ extension MediaDetailViewController {
                     return collectionView.dequeueConfiguredReusableCell(
                         using: textCellRegistration, for: indexPath, item: itemIdentifier
                     )
-                case .image:
+                case .poster:
                     return collectionView.dequeueConfiguredReusableCell(
-                        using: imageCellRegistration, for: indexPath, item: itemIdentifier
+                        using: posterCellRegistration, for: indexPath, item: itemIdentifier
                     )
                 case .watchProvider:
                     return collectionView.dequeueConfiguredReusableCell(
                         using: watchProviderCellRegistration, for: indexPath, item: itemIdentifier)
+                case .image:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: imageCellRegistration, for: indexPath, item: itemIdentifier
+                    )
                 }
             }
         )
@@ -68,7 +73,6 @@ extension MediaDetailViewController {
     private func configureNavigationItem() {
         let mediaItem = mediaDetailViewModel.mediaItemDetail()
         navigationItem.title = mediaItem.title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .action)
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             systemItem: .close, primaryAction: UIAction(handler: { [weak self] _ in
                 guard let self else { return }
@@ -85,13 +89,15 @@ extension MediaDetailViewController {
         case poster
         case watchProvider(WatchProviderType)
         case overView
+        case justWatch
     }
 
     enum Row: Hashable {
         case header(String?)
         case text(String?)
-        case image(UIImage?)
+        case poster(UIImage?)
         case watchProvider(type: WatchProviderType, watchProvider: WatchProvider)
+        case image(UIImage?)
     }
 
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
@@ -110,11 +116,11 @@ extension MediaDetailViewController {
         cell.contentConfiguration = contentConfiguration
     }
 
-    private func imageCellRegistrationHandler(
+    private func posterCellRegistrationHandler(
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
     ) {
-        guard case .image(let image) = itemIdentifier else { return }
-        var contentConfiguration = cell.imageContentView()
+        guard case .poster(let image) = itemIdentifier else { return }
+        var contentConfiguration = cell.posterContentView()
         contentConfiguration.image = image
         cell.contentConfiguration = contentConfiguration
     }
@@ -126,7 +132,10 @@ extension MediaDetailViewController {
             return
         }
         var contentConfiguration = cell.defaultContentConfiguration()
-        contentConfiguration.text = watchProvider.providerName
+        if let name = watchProvider.providerName {
+            contentConfiguration.attributedText = AttributedStringMaker.watchProviderName(name: name).attributedString
+        }
+        contentConfiguration.image = Constants.emptyLogoImage?.resized(targetSize: Constants.watchProviderLogoSize)
         cell.contentConfiguration = contentConfiguration
         Task {
             if let logoPath = watchProvider.logoPath {
@@ -141,6 +150,15 @@ extension MediaDetailViewController {
         }
     }
 
+    private func imageCellRegistrationHandler(
+        cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
+    ) {
+        guard case .image(let image) = itemIdentifier else { return }
+        var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.image = image
+        cell.contentConfiguration = contentConfiguration
+    }
+
     private func updateSnapshot() {
         Task {
             let mediaItem = mediaDetailViewModel.mediaItemDetail()
@@ -152,7 +170,7 @@ extension MediaDetailViewController {
                 image = Constants.emptyPosterImage
             }
             snapShot.appendSections([.poster])
-            snapShot.appendItems([.image(image)], toSection: .poster)
+            snapShot.appendItems([.poster(image)], toSection: .poster)
             if let watchProviderList = await mediaDetailViewModel.fetchWatchProviderList() {
                 WatchProviderType.allCases.forEach { type in
                     if let result = watchProviderList.results[type] {
@@ -164,6 +182,11 @@ extension MediaDetailViewController {
                         )
                     }
                 }
+                snapShot.appendSections([.justWatch])
+                snapShot.appendItems(
+                    [.image(Constants.justWatchLogoImage?.resized(targetSize: Constants.justWatchLogoSize))],
+                    toSection: .justWatch
+                )
             }
             snapShot.appendSections([.overView])
             snapShot.appendItems([.header(Constants.overViewHeader), .text(mediaItem.overView)], toSection: .overView)
@@ -189,9 +212,12 @@ extension MediaDetailViewController {
 extension MediaDetailViewController {
     private enum Constants {
         static let collectionViewBackgroundColor = UIColor.systemGray6
-        static let emptyPosterImage = UIImage(named: "EmptyPoster")
+        static let emptyPosterImage = UIImage(named: "Empty")
+        static let emptyLogoImage = UIImage(named: "Empty")
+        static let justWatchLogoImage = UIImage(named: "JustWatch")
         static let genreHeader = NSLocalizedString("GENRE_HEADER", comment: "Genre Header")
         static let overViewHeader = NSLocalizedString("OVERVIEW_HEADER", comment: "Overview Header")
         static let watchProviderLogoSize = CGSize(width: 40, height: 40)
+        static let justWatchLogoSize = CGSize(width: 100, height: 100)
     }
 }

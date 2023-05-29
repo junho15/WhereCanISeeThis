@@ -1,6 +1,6 @@
 import UIKit
 
-final class ImageContentView: UIView, UIContentView {
+final class PosterContentView: UIView, UIContentView {
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
@@ -42,21 +42,21 @@ final class ImageContentView: UIView, UIContentView {
     }
 }
 
-extension ImageContentView {
+extension PosterContentView {
     struct Configuration: UIContentConfiguration {
         var image: UIImage?
 
         func makeContentView() -> UIView & UIContentView {
-            return ImageContentView(self)
+            return PosterContentView(self)
         }
 
-        func updated(for state: UIConfigurationState) -> ImageContentView.Configuration {
+        func updated(for state: UIConfigurationState) -> PosterContentView.Configuration {
             return self
         }
     }
 }
 
-extension ImageContentView {
+extension PosterContentView {
     private enum Constants {
         static let backgroundColor = UIColor.systemGray6
         static let imageViewRatio = 1/1.3
@@ -65,7 +65,7 @@ extension ImageContentView {
 }
 
 extension UICollectionViewCell {
-    func imageContentView() -> ImageContentView.Configuration {
-        return ImageContentView.Configuration()
+    func posterContentView() -> PosterContentView.Configuration {
+        return PosterContentView.Configuration()
     }
 }

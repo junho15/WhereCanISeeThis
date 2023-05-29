@@ -13,7 +13,7 @@ final class MovieDatabaseAPIClient {
         query: String,
         language: String? = nil,
         page: Int? = nil,
-        includeAdult: Bool? = true,
+        includeAdult: Bool? = false,
         region: String? = nil,
         year: Int? = nil,
         primaryReleaseYear: Int? = nil
@@ -44,7 +44,7 @@ final class MovieDatabaseAPIClient {
         query: String,
         language: String? = nil,
         page: Int? = nil,
-        includeAdult: Bool? = true,
+        includeAdult: Bool? = false,
         firstAirDateYear: Int? = nil
     ) async throws -> Page<TVShow> {
         guard let url = MovieDatabaseURL.searchTVShows(searchQuery: .init(
