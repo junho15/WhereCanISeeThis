@@ -1,4 +1,5 @@
 import UIKit
+import MovieDatabaseAPI
 
 class SearchViewController: UICollectionViewController {
 
@@ -107,13 +108,20 @@ extension SearchViewController {
 // MARK: - DataSource
 
 extension SearchViewController {
+
+    // MARK: Row
+
     enum Row: Hashable {
         case header(mediaType: MediaType, itemCount: Int)
         case media(mediaType: MediaType, itemIDs: [MediaItem.ID])
     }
 
+    // MARK: typealias
+
     typealias DataSource = UICollectionViewDiffableDataSource<MediaType, Row>
     typealias Snapshot = NSDiffableDataSourceSnapshot<MediaType, Row>
+
+    // MARK: CellRegistrationHandler
 
     private func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .media(let mediaType, let itemIDs) = itemIdentifier else { return }
@@ -133,6 +141,8 @@ extension SearchViewController {
         contentConfiguration.attributedText = attributedTitle
         cell.contentConfiguration = contentConfiguration
     }
+
+    // MARK: Snapshot
 
     private func updateSnapshot() {
         var snapShot = Snapshot()

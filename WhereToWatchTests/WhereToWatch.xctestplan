@@ -9,15 +9,7 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:WhereToWatch.xcodeproj",
-          "identifier" : "EB8B05002A12475E00C1BC37",
-          "name" : "WhereToWatch"
-        }
-      ]
-    }
+    "codeCoverage" : false
   },
   "testTargets" : [
     {

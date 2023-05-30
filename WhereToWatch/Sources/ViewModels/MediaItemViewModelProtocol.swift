@@ -1,4 +1,5 @@
 import UIKit
+import MovieDatabaseAPI
 
 protocol MediaItemViewModelProtocol {
     func mediaItem(for id: MediaItem.ID, type: MediaType) -> MediaItem?

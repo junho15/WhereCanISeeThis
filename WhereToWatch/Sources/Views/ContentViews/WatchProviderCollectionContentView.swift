@@ -1,6 +1,9 @@
 import UIKit
 
 final class WatchProviderCollectionContentView: UIView, UIContentView {
+
+    // MARK: Properties
+
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
@@ -15,6 +18,8 @@ final class WatchProviderCollectionContentView: UIView, UIContentView {
     private var collectionView: UICollectionView?
     private var dataSource: DataSource?
 
+    // MARK: View Lifecycle
+
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
@@ -27,7 +32,11 @@ final class WatchProviderCollectionContentView: UIView, UIContentView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - Methods
+
+extension WatchProviderCollectionContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         updateSnapshot(configuration.items ?? [])
@@ -40,7 +49,7 @@ final class WatchProviderCollectionContentView: UIView, UIContentView {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .estimated(100),
             heightDimension: .fractionalHeight(1.0)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -115,6 +124,8 @@ extension WatchProviderCollectionContentView {
     }
 }
 
+// MARK: - Configuration
+
 extension WatchProviderCollectionContentView {
     struct Configuration: UIContentConfiguration {
         var items: [(image: UIImage?, title: String?)]?
@@ -129,12 +140,16 @@ extension WatchProviderCollectionContentView {
     }
 }
 
+// MARK: - Constants
+
 extension WatchProviderCollectionContentView {
     private enum Constants {
         static let collectionViewBackgroundColor = UIColor.systemBackground
         static let spacing = CGFloat(5)
     }
 }
+
+// MARK: - UICollectionViewCell
 
 extension UICollectionViewCell {
     func watchProviderCollectionConfiguration() -> WatchProviderCollectionContentView.Configuration {

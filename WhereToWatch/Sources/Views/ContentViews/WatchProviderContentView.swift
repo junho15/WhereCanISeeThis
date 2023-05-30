@@ -1,6 +1,9 @@
 import UIKit
 
 final class WatchProviderContentView: UIView, UIContentView {
+
+    // MARK: Properties
+
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
@@ -13,16 +16,23 @@ final class WatchProviderContentView: UIView, UIContentView {
     private let titleLabel = UILabel()
     private let stackView = UIStackView()
 
+    // MARK: View Lifecycle
+
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
+
         configureSubviews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - Methods
+
+extension WatchProviderContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         imageView.image = configuration.image
@@ -51,6 +61,8 @@ final class WatchProviderContentView: UIView, UIContentView {
     }
 }
 
+// MARK: - Configuration
+
 extension WatchProviderContentView {
     struct Configuration: UIContentConfiguration {
         var image: UIImage?
@@ -66,12 +78,16 @@ extension WatchProviderContentView {
     }
 }
 
+// MARK: - Constants
+
 extension WatchProviderContentView {
     private enum Constants {
         static let titleFont = UIFont.preferredFont(forTextStyle: .caption2)
         static let spacing = CGFloat(5)
     }
 }
+
+// MARK: - UICollectionViewCell
 
 extension UICollectionViewCell {
     func watchProviderConfiguration() -> WatchProviderContentView.Configuration {

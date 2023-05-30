@@ -1,6 +1,10 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class SearchViewModel: MediaItemViewModelProtocol {
+
+    // MARK: Properties
+
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private var query: String
     private var moviePages: [Page<Movie>]
@@ -34,8 +38,10 @@ final class SearchViewModel: MediaItemViewModelProtocol {
         return "\(language)-\(country)"
     }
 
+    // MARK: Lifecycle
+
     init(
-        movieDatabaseAPIClient: MovieDatabaseAPIClient = .init(),
+        movieDatabaseAPIClient: MovieDatabaseAPIClient = .init(apiKey: Secrets.apiKey),
         query: String,
         moviePages: [Page<Movie>] = [],
         tvShowPages: [Page<TVShow>] = [],
@@ -50,6 +56,8 @@ final class SearchViewModel: MediaItemViewModelProtocol {
         self.tvShowGenresList = tvShowGenresList
     }
 }
+
+// MARK: - Methods
 
 extension SearchViewModel {
     enum Action {
@@ -153,7 +161,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -168,7 +176,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -189,7 +197,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     completion(movieIDs)
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -210,7 +218,7 @@ extension SearchViewModel {
                 await MainActor.run {
                     completion(tvShowIDs)
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }

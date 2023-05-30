@@ -1,7 +1,11 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class TrendingViewModel: MediaItemViewModelProtocol {
-    private let movieDatabaseAPIClient: MovieDatabaseAPIClient
+
+    // MARK: Properties
+
+    private let movieDatabaseAPIClient: MovieDatabaseAPI.MovieDatabaseAPIClient
     private var moviePage: Page<Movie>?
     private var tvShowPage: Page<TVShow>?
     private var movieGenresList: GenreList?
@@ -28,8 +32,12 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
         return Locale.current.language.region?.identifier
     }
 
+    // MARK: Lifecycle
+
     init(
-        movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(),
+        movieDatabaseAPIClient: MovieDatabaseAPI.MovieDatabaseAPIClient = MovieDatabaseAPIClient(
+            apiKey: Secrets.apiKey
+        ),
         moviePage: Page<Movie>? = nil,
         tvShowPage: Page<TVShow>? = nil,
         movieGenresList: GenreList? = nil,
@@ -44,6 +52,8 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
         self.onError = onError
     }
 }
+
+// MARK: - Methods
 
 extension TrendingViewModel {
     enum Action {
@@ -139,7 +149,7 @@ extension TrendingViewModel {
             do {
                 guard let language else { return }
                 self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -152,7 +162,7 @@ extension TrendingViewModel {
             do {
                 guard let language else { return }
                 self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -173,7 +183,7 @@ extension TrendingViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -194,7 +204,7 @@ extension TrendingViewModel {
                 await MainActor.run {
                     onUpdate?()
                 }
-            } catch let error as WhereToWatchError {
+            } catch let error as MovieDatabaseAPIError {
                 await MainActor.run {
                     onError?(error.localizedDescription)
                 }
@@ -222,6 +232,8 @@ extension TrendingViewModel {
         return MediaDetailViewModel(mediaItem: tvShowItem, country: country, genreList: tvShowGenresList)
     }
 }
+
+// MARK: - Constants
 
 extension TrendingViewModel {
     private enum Constants {

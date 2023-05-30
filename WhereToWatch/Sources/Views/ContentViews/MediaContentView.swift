@@ -1,6 +1,9 @@
 import UIKit
 
 final class MediaContentView: UIView, UIContentView {
+
+    // MARK: Properties
+
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
@@ -17,16 +20,23 @@ final class MediaContentView: UIView, UIContentView {
     private let dateLabel = UILabel()
     private let genreLabel = UILabel()
 
+    // MARK: View Lifecycle
+
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+
         configureSubviews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - Methods
+
+extension MediaContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         imageView.image = configuration.image
@@ -69,6 +79,8 @@ final class MediaContentView: UIView, UIContentView {
     }
 }
 
+// MARK: - Configuration
+
 extension MediaContentView {
     struct Configuration: UIContentConfiguration {
         var image: UIImage?
@@ -86,6 +98,8 @@ extension MediaContentView {
     }
 }
 
+// MARK: - Constants
+
 extension MediaContentView {
     private enum Constants {
         static let titleFont = UIFont.preferredFont(forTextStyle: .body)
@@ -94,6 +108,8 @@ extension MediaContentView {
         static let imageViewRatio = 1/1.3
     }
 }
+
+// MARK: - UICollectionViewCell
 
 extension UICollectionViewCell {
     func mediaContentView() -> MediaContentView.Configuration {

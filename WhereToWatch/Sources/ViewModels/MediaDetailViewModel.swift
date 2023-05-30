@@ -1,6 +1,10 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class MediaDetailViewModel {
+
+    // MARK: Properties
+
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private let mediaItem: MediaItem
     private let country: String
@@ -8,8 +12,10 @@ final class MediaDetailViewModel {
     private var watchProviderList: WatchProviderList?
     private var onError: ((String) -> Void)?
 
+    // MARK: Lifecycle
+
     init(
-        movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(),
+        movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(apiKey: Secrets.apiKey),
         mediaItem: MediaItem,
         country: String,
         genreList: GenreList
@@ -20,6 +26,8 @@ final class MediaDetailViewModel {
         self.genreList = genreList
     }
 }
+
+// MARK: - Methods
 
 extension MediaDetailViewModel {
     func mediaItemDetail() -> MediaItem {

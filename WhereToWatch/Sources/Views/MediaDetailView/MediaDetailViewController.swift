@@ -1,4 +1,5 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class MediaDetailViewController: UICollectionViewController {
 
@@ -86,6 +87,9 @@ extension MediaDetailViewController {
 // MARK: - DataSource
 
 extension MediaDetailViewController {
+
+    // MARK: Section, Row
+
     enum Section: Hashable {
         case poster
         case watchProvider(WatchProviderType)
@@ -101,8 +105,12 @@ extension MediaDetailViewController {
         case image(UIImage?)
     }
 
+    // MARK: typealias
+
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
+
+    // MARK: CellRegistrationHandler
 
     private func textCellRegistrationHandler(
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
@@ -166,10 +174,13 @@ extension MediaDetailViewController {
         }
     }
 
+    // MARK: Snapshot
+
     private func updateSnapshot() {
         Task {
             let mediaItem = mediaDetailViewModel.mediaItemDetail()
             var snapShot = Snapshot()
+
             var image: UIImage?
             if let posterPath = mediaItem.posterPath {
                 image = await mediaDetailViewModel.image(imageSize: .w500, imagePath: posterPath)
@@ -178,6 +189,7 @@ extension MediaDetailViewController {
             }
             snapShot.appendSections([.poster])
             snapShot.appendItems([.poster(image)], toSection: .poster)
+
             if let watchProviderList = await mediaDetailViewModel.fetchWatchProviderList() {
                 WatchProviderType.allCases.forEach { type in
                     if let result = watchProviderList.results[type] {
@@ -194,6 +206,7 @@ extension MediaDetailViewController {
                     toSection: .justWatch
                 )
             }
+
             snapShot.appendSections([.overView])
             snapShot.appendItems([.header(Constants.overViewHeader), .text(mediaItem.overView)], toSection: .overView)
             await MainActor.run {

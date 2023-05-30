@@ -1,4 +1,5 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class TrendingViewController: UICollectionViewController {
 
@@ -116,13 +117,20 @@ extension TrendingViewController {
 // MARK: - DataSource
 
 extension TrendingViewController {
+
+    // MARK: Row
+
     enum Row: Hashable {
         case header(MediaType)
         case media(mediaType: MediaType, itemIDs: [MediaItem.ID])
     }
 
+    // MARK: typealias
+
     typealias DataSource = UICollectionViewDiffableDataSource<MediaType, Row>
     typealias Snapshot = NSDiffableDataSourceSnapshot<MediaType, Row>
+
+    // MARK: CellRegistrationHandler
 
     private func cellRegistrationHandler(cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .media(let mediaType, let itemIDs) = itemIdentifier else { return }
@@ -140,6 +148,8 @@ extension TrendingViewController {
         contentConfiguration.attributedText = attributedTitle
         cell.contentConfiguration = contentConfiguration
     }
+
+    // MARK: Snapshot
 
     private func updateSnapshot() {
         var snapShot = Snapshot()

@@ -1,6 +1,10 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class MediaCollectionContentView: UIView, UIContentView {
+
+    // MARK: Properties
+
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
@@ -15,6 +19,8 @@ final class MediaCollectionContentView: UIView, UIContentView {
     private var collectionView: UICollectionView?
     private var dataSource: DataSource?
 
+    // MARK: View Lifecycle
+
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
@@ -27,7 +33,11 @@ final class MediaCollectionContentView: UIView, UIContentView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - Methods
+
+extension MediaCollectionContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         updateSnapshot(configuration.itemIDs ?? [])
@@ -100,8 +110,8 @@ extension MediaCollectionContentView {
         guard let configuration = configuration as? Configuration,
               let mediaType = configuration.mediaType else { return }
         guard let mediaItem = configuration.viewModel.mediaItem(
-                for: itemIdentifier, type: mediaType
-              ) else {
+            for: itemIdentifier, type: mediaType
+        ) else {
             fatalError("Error: Not found MediaItem")
         }
         var contentConfiguration = cell.mediaContentView()
@@ -174,6 +184,8 @@ extension MediaCollectionContentView: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Configuration
+
 extension MediaCollectionContentView {
     struct Configuration: UIContentConfiguration {
         let viewModel: MediaItemViewModelProtocol
@@ -191,6 +203,8 @@ extension MediaCollectionContentView {
     }
 }
 
+// MARK: - Constants
+
 extension MediaCollectionContentView {
     private enum Constants {
         static let collectionViewBackgroundColor = UIColor.systemBackground
@@ -198,6 +212,8 @@ extension MediaCollectionContentView {
         static let emptyPosterImage = UIImage(named: "Empty")
     }
 }
+
+// MARK: - UICollectionViewCell
 
 extension UICollectionViewCell {
     func mediaCollectionContentView(viewModel: MediaItemViewModelProtocol) -> MediaCollectionContentView.Configuration {

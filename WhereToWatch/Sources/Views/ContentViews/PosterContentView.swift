@@ -1,12 +1,17 @@
 import UIKit
 
 final class PosterContentView: UIView, UIContentView {
+
+    // MARK: Properties
+
     var configuration: UIContentConfiguration {
         didSet {
             configure(configuration)
         }
     }
     private let imageView = UIImageView()
+
+    // MARK: View Lifecycle
 
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
@@ -19,7 +24,11 @@ final class PosterContentView: UIView, UIContentView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - Methods
+
+extension PosterContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         imageView.image = configuration.image
@@ -42,6 +51,8 @@ final class PosterContentView: UIView, UIContentView {
     }
 }
 
+// MARK: - Configuration
+
 extension PosterContentView {
     struct Configuration: UIContentConfiguration {
         var image: UIImage?
@@ -56,6 +67,8 @@ extension PosterContentView {
     }
 }
 
+// MARK: - Constants
+
 extension PosterContentView {
     private enum Constants {
         static let backgroundColor = UIColor.systemGray6
@@ -63,6 +76,8 @@ extension PosterContentView {
         static let height = CGFloat(200)
     }
 }
+
+// MARK: - UICollectionViewCell
 
 extension UICollectionViewCell {
     func posterContentView() -> PosterContentView.Configuration {
