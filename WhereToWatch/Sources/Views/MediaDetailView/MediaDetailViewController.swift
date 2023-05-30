@@ -43,10 +43,10 @@ extension MediaDetailViewController {
     private func configureDataSource() {
         let textCellRegistration = UICollectionView.CellRegistration(handler: textCellRegistrationHandler)
         let posterCellRegistration = UICollectionView.CellRegistration(handler: posterCellRegistrationHandler)
-        let watchProviderCellRegistration = UICollectionView.CellRegistration(
-            handler: watchProviderCellRegistrationHandler
-        )
         let imageCellRegistration = UICollectionView.CellRegistration(handler: imageCellRegistrationHandler)
+        let watchProviderCollectionCellRegistration = UICollectionView.CellRegistration(
+            handler: watchProviderCollectionCellRegistrationHandler
+        )
         dataSource = DataSource(
             collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
                 switch itemIdentifier {
@@ -58,9 +58,10 @@ extension MediaDetailViewController {
                     return collectionView.dequeueConfiguredReusableCell(
                         using: posterCellRegistration, for: indexPath, item: itemIdentifier
                     )
-                case .watchProvider:
+                case .watchProviders:
                     return collectionView.dequeueConfiguredReusableCell(
-                        using: watchProviderCellRegistration, for: indexPath, item: itemIdentifier)
+                        using: watchProviderCollectionCellRegistration, for: indexPath, item: itemIdentifier
+                    )
                 case .image:
                     return collectionView.dequeueConfiguredReusableCell(
                         using: imageCellRegistration, for: indexPath, item: itemIdentifier
@@ -96,7 +97,7 @@ extension MediaDetailViewController {
         case header(String?)
         case text(String?)
         case poster(UIImage?)
-        case watchProvider(type: WatchProviderType, watchProvider: WatchProvider)
+        case watchProviders(type: WatchProviderType, watchProviders: [WatchProvider])
         case image(UIImage?)
     }
 
@@ -125,31 +126,6 @@ extension MediaDetailViewController {
         cell.contentConfiguration = contentConfiguration
     }
 
-    private func watchProviderCellRegistrationHandler(
-        cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
-    ) {
-        guard case .watchProvider(_, let watchProvider) = itemIdentifier else {
-            return
-        }
-        var contentConfiguration = cell.defaultContentConfiguration()
-        if let name = watchProvider.providerName {
-            contentConfiguration.attributedText = AttributedStringMaker.watchProviderName(name: name).attributedString
-        }
-        contentConfiguration.image = Constants.emptyLogoImage?.resized(targetSize: Constants.watchProviderLogoSize)
-        cell.contentConfiguration = contentConfiguration
-        Task {
-            if let logoPath = watchProvider.logoPath {
-                let image = await mediaDetailViewModel.image(imageSize: .original, imagePath: logoPath)
-                if indexPath == collectionView.indexPath(for: cell) {
-                    await MainActor.run {
-                        contentConfiguration.image = image?.resized(targetSize: Constants.watchProviderLogoSize)
-                        cell.contentConfiguration = contentConfiguration
-                    }
-                }
-            }
-        }
-    }
-
     private func imageCellRegistrationHandler(
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
     ) {
@@ -158,6 +134,36 @@ extension MediaDetailViewController {
         contentConfiguration.imageViewContentMode = .right
         contentConfiguration.image = image
         cell.contentConfiguration = contentConfiguration
+    }
+
+    private func watchProviderCollectionCellRegistrationHandler(
+        cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row
+    ) {
+        guard case.watchProviders(_, let watchProviders) = itemIdentifier else { return }
+        var contentConfiguration = cell.watchProviderCollectionConfiguration()
+        contentConfiguration.items = []
+        cell.contentConfiguration = contentConfiguration
+        Task {
+            await withTaskGroup(of: (image: UIImage?, title: String?).self) { [weak self] taskGroup in
+                guard let self else { return }
+                watchProviders.sorted { $0.displayPriority ?? 0 < $1.displayPriority ?? 0 } .forEach { watchProvider in
+                    taskGroup.addTask { [weak self] in
+                        guard let self,
+                              let logoPath = watchProvider.logoPath else {
+                            return (image: nil, title: watchProvider.providerName)
+                        }
+                        let image = await self.mediaDetailViewModel.image(imageSize: .original, imagePath: logoPath)
+                        return (image: image, title: watchProvider.providerName)
+                    }
+                }
+                for await result in taskGroup {
+                    contentConfiguration.items?.append(result)
+                }
+            }
+            await MainActor.run {
+                cell.contentConfiguration = contentConfiguration
+            }
+        }
     }
 
     private func updateSnapshot() {
@@ -178,8 +184,7 @@ extension MediaDetailViewController {
                         snapShot.appendSections([.watchProvider(type)])
                         snapShot.appendItems([.header(type.title)], toSection: .watchProvider(type))
                         snapShot.appendItems(
-                            result.map { .watchProvider(type: type, watchProvider: $0) },
-                            toSection: .watchProvider(type)
+                            [.watchProviders(type: type, watchProviders: result)], toSection: .watchProvider(type)
                         )
                     }
                 }

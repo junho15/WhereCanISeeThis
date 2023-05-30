@@ -18,6 +18,7 @@ final class MediaCollectionContentView: UIView, UIContentView {
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
+
         configureCollectionView()
         configureDataSource()
         configureSubviews()
@@ -71,7 +72,7 @@ final class MediaCollectionContentView: UIView, UIContentView {
 
     private func configureSubviews() {
         guard let collectionView else { return }
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = Constants.collectionViewBackgroundColor
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -192,6 +193,7 @@ extension MediaCollectionContentView {
 
 extension MediaCollectionContentView {
     private enum Constants {
+        static let collectionViewBackgroundColor = UIColor.systemBackground
         static let spacing = CGFloat(10)
         static let emptyPosterImage = UIImage(named: "Empty")
     }
