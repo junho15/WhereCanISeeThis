@@ -154,7 +154,8 @@ extension MediaDetailViewController {
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
     ) {
         guard case .image(let image) = itemIdentifier else { return }
-        var contentConfiguration = cell.defaultContentConfiguration()
+        var contentConfiguration = cell.imageConfiguration()
+        contentConfiguration.imageViewContentMode = .right
         contentConfiguration.image = image
         cell.contentConfiguration = contentConfiguration
     }
