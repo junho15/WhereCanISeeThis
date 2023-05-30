@@ -159,6 +159,7 @@ extension SearchViewModel {
             do {
                 moviePages = try await [movieDatabaseAPIClient.searchMovies(query: query, language: languageCode)]
                 await MainActor.run {
+                    self.query = query
                     onUpdate?()
                 }
             } catch let error as MovieDatabaseAPIError {
@@ -174,6 +175,7 @@ extension SearchViewModel {
             do {
                 tvShowPages = try await [movieDatabaseAPIClient.searchTVShows(query: query, language: languageCode)]
                 await MainActor.run {
+                    self.query = query
                     onUpdate?()
                 }
             } catch let error as MovieDatabaseAPIError {
