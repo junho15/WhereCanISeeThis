@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "MovieDatabaseAPI",
     platforms: [
-        .iOS(.v16), .macOS(.v13)
+        .iOS(.v13)
     ],
     products: [
         .library(
