@@ -15,7 +15,7 @@ final class TrendingViewController: UICollectionViewController {
     init(trendingViewModel: TrendingViewModel = TrendingViewModel()) {
         self.trendingViewModel = trendingViewModel
 
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.backgroundColor = Constants.collectionViewBackgroundColor
         configuration.headerMode = .firstItemInSection
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -56,6 +56,7 @@ final class TrendingViewController: UICollectionViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
         removeTapGestureRecognizer()
     }
 }
@@ -105,12 +106,9 @@ extension TrendingViewController {
     }
 
     private func pushSearchViewController(query: String) {
-        trendingViewModel.action(.searchViewModel(query: query) { [weak self] searchViewModel in
-            guard let self,
-                  let searchViewModel else { return }
-            let viewController = SearchViewController(searchViewModel: searchViewModel, query: query)
-            navigationController?.pushViewController(viewController, animated: true)
-        })
+        guard let searchViewModel = trendingViewModel.searchViewModel(query: query) else { return }
+        let viewController = SearchViewController(searchViewModel: searchViewModel, query: query)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -185,6 +183,6 @@ extension TrendingViewController: UISearchBarDelegate {
 extension TrendingViewController {
     private enum Constants {
         static let viewBackgroundColor = UIColor.systemBackground
-        static let collectionViewBackgroundColor = UIColor.systemBackground
+        static let collectionViewBackgroundColor = UIColor.systemGray6
     }
 }

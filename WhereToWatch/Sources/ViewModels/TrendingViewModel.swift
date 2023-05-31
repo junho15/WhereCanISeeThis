@@ -61,7 +61,6 @@ extension TrendingViewModel {
         case fetchTVShowGenresList
         case fetchTrendingMovies
         case fetchTrendingTVShows
-        case searchViewModel(query: String, completion: (SearchViewModel?) -> Void)
     }
 
     func action(_ action: Action) {
@@ -74,8 +73,6 @@ extension TrendingViewModel {
             fetchTrendingMovies()
         case .fetchTrendingTVShows:
             fetchTrendingTVShows()
-        case .searchViewModel(let query, let completion):
-            completion(searchViewModel(query: query))
         }
     }
 
@@ -107,6 +104,12 @@ extension TrendingViewModel {
             }
             return nil
         }
+    }
+
+    func searchViewModel(query: String) -> SearchViewModel? {
+        guard let movieGenresList,
+              let tvShowGenresList else { return nil }
+        return SearchViewModel(query: query, movieGenresList: movieGenresList, tvShowGenresList: tvShowGenresList)
     }
 
     func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType) -> MediaDetailViewModel? {
@@ -210,12 +213,6 @@ extension TrendingViewModel {
                 }
             }
         }
-    }
-
-    private func searchViewModel(query: String) -> SearchViewModel? {
-        guard let movieGenresList,
-              let tvShowGenresList else { return nil }
-        return SearchViewModel(query: query, movieGenresList: movieGenresList, tvShowGenresList: tvShowGenresList)
     }
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {

@@ -133,7 +133,9 @@ final public class MovieDatabaseAPIClient {
     }
 
     public func fetchImage(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async throws -> UIImage? {
-        guard let url = MovieDatabaseURL.fetchImage(imageSize: imageSize, imagePath: imagePath, apiKey: apiKey).url else {
+        guard let url = MovieDatabaseURL.fetchImage(
+            imageSize: imageSize, imagePath: imagePath, apiKey: apiKey
+        ).url else {
             throw MovieDatabaseAPIError.invalidRequest
         }
 

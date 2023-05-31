@@ -15,7 +15,7 @@ class SearchViewController: UICollectionViewController {
     init(searchViewModel: SearchViewModel, query: String? = nil) {
         self.searchViewModel = searchViewModel
 
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.backgroundColor = Constants.collectionViewBackgroundColor
         configuration.headerMode = .firstItemInSection
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -180,6 +180,6 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController {
     private enum Constants {
         static let viewBackgroundColor = UIColor.systemBackground
-        static let collectionViewBackgroundColor = UIColor.systemBackground
+        static let collectionViewBackgroundColor = UIColor.systemGray6
     }
 }
