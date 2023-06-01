@@ -15,6 +15,9 @@ struct MediaItem: Identifiable {
     var posterPath: String? {
         return media.posterPath
     }
+    var backdropPath: String? {
+        return media.backdropPath
+    }
     var mediaType: MediaType {
         return media.mediaType
     }

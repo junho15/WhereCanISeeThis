@@ -145,7 +145,7 @@ extension WatchProviderCollectionContentView {
 extension WatchProviderCollectionContentView {
     private enum Constants {
         static let collectionViewBackgroundColor = UIColor.systemBackground
-        static let spacing = CGFloat(5)
+        static let spacing = CGFloat(8)
     }
 }
 

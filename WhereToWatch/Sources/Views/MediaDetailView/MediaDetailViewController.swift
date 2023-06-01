@@ -73,8 +73,6 @@ extension MediaDetailViewController {
     }
 
     private func configureNavigationItem() {
-        let mediaItem = mediaDetailViewModel.mediaItemDetail()
-        navigationItem.title = mediaItem.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             systemItem: .close, primaryAction: UIAction(handler: { [weak self] _ in
                 guard let self else { return }
@@ -100,7 +98,7 @@ extension MediaDetailViewController {
     enum Row: Hashable {
         case header(String?)
         case text(String?)
-        case poster(UIImage?)
+        case poster(poster: UIImage?, backdrop: UIImage?, title: String?, year: String?, genre: String?)
         case watchProviders(type: WatchProviderType, watchProviders: [WatchProvider])
         case image(UIImage?)
     }
@@ -128,9 +126,15 @@ extension MediaDetailViewController {
     private func posterCellRegistrationHandler(
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row
     ) {
-        guard case .poster(let image) = itemIdentifier else { return }
+        guard case .poster(
+            let posterImage, let backdropImage, let title, let year, let genre
+        ) = itemIdentifier else { return }
         var contentConfiguration = cell.posterContentView()
-        contentConfiguration.image = image
+        contentConfiguration.posterImage = posterImage
+        contentConfiguration.backdropImage = backdropImage
+        contentConfiguration.title = title
+        contentConfiguration.year = year
+        contentConfiguration.genre = genre
         cell.contentConfiguration = contentConfiguration
     }
 
@@ -181,16 +185,27 @@ extension MediaDetailViewController {
             let mediaItem = mediaDetailViewModel.mediaItemDetail()
             var snapShot = Snapshot()
 
-            var image: UIImage?
-            if let posterPath = mediaItem.posterPath {
-                image = await mediaDetailViewModel.image(imageSize: .w500, imagePath: posterPath)
-            } else {
-                image = Constants.emptyPosterImage
-            }
-            snapShot.appendSections([.poster])
-            snapShot.appendItems([.poster(image)], toSection: .poster)
+            async let fetchPosterImage = mediaDetailViewModel.image(
+                imageSize: .w500, imagePath: mediaItem.posterPath
+            ) ?? Constants.emptyPosterImage
+            async let fetchBackdropImage = mediaDetailViewModel.image(
+                imageSize: .w500, imagePath: mediaItem.backdropPath
+            )
+            async let fetchWatchProviderList = mediaDetailViewModel.fetchWatchProviderList()
+            let (posterImage, backdropImage, watchProviderList) = await (
+                fetchPosterImage, fetchBackdropImage, fetchWatchProviderList
+            )
 
-            if let watchProviderList = await mediaDetailViewModel.fetchWatchProviderList() {
+            snapShot.appendSections([.poster])
+            snapShot.appendItems([.poster(
+                poster: posterImage,
+                backdrop: backdropImage,
+                title: mediaItem.title,
+                year: mediaItem.date,
+                genre: mediaItem.genre
+            )], toSection: .poster)
+
+            if let watchProviderList {
                 WatchProviderType.allCases.forEach { type in
                     if let result = watchProviderList.results[type] {
                         snapShot.appendSections([.watchProvider(type)])

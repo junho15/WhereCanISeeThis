@@ -56,7 +56,8 @@ extension WatchProviderContentView {
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.maxWidth)
         ])
     }
 }
@@ -84,6 +85,7 @@ extension WatchProviderContentView {
     private enum Constants {
         static let titleFont = UIFont.preferredFont(forTextStyle: .caption2)
         static let spacing = CGFloat(5)
+        static let maxWidth = CGFloat(100)
     }
 }
 

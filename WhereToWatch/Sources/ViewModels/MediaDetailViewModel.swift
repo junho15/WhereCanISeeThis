@@ -38,7 +38,8 @@ extension MediaDetailViewModel {
         return watchProviderList
     }
 
-    func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String) async -> UIImage? {
+    func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String?) async -> UIImage? {
+        guard let imagePath else { return nil }
         do {
             let image = try await movieDatabaseAPIClient.fetchImage(imageSize: imageSize, imagePath: imagePath)
             return image
