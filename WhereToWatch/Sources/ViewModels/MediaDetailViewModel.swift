@@ -6,7 +6,7 @@ final class MediaDetailViewModel {
     // MARK: Properties
 
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private let mediaItem: MediaItem
+    private let mediaItem: any MediaItemProtocol
     private let country: String
     private let genreList: GenreList
     private var watchProviderList: WatchProviderList?
@@ -16,7 +16,7 @@ final class MediaDetailViewModel {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(apiKey: Secrets.apiKey),
-        mediaItem: MediaItem,
+        mediaItem: any MediaItemProtocol,
         country: String,
         genreList: GenreList
     ) {
@@ -30,7 +30,7 @@ final class MediaDetailViewModel {
 // MARK: - Methods
 
 extension MediaDetailViewModel {
-    func mediaItemDetail() -> MediaItem {
+    func mediaItemDetail() -> any MediaItemProtocol {
         return mediaItem
     }
 

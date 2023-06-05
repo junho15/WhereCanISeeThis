@@ -1,7 +1,7 @@
 import UIKit
 import MovieDatabaseAPI
 
-struct MediaItem: Identifiable {
+struct MediaItem: MediaItemProtocol {
     var genre: String?
     var id: Int {
         return media.id
