@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		EB068ABF2A21E26D00D1E2F5 /* MediaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB068ABE2A21E26D00D1E2F5 /* MediaDetailViewController.swift */; };
 		EB068AC12A2226C600D1E2F5 /* PosterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB068AC02A2226C600D1E2F5 /* PosterContentView.swift */; };
+		EB0957892A2ACD7100349B12 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0957882A2ACD7100349B12 /* MainTabBarController.swift */; };
+		EB09578C2A2D6F2F00349B12 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB09578B2A2D6F2F00349B12 /* FavoriteViewController.swift */; };
 		EB0A74B62A1B3DEB007FB254 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */; };
 		EB0A74B82A1B8A1F007FB254 /* MediaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */; };
 		EB1A550B2A2367A600D91575 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1A550A2A2367A600D91575 /* UIImage.swift */; };
@@ -50,6 +52,8 @@
 /* Begin PBXFileReference section */
 		EB068ABE2A21E26D00D1E2F5 /* MediaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewController.swift; sourceTree = "<group>"; };
 		EB068AC02A2226C600D1E2F5 /* PosterContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterContentView.swift; sourceTree = "<group>"; };
+		EB0957882A2ACD7100349B12 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		EB09578B2A2D6F2F00349B12 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		EB0A74B52A1B3DEB007FB254 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewModel.swift; sourceTree = "<group>"; };
 		EB1A550A2A2367A600D91575 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -103,6 +107,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB0957872A2ACD2500349B12 /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				EB0957882A2ACD7100349B12 /* MainTabBarController.swift */,
+			);
+			path = MainTabBar;
+			sourceTree = "<group>";
+		};
+		EB09578A2A2D6F1400349B12 /* FavoriteView */ = {
+			isa = PBXGroup;
+			children = (
+				EB09578B2A2D6F2F00349B12 /* FavoriteViewController.swift */,
+			);
+			path = FavoriteView;
+			sourceTree = "<group>";
+		};
 		EB3B831E2A14B79D00617CEA /* WhereToWatchTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +241,8 @@
 			isa = PBXGroup;
 			children = (
 				EBDDA38C2A1DDBE500A67637 /* ContentViews */,
+				EB09578A2A2D6F1400349B12 /* FavoriteView */,
+				EB0957872A2ACD2500349B12 /* MainTabBar */,
 				EBDDA3882A1DB1AF00A67637 /* MediaDetailView */,
 				EBDDA3872A1DB1A400A67637 /* SearchView */,
 				EBDDA3862A1DB17F00A67637 /* TrendingView */,
@@ -406,6 +428,7 @@
 			files = (
 				EB8B05052A12475E00C1BC37 /* AppDelegate.swift in Sources */,
 				EBE8380B2A26110400DCBA85 /* Secrets.swift in Sources */,
+				EB0957892A2ACD7100349B12 /* MainTabBarController.swift in Sources */,
 				EB068AC12A2226C600D1E2F5 /* PosterContentView.swift in Sources */,
 				EBDDA3952A1DEF2300A67637 /* Date.swift in Sources */,
 				EBDDA39E2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift in Sources */,
@@ -413,6 +436,7 @@
 				EBDDA38E2A1DDE4900A67637 /* MediaContentView.swift in Sources */,
 				EBE838072A26021100DCBA85 /* MediaType.swift in Sources */,
 				EBDDA3A62A20595E00A67637 /* SearchViewController.swift in Sources */,
+				EB09578C2A2D6F2F00349B12 /* FavoriteViewController.swift in Sources */,
 				EBDDA3A22A204F0400A67637 /* UISearchBar.swift in Sources */,
 				EBE838052A2601A200DCBA85 /* MovieDatabaseAPIError.swift in Sources */,
 				EBE837F42A258CE500DCBA85 /* WatchProviderContentView.swift in Sources */,
