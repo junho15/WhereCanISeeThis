@@ -9,8 +9,8 @@ final class SearchViewModel: MediaItemViewModelProtocol {
     private var query: String
     private var moviePages: [Page<Movie>]
     private var tvShowPages: [Page<TVShow>]
-    private var movieGenresList: GenreList
-    private var tvShowGenresList: GenreList
+    private var movieGenresList: GenreList?
+    private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
     private var onUpdate: (() -> Void)?
 
@@ -42,11 +42,11 @@ final class SearchViewModel: MediaItemViewModelProtocol {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = .init(apiKey: Secrets.apiKey),
-        query: String,
+        query: String = "",
         moviePages: [Page<Movie>] = [],
         tvShowPages: [Page<TVShow>] = [],
-        movieGenresList: GenreList,
-        tvShowGenresList: GenreList
+        movieGenresList: GenreList? = nil,
+        tvShowGenresList: GenreList? = nil
     ) {
         self.movieDatabaseAPIClient = movieDatabaseAPIClient
         self.query = query
@@ -157,6 +157,11 @@ extension SearchViewModel {
     private func searchMovie(query: String) {
         Task {
             do {
+                if movieGenresList == nil,
+                   let language {
+                    self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
+                }
+
                 moviePages = try await [movieDatabaseAPIClient.searchMovies(query: query, language: languageCode)]
                 await MainActor.run {
                     self.query = query
@@ -173,6 +178,11 @@ extension SearchViewModel {
     private func searchTVShow(query: String) {
         Task {
             do {
+                if tvShowGenresList == nil,
+                   let language {
+                    self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
+                }
+
                 tvShowPages = try await [movieDatabaseAPIClient.searchTVShows(query: query, language: languageCode)]
                 await MainActor.run {
                     self.query = query
@@ -230,12 +240,14 @@ extension SearchViewModel {
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {
         guard let movieItem = movieItem(for: id),
+              let movieGenresList,
               let country else { return nil }
         return MediaDetailViewModel(mediaItem: movieItem, country: country, genreList: movieGenresList)
     }
 
     private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
         guard let tvShowItem = tvShowItem(for: id),
+              let tvShowGenresList,
               let country else { return nil }
         return MediaDetailViewModel(mediaItem: tvShowItem, country: country, genreList: tvShowGenresList)
     }

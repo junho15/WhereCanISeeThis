@@ -32,9 +32,6 @@ final class TrendingViewController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = Constants.viewBackgroundColor
 
-        trendingViewModel.action(.fetchMovieGenresList)
-        trendingViewModel.action(.fetchTVShowGenresList)
-
         configureDataSource()
         configureSearchBar()
         trendingViewModel.bind(onError: { errorMessage in

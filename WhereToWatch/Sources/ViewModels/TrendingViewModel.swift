@@ -57,18 +57,12 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
 
 extension TrendingViewModel {
     enum Action {
-        case fetchMovieGenresList
-        case fetchTVShowGenresList
         case fetchTrendingMovies
         case fetchTrendingTVShows
     }
 
     func action(_ action: Action) {
         switch action {
-        case .fetchMovieGenresList:
-            fetchMovieGenresList()
-        case .fetchTVShowGenresList:
-            fetchTVShowGenresList()
         case .fetchTrendingMovies:
             fetchTrendingMovies()
         case .fetchTrendingTVShows:
@@ -147,37 +141,16 @@ extension TrendingViewModel {
         return MediaItem(media: tvShow, genreList: tvShowGenresList)
     }
 
-    private func fetchMovieGenresList() {
-        Task {
-            do {
-                guard let language else { return }
-                self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func fetchTVShowGenresList() {
-        Task {
-            do {
-                guard let language else { return }
-                self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
     private func fetchTrendingMovies() {
         Task {
             do {
                 guard let language,
                       let country else { return }
+
+                if movieGenresList == nil {
+                    self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
+                }
+
                 let languageCode = "\(language)-\(country)"
                 self.moviePage = try await movieDatabaseAPIClient.fetchTrendingMovies(
                     timeWindow: Constants.trendingTimeWindow,
@@ -199,6 +172,11 @@ extension TrendingViewModel {
             do {
                 guard let language,
                       let country else { return }
+
+                if tvShowGenresList == nil {
+                    self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
+                }
+
                 let languageCode = "\(language)-\(country)"
                 self.tvShowPage = try await movieDatabaseAPIClient.fetchTrendingTVShows(
                     timeWindow: Constants.trendingTimeWindow,

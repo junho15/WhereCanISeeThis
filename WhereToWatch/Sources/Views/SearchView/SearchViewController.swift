@@ -12,7 +12,7 @@ class SearchViewController: UICollectionViewController {
 
     // MARK: View Lifecycle
 
-    init(searchViewModel: SearchViewModel, query: String? = nil) {
+    init(searchViewModel: SearchViewModel = SearchViewModel(), query: String? = nil) {
         self.searchViewModel = searchViewModel
 
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
