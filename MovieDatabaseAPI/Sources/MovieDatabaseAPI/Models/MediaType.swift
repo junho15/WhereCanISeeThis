@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MediaType: CaseIterable {
+public enum MediaType: String, CaseIterable {
     case movie
     case tvShow
 }
