@@ -6,6 +6,8 @@ enum AttributedStringMaker {
     case mediaDetailHeader(title: String)
     case watchProviderName(name: String)
     case posterDetail(title: String, year: String, genre: String)
+    case favoriteTitle(title: String)
+    case favoriteDateGenre(date: String, genre: String)
 
     var attributedString: NSAttributedString {
         switch self {
@@ -19,6 +21,10 @@ enum AttributedStringMaker {
             return watchProviderName(name: name)
         case .posterDetail(let title, let year, let genre):
             return posterDetail(title: title, year: year, genre: genre)
+        case .favoriteTitle(let title):
+            return favoriteTitle(title: title)
+        case .favoriteDateGenre(let date, let genre):
+            return favoriteDateGenre(date: date, genre: genre)
         }
     }
 
@@ -56,5 +62,16 @@ enum AttributedStringMaker {
         return [titleAttributedString, yearGenreAttributedString].reduce(into: NSMutableAttributedString()) {
             $0.append($1)
         }
+    }
+
+    private func favoriteTitle(title: String) -> NSAttributedString {
+        return NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .body)])
+    }
+
+    private func favoriteDateGenre(date: String, genre: String) -> NSAttributedString {
+        return NSAttributedString(
+            string: "\(date)\n\(genre)",
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .caption1)]
+        )
     }
 }

@@ -1,10 +1,12 @@
-import Foundation
+import UIKit
+import MovieDatabaseAPI
 
 final class FavoriteViewModel {
 
     // MARK: Properties
 
     private let favoriteService = FavoriteService.shared
+    private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private var query: String
     private var favoriteMediaItems: [FavoriteMediaItem] {
         didSet {
@@ -20,7 +22,12 @@ final class FavoriteViewModel {
 
     // MARK: Lifecycle
 
-    init(query: String  = "", favoriteMediaItems: [FavoriteMediaItem] = []) {
+    init(
+        movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(apiKey: Secrets.apiKey),
+        query: String  = "",
+        favoriteMediaItems: [FavoriteMediaItem] = []
+    ) {
+        self.movieDatabaseAPIClient = movieDatabaseAPIClient
         self.query = query
         self.favoriteMediaItems = favoriteMediaItems
     }
@@ -45,6 +52,19 @@ extension FavoriteViewModel {
 
     func favoriteMediaItem(for id: FavoriteMediaItem.ID) -> FavoriteMediaItem? {
         return favoriteMediaItems.first(where: { $0.id == id })
+    }
+
+    func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String?) async -> UIImage? {
+        guard let imagePath else { return nil }
+        do {
+            let image = try await movieDatabaseAPIClient.fetchImage(imageSize: imageSize, imagePath: imagePath)
+            return image
+        } catch {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
+        }
     }
 
     func bind(onError: @escaping (String) -> Void) {

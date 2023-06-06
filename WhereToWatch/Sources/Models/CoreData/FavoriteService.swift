@@ -101,6 +101,6 @@ extension FavoriteService {
     private enum Constants {
         static let persistentContainerName = "Model"
         static let titlePredicateFormat = "title CONTAINS %@"
-        static let idPredicateFormat = "entityID == %lld"
+        static let idPredicateFormat = "id == %lld"
     }
 }

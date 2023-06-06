@@ -18,7 +18,7 @@ struct FavoriteMediaItem: MediaItemProtocol {
         }
         self.id = Int(mediaItemEntity.id)
         self.genre = mediaItemEntity.genre
-        self.title = mediaItemEntity.genre
+        self.title = mediaItemEntity.title
         self.date = mediaItemEntity.date
         self.posterPath = mediaItemEntity.posterPath
         self.backdropPath = mediaItemEntity.backdropPath
