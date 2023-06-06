@@ -194,17 +194,13 @@ extension TrendingViewModel {
     }
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {
-        guard let movieGenresList,
-              let movieItem = movieItem(for: id),
-              let country else { return nil }
-        return MediaDetailViewModel(mediaItem: movieItem, country: country, genreList: movieGenresList)
+        guard let movieItem = movieItem(for: id) else { return nil }
+        return MediaDetailViewModel(mediaItem: movieItem)
     }
 
     private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
-        guard let tvShowGenresList,
-              let tvShowItem = tvShowItem(for: id),
-              let country else { return nil }
-        return MediaDetailViewModel(mediaItem: tvShowItem, country: country, genreList: tvShowGenresList)
+        guard  let tvShowItem = tvShowItem(for: id) else { return nil }
+        return MediaDetailViewModel(mediaItem: tvShowItem)
     }
 }
 

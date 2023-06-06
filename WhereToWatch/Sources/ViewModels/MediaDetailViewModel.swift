@@ -5,31 +5,44 @@ final class MediaDetailViewModel {
 
     // MARK: Properties
 
+    private let favoriteService = FavoriteService.shared
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
     private let mediaItem: any MediaItemProtocol
-    private let country: String
-    private let genreList: GenreList
     private var watchProviderList: WatchProviderList?
     private var onError: ((String) -> Void)?
+
+    private var country: String? {
+        return Locale.current.language.region?.identifier
+    }
 
     // MARK: Lifecycle
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(apiKey: Secrets.apiKey),
-        mediaItem: any MediaItemProtocol,
-        country: String,
-        genreList: GenreList
+        mediaItem: any MediaItemProtocol
     ) {
         self.movieDatabaseAPIClient = movieDatabaseAPIClient
         self.mediaItem = mediaItem
-        self.country = country
-        self.genreList = genreList
     }
 }
 
 // MARK: - Methods
 
 extension MediaDetailViewModel {
+    enum Action {
+        case saveFavoriteMediaItem
+        case deleteFavoriteMediaItem
+    }
+
+    func action(_ action: Action) {
+        switch action {
+        case .saveFavoriteMediaItem:
+            saveFavoriteMediaItem()
+        case .deleteFavoriteMediaItem:
+            deleteFavoriteMediaItem()
+        }
+    }
+
     func mediaItemDetail() -> any MediaItemProtocol {
         return mediaItem
     }
@@ -61,7 +74,8 @@ extension MediaDetailViewModel {
                 result = try await movieDatabaseAPIClient.fetchTVShowWatchProviders(tvShowID: mediaItem.id)
             }
 
-            guard let watchProviderList = result.results?[country] else { return nil }
+            guard let country,
+                  let watchProviderList = result.results?[country] else { return nil }
             self.watchProviderList = watchProviderList
             return watchProviderList
         } catch {
@@ -72,7 +86,34 @@ extension MediaDetailViewModel {
         }
     }
 
+    func isFavorite() -> Bool {
+        do {
+            return try favoriteService.contains(mediaItem.id)
+        } catch {
+            onError?(error.localizedDescription)
+            return false
+        }
+    }
+
     func bind(onError: @escaping (String) -> Void) {
         self.onError = onError
+    }
+
+    private func saveFavoriteMediaItem() {
+        do {
+            guard isFavorite() == false else { return }
+            let favoriteMediaItem = FavoriteMediaItem(mediaItem: mediaItem)
+            try favoriteService.save(favoriteMediaItem)
+        } catch {
+            onError?(error.localizedDescription)
+        }
+    }
+
+    private func deleteFavoriteMediaItem() {
+        do {
+            try favoriteService.delete(mediaItem.id)
+        } catch {
+            onError?(error.localizedDescription)
+        }
     }
 }

@@ -27,7 +27,7 @@ struct FavoriteMediaItem: MediaItemProtocol {
         self.registrationDate = mediaItemEntity.registrationDate
     }
 
-    init(mediaItem: MediaItem) {
+    init(mediaItem: any MediaItemProtocol) {
         self.id = mediaItem.id
         self.genre = mediaItem.genre
         self.title = mediaItem.title
