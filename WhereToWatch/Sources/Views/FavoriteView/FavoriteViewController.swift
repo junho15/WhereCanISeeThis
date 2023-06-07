@@ -75,8 +75,23 @@ extension FavoriteViewController {
         navigationItem.titleView = searchBar
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: Constants.sortOptionButtonImage
+            image: Constants.sortOptionButtonImage,
+            menu: sortOptionMenu()
         )
+    }
+
+    private func sortOptionMenu() -> UIMenu {
+        let children = FavoriteService.SortOption.allCases.map { sortOption in
+            UIAction(title: sortOption.description) { [weak self] _ in
+                guard let self else { return }
+                sortOptionMenuAction(sortOption)
+            }
+        }
+        return UIMenu(title: Constants.sortOptionMenuTitle, options: .displayInline, children: children)
+    }
+
+    private func sortOptionMenuAction(_ sortOption: FavoriteService.SortOption) {
+        favoriteViewModel.action(.fetchFavoriteMediaItems(sortOption: sortOption, query: searchBar?.text ?? nil))
     }
 
     private func addTapGestureRecognizer() {
@@ -183,6 +198,7 @@ extension FavoriteViewController: UISearchBarDelegate {
 // MARK: - Constants
 extension FavoriteViewController {
     enum Constants {
+        static let sortOptionMenuTitle = NSLocalizedString("SORT_OPTION_MENU_TITLE", comment: "Sort Option Menu Title")
         static let deleteActionTitle = NSLocalizedString("DELETE_ACTION_TITLE", comment: "Delete Action Title")
         static let viewBackgroundColor = UIColor.systemBackground
         static let collectionViewBackgroundColor = UIColor.systemGray6

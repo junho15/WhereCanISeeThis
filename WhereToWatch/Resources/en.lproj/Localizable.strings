@@ -18,3 +18,8 @@
 "SEARCH_TAB_TITLE" = "Search";
 "FAVORITE_TAB_TITLE" = "Favorite";
 "DELETE_ACTION_TITLE" = "Delete";
+"REGISTRATION_DATE_ORDER_DESCRIPTION" = "Ascending by Registration";
+"REVERSE_REGISTRATION_DATE_ORDER_DESCRIPTION" = "Descending by Registration";
+"TITLE_ORDER_DESCRIPTION" = "Ascending by Title";
+"REVERSE_TITLE_ORDER_DESCRIPTION" = "Descending by title";
+"SORT_OPTION_MENU_TITLE" = "Sort By";

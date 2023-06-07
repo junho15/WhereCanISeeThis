@@ -35,7 +35,8 @@ final class FavoriteService {
     ) throws -> [FavoriteMediaItem] {
         let request = fetchRequest
         request.sortDescriptors = [sortOption.sortDescriptor]
-        if let query {
+        if let query,
+           query.isEmpty == false {
             request.predicate = NSPredicate(format: Constants.titlePredicateFormat, query)
         }
         if let offset,
@@ -76,7 +77,7 @@ final class FavoriteService {
 }
 
 extension FavoriteService {
-    enum SortOption {
+    enum SortOption: CaseIterable, CustomStringConvertible {
         case registrationDate
         case reverseRegistrationDate
         case title
@@ -92,6 +93,27 @@ extension FavoriteService {
                 return NSSortDescriptor(key: "title", ascending: true)
             case .reverseTitle:
                 return NSSortDescriptor(key: "title", ascending: false)
+            }
+        }
+
+        var description: String {
+            switch self {
+            case .registrationDate:
+                return NSLocalizedString(
+                    "REGISTRATION_DATE_ORDER_DESCRIPTION", comment: "Registration Date Order Description"
+                )
+            case .reverseRegistrationDate:
+                return NSLocalizedString(
+                    "REVERSE_REGISTRATION_DATE_ORDER_DESCRIPTION", comment: "Reverse Registration Date Order Description"
+                )
+            case .title:
+                return NSLocalizedString(
+                    "TITLE_ORDER_DESCRIPTION", comment: "Title Order Description"
+                )
+            case .reverseTitle:
+                return NSLocalizedString(
+                    "REVERSE_TITLE_ORDER_DESCRIPTION", comment: "Reverse Title Order Description"
+                )
             }
         }
     }
