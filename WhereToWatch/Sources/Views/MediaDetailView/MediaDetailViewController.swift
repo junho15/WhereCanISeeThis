@@ -7,6 +7,7 @@ final class MediaDetailViewController: UICollectionViewController {
 
     private let mediaDetailViewModel: MediaDetailViewModel
     private var dataSource: DataSource?
+    private var favoriteBarButtonItem: UIBarButtonItem?
 
     // MARK: View Lifecycle
 
@@ -73,12 +74,37 @@ extension MediaDetailViewController {
     }
 
     private func configureNavigationItem() {
+        favoriteBarButtonItem = UIBarButtonItem(image: nil, primaryAction: favoriteBarButtonAction())
+        setImageFavoriteBarButton(mediaDetailViewModel.isFavorite())
+        navigationItem.leftBarButtonItem = favoriteBarButtonItem
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             systemItem: .close, primaryAction: UIAction(handler: { [weak self] _ in
                 guard let self else { return }
                 dismiss(animated: true)
             })
         )
+    }
+
+    private func favoriteBarButtonAction() -> UIAction {
+        return UIAction { [weak self] _ in
+            guard let self else { return }
+            if mediaDetailViewModel.isFavorite() {
+                mediaDetailViewModel.action(.deleteFavoriteMediaItem)
+                setImageFavoriteBarButton(false)
+            } else {
+                mediaDetailViewModel.action(.saveFavoriteMediaItem)
+                setImageFavoriteBarButton(true)
+            }
+        }
+    }
+
+    private func setImageFavoriteBarButton(_ isFavorite: Bool) {
+        if isFavorite {
+            favoriteBarButtonItem?.image = Constants.favoriteImage
+        } else {
+            favoriteBarButtonItem?.image = Constants.notFavoriteImage
+        }
     }
 }
 
@@ -246,6 +272,8 @@ extension MediaDetailViewController {
 extension MediaDetailViewController {
     private enum Constants {
         static let collectionViewBackgroundColor = UIColor.systemGray6
+        static let favoriteImage = UIImage(systemName: "star.fill")
+        static let notFavoriteImage = UIImage(systemName: "star")
         static let emptyPosterImage = UIImage(named: "Empty")
         static let emptyLogoImage = UIImage(named: "Empty")
         static let justWatchLogoImage = UIImage(named: "JustWatch")
