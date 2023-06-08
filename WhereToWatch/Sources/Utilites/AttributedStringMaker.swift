@@ -31,7 +31,7 @@ enum AttributedStringMaker {
     private func trendingHeaderAttributedString(title: String) -> NSAttributedString {
         return NSAttributedString(
             string: title,
-            attributes: [.font: UIFont.preferredFont(forTextStyle: .title3),
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .headline),
                          .foregroundColor: UIColor.systemPink]
         )
     }
@@ -39,7 +39,7 @@ enum AttributedStringMaker {
     private func searchListHeader(title: String, count: Int) -> NSAttributedString {
         return NSAttributedString(
             string: "\(title) (\(count))",
-            attributes: [.font: UIFont.preferredFont(forTextStyle: .title3),
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .headline),
                          .foregroundColor: UIColor.systemBlue]
         )
     }

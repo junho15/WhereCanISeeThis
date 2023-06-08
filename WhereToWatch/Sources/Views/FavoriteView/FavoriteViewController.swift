@@ -148,13 +148,11 @@ extension FavoriteViewController {
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: FavoriteMediaItem.ID
     ) {
         guard let favoriteMediaItem = favoriteViewModel.favoriteMediaItem(for: itemIdentifier) else { return }
-        var contentConfiguration = cell.defaultContentConfiguration()
-        contentConfiguration.attributedText = AttributedStringMaker.favoriteTitle(
-            title: favoriteMediaItem.title ?? ""
-        ).attributedString
-        contentConfiguration.secondaryAttributedText = AttributedStringMaker.favoriteDateGenre(
-            date: favoriteMediaItem.date ?? "", genre: favoriteMediaItem.genre ?? ""
-        ).attributedString
+
+        var contentConfiguration = cell.mediaContentView()
+        contentConfiguration.title = favoriteMediaItem.title
+        contentConfiguration.date = favoriteMediaItem.date
+        contentConfiguration.genre = favoriteMediaItem.genre
         contentConfiguration.image = Constants.emptyPosterImage?.resized(targetSize: Constants.posterImageSize)
         cell.contentConfiguration = contentConfiguration
 

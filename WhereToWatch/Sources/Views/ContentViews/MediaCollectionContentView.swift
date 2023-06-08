@@ -14,7 +14,7 @@ final class MediaCollectionContentView: UIView, UIContentView {
         guard let screenSize = window?.windowScene?.screen.bounds.size else {
             return CGSize(width: 300, height: 300)
         }
-        return CGSize(width: screenSize.width, height: screenSize.height * 0.35)
+        return CGSize(width: screenSize.width, height: screenSize.height * 0.30)
     }
     private var collectionView: UICollectionView?
     private var dataSource: DataSource?
@@ -56,9 +56,6 @@ extension MediaCollectionContentView {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: 2)
         group.interItemSpacing = .fixed(Constants.spacing)
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: Constants.spacing, leading: Constants.spacing, bottom: Constants.spacing, trailing: Constants.spacing
-        )
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
         configuration.scrollDirection = .horizontal
         let layout = UICollectionViewCompositionalLayout(section: section, configuration: configuration)

@@ -68,12 +68,14 @@ extension MediaContentView {
         genreLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
-            outerStackView.topAnchor.constraint(equalTo: topAnchor),
-            outerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            outerStackView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.spacing),
+            outerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing),
             outerStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing),
-            outerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            outerStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.spacing),
+            imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
+            imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 150),
             imageView.widthAnchor.constraint(
-                lessThanOrEqualTo: imageView.heightAnchor, multiplier: Constants.imageViewRatio
+                equalTo: imageView.heightAnchor, multiplier: Constants.imageViewRatio
             )
         ])
     }
