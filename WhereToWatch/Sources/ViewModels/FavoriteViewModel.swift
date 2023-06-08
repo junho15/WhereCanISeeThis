@@ -7,6 +7,7 @@ final class FavoriteViewModel {
 
     private let favoriteService = FavoriteService.shared
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
+    private var sortOption: FavoriteService.SortOption
     private var query: String
     private var favoriteMediaItems: [FavoriteMediaItem] {
         didSet {
@@ -24,10 +25,12 @@ final class FavoriteViewModel {
 
     init(
         movieDatabaseAPIClient: MovieDatabaseAPIClient = MovieDatabaseAPIClient(apiKey: Secrets.apiKey),
+        sortOption: FavoriteService.SortOption = .registrationDate,
         query: String  = "",
         favoriteMediaItems: [FavoriteMediaItem] = []
     ) {
         self.movieDatabaseAPIClient = movieDatabaseAPIClient
+        self.sortOption = sortOption
         self.query = query
         self.favoriteMediaItems = favoriteMediaItems
     }
@@ -37,7 +40,7 @@ final class FavoriteViewModel {
 
 extension FavoriteViewModel {
     enum Action {
-        case fetchFavoriteMediaItems(sortOption: FavoriteService.SortOption = .registrationDate, query: String? = nil)
+        case fetchFavoriteMediaItems(sortOption: FavoriteService.SortOption? = nil, query: String? = nil)
         case deleteFavoriteMediaItem(FavoriteMediaItem.ID)
     }
 
@@ -80,9 +83,12 @@ extension FavoriteViewModel {
         return MediaDetailViewModel(mediaItem: favoriteItem)
     }
 
-    private func fetchFavoriteMediaItems(sortOption: FavoriteService.SortOption, query: String?) {
+    private func fetchFavoriteMediaItems(sortOption: FavoriteService.SortOption?, query: String?) {
+        if let sortOption {
+            self.sortOption = sortOption
+        }
         do {
-            favoriteMediaItems = try favoriteService.fetch(sortOption: sortOption, query: query)
+            favoriteMediaItems = try favoriteService.fetch(sortOption: self.sortOption, query: query)
         } catch {
             onError?(error.localizedDescription)
         }

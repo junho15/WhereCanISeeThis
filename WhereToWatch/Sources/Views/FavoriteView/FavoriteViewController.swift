@@ -17,6 +17,7 @@ final class FavoriteViewController: UICollectionViewController {
         super.init(collectionViewLayout: UICollectionViewLayout())
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.backgroundColor = Constants.collectionViewBackgroundColor
+        configuration.showsSeparators = false
         configuration.trailingSwipeActionsConfigurationProvider = deleteSwipeAction(for:)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.collectionViewLayout = layout
@@ -192,6 +193,23 @@ extension FavoriteViewController: UISearchBarDelegate {
 
         searchBar.text = nil
         searchBar.endEditing(true)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension FavoriteViewController {
+    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard let itemID = dataSource?.itemIdentifier(for: indexPath),
+              let mediaItem = favoriteViewModel.favoriteMediaItem(for: itemID) else {
+            return false
+        }
+        let mediaDetailViewController = MediaDetailViewController(
+            mediaDetailViewModel: MediaDetailViewModel(mediaItem: mediaItem)
+        )
+        let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+        present(navigationController, animated: true)
+        return false
     }
 }
 
