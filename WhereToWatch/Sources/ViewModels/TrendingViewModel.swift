@@ -57,16 +57,16 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
 
 extension TrendingViewModel {
     enum Action {
-        case fetchTrendingMovies
-        case fetchTrendingTVShows
+        case fetchTrendingMovies(MovieDatabaseURL.TimeWindow)
+        case fetchTrendingTVShows(MovieDatabaseURL.TimeWindow)
     }
 
     func action(_ action: Action) {
         switch action {
-        case .fetchTrendingMovies:
-            fetchTrendingMovies()
-        case .fetchTrendingTVShows:
-            fetchTrendingTVShows()
+        case .fetchTrendingMovies(let timeWindow):
+            fetchTrendingMovies(of: timeWindow)
+        case .fetchTrendingTVShows(let timeWindow):
+            fetchTrendingTVShows(of: timeWindow)
         }
     }
 
@@ -98,12 +98,6 @@ extension TrendingViewModel {
             }
             return nil
         }
-    }
-
-    func searchViewModel(query: String) -> SearchViewModel? {
-        guard let movieGenresList,
-              let tvShowGenresList else { return nil }
-        return SearchViewModel(query: query, movieGenresList: movieGenresList, tvShowGenresList: tvShowGenresList)
     }
 
     func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType) -> MediaDetailViewModel? {
@@ -141,7 +135,7 @@ extension TrendingViewModel {
         return MediaItem(media: tvShow, genreList: tvShowGenresList)
     }
 
-    private func fetchTrendingMovies() {
+    private func fetchTrendingMovies(of timeWindow: MovieDatabaseURL.TimeWindow) {
         Task {
             do {
                 guard let language,
@@ -153,7 +147,7 @@ extension TrendingViewModel {
 
                 let languageCode = "\(language)-\(country)"
                 self.moviePage = try await movieDatabaseAPIClient.fetchTrendingMovies(
-                    timeWindow: Constants.trendingTimeWindow,
+                    timeWindow: timeWindow,
                     language: languageCode
                 )
                 await MainActor.run {
@@ -167,7 +161,7 @@ extension TrendingViewModel {
         }
     }
 
-    private func fetchTrendingTVShows() {
+    private func fetchTrendingTVShows(of timeWindow: MovieDatabaseURL.TimeWindow) {
         Task {
             do {
                 guard let language,
@@ -179,7 +173,7 @@ extension TrendingViewModel {
 
                 let languageCode = "\(language)-\(country)"
                 self.tvShowPage = try await movieDatabaseAPIClient.fetchTrendingTVShows(
-                    timeWindow: Constants.trendingTimeWindow,
+                    timeWindow: timeWindow,
                     language: languageCode
                 )
                 await MainActor.run {
@@ -201,13 +195,5 @@ extension TrendingViewModel {
     private func tvShowDetail(for id: TVShow.ID) -> MediaDetailViewModel? {
         guard  let tvShowItem = tvShowItem(for: id) else { return nil }
         return MediaDetailViewModel(mediaItem: tvShowItem)
-    }
-}
-
-// MARK: - Constants
-
-extension TrendingViewModel {
-    private enum Constants {
-        static let trendingTimeWindow = MovieDatabaseURL.TimeWindow.day
     }
 }

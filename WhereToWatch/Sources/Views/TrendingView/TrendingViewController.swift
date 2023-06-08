@@ -7,7 +7,6 @@ final class TrendingViewController: UICollectionViewController {
 
     private let trendingViewModel: TrendingViewModel
     private var dataSource: DataSource?
-    private var searchBar: UISearchBar?
     private var tapGestureRecognizer: UIGestureRecognizer?
 
     // MARK: View Lifecycle
@@ -33,7 +32,7 @@ final class TrendingViewController: UICollectionViewController {
         view.backgroundColor = Constants.viewBackgroundColor
 
         configureDataSource()
-        configureSearchBar()
+        configureSegmentedControl()
         trendingViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
@@ -46,15 +45,8 @@ final class TrendingViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        trendingViewModel.action(.fetchTrendingMovies)
-        trendingViewModel.action(.fetchTrendingTVShows)
-        addTapGestureRecognizer()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        removeTapGestureRecognizer()
+        trendingViewModel.action(.fetchTrendingMovies(.day))
+        trendingViewModel.action(.fetchTrendingTVShows(.day))
     }
 }
 
@@ -81,31 +73,17 @@ extension TrendingViewController {
         )
     }
 
-    private func configureSearchBar() {
-        searchBar = UISearchBar(.media, delegate: self)
-        navigationItem.titleView = searchBar
-    }
-
-    private func addTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearchBarKeyboard))
-        self.tapGestureRecognizer = tapGestureRecognizer
-        tapGestureRecognizer.cancelsTouchesInView = false
-        collectionView.addGestureRecognizer(tapGestureRecognizer)
-    }
-
-    private func removeTapGestureRecognizer() {
-        guard let tapGestureRecognizer else { return }
-        collectionView.removeGestureRecognizer(tapGestureRecognizer)
-    }
-
-    @objc private func dismissSearchBarKeyboard() {
-        searchBar?.endEditing(true)
-    }
-
-    private func pushSearchViewController(query: String) {
-        guard let searchViewModel = trendingViewModel.searchViewModel(query: query) else { return }
-        let viewController = SearchViewController(searchViewModel: searchViewModel, query: query)
-        navigationController?.pushViewController(viewController, animated: true)
+    private func configureSegmentedControl() {
+        let actions = MovieDatabaseURL.TimeWindow.allCases.map { timeWindow in
+            UIAction(title: timeWindow.description) { [weak self] _ in
+                guard let self else { return }
+                trendingViewModel.action(.fetchTrendingMovies(timeWindow))
+                trendingViewModel.action(.fetchTrendingTVShows(timeWindow))
+            }
+        }
+        let segmentedControl = UISegmentedControl(frame: .zero, actions: actions)
+        segmentedControl.selectedSegmentIndex = 0
+        navigationItem.titleView = segmentedControl
     }
 }
 
@@ -156,22 +134,6 @@ extension TrendingViewController {
             )
         }
         dataSource?.apply(snapShot)
-    }
-}
-
-// MARK: - UISearchBarDelegate
-
-extension TrendingViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text else { return }
-        searchBar.endEditing(true)
-        pushSearchViewController(query: query)
-        searchBar.text = nil
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        searchBar.endEditing(true)
     }
 }
 
