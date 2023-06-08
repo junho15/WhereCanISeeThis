@@ -182,9 +182,18 @@ extension MovieDatabaseURL {
         }
     }
 
-    public enum TimeWindow {
+    public enum TimeWindow: CaseIterable, CustomStringConvertible {
         case day
         case week
+
+        public var description: String {
+            switch self {
+            case .day:
+                return NSLocalizedString("TIME_WINDOW_DAY", comment: "Time Window Day")
+            case .week:
+                return NSLocalizedString("TIME_WINDOW_WEEK", comment: "Time Window Week")
+            }
+        }
 
         fileprivate var stringValue: String {
             switch self {

@@ -104,7 +104,8 @@ extension FavoriteService {
                 )
             case .reverseRegistrationDate:
                 return NSLocalizedString(
-                    "REVERSE_REGISTRATION_DATE_ORDER_DESCRIPTION", comment: "Reverse Registration Date Order Description"
+                    "REVERSE_REGISTRATION_DATE_ORDER_DESCRIPTION",
+                    comment: "Reverse Registration Date Order Description"
                 )
             case .title:
                 return NSLocalizedString(
