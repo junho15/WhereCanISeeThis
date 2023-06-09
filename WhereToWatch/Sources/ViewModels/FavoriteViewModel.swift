@@ -57,6 +57,16 @@ extension FavoriteViewModel {
         return favoriteMediaItems.first(where: { $0.id == id })
     }
 
+    func mediaDetailViewModel(for id: FavoriteMediaItem.ID) -> MediaDetailViewModel? {
+        guard let favoriteItem = favoriteMediaItem(for: id) else { return nil }
+        let mediaDetailViewModel = MediaDetailViewModel(mediaItem: favoriteItem)
+        mediaDetailViewModel.bind(onDeleteFavoriteMediaItem: { [weak self] id in
+            guard let self else { return }
+            favoriteMediaItems.removeAll(where: { $0.id == id })
+        })
+        return mediaDetailViewModel
+    }
+
     func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String?) async -> UIImage? {
         guard let imagePath else { return nil }
         do {
@@ -76,11 +86,6 @@ extension FavoriteViewModel {
 
     func bind(onUpdate: @escaping ([FavoriteMediaItem.ID]) -> Void) {
         self.onUpdate = onUpdate
-    }
-
-    private func mediaDetailViewModel(for id: FavoriteMediaItem.ID) -> MediaDetailViewModel? {
-        guard let favoriteItem = favoriteMediaItem(for: id) else { return nil }
-        return MediaDetailViewModel(mediaItem: favoriteItem)
     }
 
     private func fetchFavoriteMediaItems(sortOption: FavoriteService.SortOption?, query: String?) {

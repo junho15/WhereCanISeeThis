@@ -10,6 +10,7 @@ final class MediaDetailViewModel {
     private let mediaItem: any MediaItemProtocol
     private var watchProviderList: WatchProviderList?
     private var onError: ((String) -> Void)?
+    private var onDeleteFavoriteMediaItem: ((FavoriteMediaItem.ID) -> Void)?
 
     private var country: String? {
         return Locale.current.language.region?.identifier
@@ -99,6 +100,10 @@ extension MediaDetailViewModel {
         self.onError = onError
     }
 
+    func bind(onDeleteFavoriteMediaItem: @escaping (FavoriteMediaItem.ID) -> Void) {
+        self.onDeleteFavoriteMediaItem = onDeleteFavoriteMediaItem
+    }
+
     private func saveFavoriteMediaItem() {
         do {
             guard isFavorite() == false else { return }
@@ -112,6 +117,7 @@ extension MediaDetailViewModel {
     private func deleteFavoriteMediaItem() {
         do {
             try favoriteService.delete(mediaItem.id)
+            onDeleteFavoriteMediaItem?(mediaItem.id)
         } catch {
             onError?(error.localizedDescription)
         }

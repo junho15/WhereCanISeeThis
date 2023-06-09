@@ -199,12 +199,10 @@ extension FavoriteViewController: UISearchBarDelegate {
 extension FavoriteViewController {
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let itemID = dataSource?.itemIdentifier(for: indexPath),
-              let mediaItem = favoriteViewModel.favoriteMediaItem(for: itemID) else {
+              let mediaDetailViewModel = favoriteViewModel.mediaDetailViewModel(for: itemID) else {
             return false
         }
-        let mediaDetailViewController = MediaDetailViewController(
-            mediaDetailViewModel: MediaDetailViewModel(mediaItem: mediaItem)
-        )
+        let mediaDetailViewController = MediaDetailViewController(mediaDetailViewModel: mediaDetailViewModel)
         let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
         present(navigationController, animated: true)
         return false
