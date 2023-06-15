@@ -8,6 +8,7 @@ final class MediaDetailViewController: UICollectionViewController {
     private let mediaDetailViewModel: MediaDetailViewModel
     private var dataSource: DataSource?
     private var favoriteBarButtonItem: UIBarButtonItem?
+    private var onUpdate: ((FavoriteMediaItem.ID?) -> Void)?
 
     // MARK: View Lifecycle
 
@@ -42,6 +43,10 @@ final class MediaDetailViewController: UICollectionViewController {
 // MARK: - Methods
 
 extension MediaDetailViewController {
+    func bind(onUpdate: @escaping (FavoriteMediaItem.ID?) -> Void) {
+        self.onUpdate = onUpdate
+    }
+
     private func configureDataSource() {
         let textCellRegistration = UICollectionView.CellRegistration(handler: textCellRegistrationHandler)
         let posterCellRegistration = UICollectionView.CellRegistration(handler: posterCellRegistrationHandler)
@@ -92,9 +97,11 @@ extension MediaDetailViewController {
             if mediaDetailViewModel.isFavorite() {
                 mediaDetailViewModel.action(.deleteFavoriteMediaItem)
                 setImageFavoriteBarButton(false)
+                onUpdate?(nil)
             } else {
                 mediaDetailViewModel.action(.saveFavoriteMediaItem)
                 setImageFavoriteBarButton(true)
+                onUpdate?(mediaDetailViewModel.mediaItemDetail().id)
             }
         }
     }

@@ -45,6 +45,11 @@ final class FavoriteViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        if let tabBarController {
+            let tabBarHeight = tabBarController.tabBar.frame.size.height
+            collectionView.contentInset.bottom = tabBarHeight
+        }
+
         favoriteViewModel.action(.fetchFavoriteMediaItems())
         addTapGestureRecognizer()
     }
@@ -203,6 +208,15 @@ extension FavoriteViewController {
             return false
         }
         let mediaDetailViewController = MediaDetailViewController(mediaDetailViewModel: mediaDetailViewModel)
+        mediaDetailViewController.bind { [weak self] updatedID in
+            guard let self else { return }
+            favoriteViewModel.action(.fetchFavoriteMediaItems())
+            if let updatedID {
+                if let indexPath = dataSource?.indexPath(for: updatedID) {
+                    collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+                }
+            }
+        }
         let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
         present(navigationController, animated: true)
         return false

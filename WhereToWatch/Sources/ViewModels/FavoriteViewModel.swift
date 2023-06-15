@@ -59,12 +59,7 @@ extension FavoriteViewModel {
 
     func mediaDetailViewModel(for id: FavoriteMediaItem.ID) -> MediaDetailViewModel? {
         guard let favoriteItem = favoriteMediaItem(for: id) else { return nil }
-        let mediaDetailViewModel = MediaDetailViewModel(mediaItem: favoriteItem)
-        mediaDetailViewModel.bind(onDeleteFavoriteMediaItem: { [weak self] id in
-            guard let self else { return }
-            favoriteMediaItems.removeAll(where: { $0.id == id })
-        })
-        return mediaDetailViewModel
+        return MediaDetailViewModel(mediaItem: favoriteItem)
     }
 
     func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String?) async -> UIImage? {
