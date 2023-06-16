@@ -82,4 +82,21 @@ final class JSONDecodingTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+
+    func test_유효한_credits_데이터를_올바르게_디코딩하는지() {
+        // given
+        let data = creditsData
+
+        // when
+        do {
+            let result = try decoder.decode(Credits.self, from: data)
+
+            // then
+            XCTAssertEqual(result.id, 493529)
+            XCTAssertEqual(result.cast[0].id, 62064)
+            XCTAssertEqual(result.cast[0].name!, "Chris Pine")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
 }
