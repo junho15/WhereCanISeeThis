@@ -508,6 +508,108 @@ extension MovieDatabaseAPIClientTests {
             }
         }
     }
+
+    func test_fetchMovieCredits호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = creditsData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let movieID = 10195
+        let language = "ko-KR"
+
+        // when
+        do {
+            let result = try await sut.fetchMovieCredits(movieID: movieID, language: language)
+
+            // then
+            XCTAssertEqual(result[0].id, 62064)
+            XCTAssertEqual(result[0].name!, "Chris Pine")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_fetchMovieCredits호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let movieID = 10195
+        let language = "ko-KR"
+
+        // when
+        do {
+            _ = try await sut.fetchMovieCredits(movieID: movieID, language: language)
+
+            XCTFail("Should return MovieDatabaseAPIError.badStatus")
+        } catch {
+            if let error = error as? MovieDatabaseAPIError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return MovieDatabaseAPIError.badStatus")
+            }
+        }
+    }
+
+    func test_fetchTVShowCredits호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = creditsData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let tvShowID = 10195
+        let language = "ko-KR"
+
+        // when
+        do {
+            let result = try await sut.fetchTVShowCredits(tvShowID: tvShowID, language: language)
+
+            // then
+            XCTAssertEqual(result[0].id, 62064)
+            XCTAssertEqual(result[0].name!, "Chris Pine")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_fetchTVShowCredits호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let tvShowID = 10195
+        let language = "ko-KR"
+
+        // when
+        do {
+            _ = try await sut.fetchTVShowCredits(tvShowID: tvShowID, language: language)
+
+            XCTFail("Should return MovieDatabaseAPIError.badStatus")
+        } catch {
+            if let error = error as? MovieDatabaseAPIError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return MovieDatabaseAPIError.badStatus")
+            }
+        }
+    }
 }
 
 // swiftlint:enable file_length

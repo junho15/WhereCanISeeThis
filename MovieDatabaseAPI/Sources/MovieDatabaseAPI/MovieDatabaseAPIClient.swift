@@ -76,7 +76,7 @@ final public class MovieDatabaseAPIClient {
         }
     }
 
-    public func fetchMovieWatchProviders(movieID: Int) async throws -> WatchProviderResult {
+    public func fetchMovieWatchProviders(movieID: Movie.ID) async throws -> WatchProviderResult {
         guard let url = MovieDatabaseURL.fetchMovieWatchProviders(movieID: movieID, apiKey: apiKey).url else {
             throw MovieDatabaseAPIError.invalidRequest
         }
@@ -90,7 +90,7 @@ final public class MovieDatabaseAPIClient {
         }
     }
 
-    public func fetchTVShowWatchProviders(tvShowID: Int) async throws -> WatchProviderResult {
+    public func fetchTVShowWatchProviders(tvShowID: TVShow.ID) async throws -> WatchProviderResult {
         guard let url = MovieDatabaseURL.fetchTVShowWatchProviders(tvShowID: tvShowID, apiKey: apiKey).url else {
             throw MovieDatabaseAPIError.invalidRequest
         }
@@ -185,7 +185,7 @@ final public class MovieDatabaseAPIClient {
         }
     }
 
-    public func fetchMovieCredits(movieID: Int, language: String) async throws -> [Credit] {
+    public func fetchMovieCredits(movieID: Movie.ID, language: String) async throws -> [Credit] {
         guard let url = MovieDatabaseURL.fetchMovieCredits(
             movieID: movieID, language: language, apiKey: apiKey
         ).url else {
@@ -201,7 +201,7 @@ final public class MovieDatabaseAPIClient {
         }
     }
 
-    public func fetchTVShowCredits(tvShowID: Int, language: String) async throws -> [Credit] {
+    public func fetchTVShowCredits(tvShowID: TVShow.ID, language: String) async throws -> [Credit] {
         guard let url = MovieDatabaseURL.fetchTVShowCredits(
             tvShowID: tvShowID, language: language, apiKey: apiKey
         ).url else {

@@ -7,15 +7,15 @@ public enum MovieDatabaseURL {
 
     case searchMovies(searchQuery: MoviesSearchQuery, apiKey: String)
     case searchTVShows(searchQuery: TVShowsSearchQuery, apiKey: String)
-    case fetchMovieWatchProviders(movieID: Int, apiKey: String)
-    case fetchTVShowWatchProviders(tvShowID: Int, apiKey: String)
+    case fetchMovieWatchProviders(movieID: Movie.ID, apiKey: String)
+    case fetchTVShowWatchProviders(tvShowID: TVShow.ID, apiKey: String)
     case fetchMovieGenresList(language: String, apiKey: String)
     case fetchTVShowGenresList(language: String, apiKey: String)
     case fetchImage(imageSize: ImageSize, imagePath: String, apiKey: String)
     case fetchTrendingMovies(timeWindow: TimeWindow, language: String, apiKey: String)
     case fetchTrendingTVShows(timeWindow: TimeWindow, language: String, apiKey: String)
-    case fetchMovieCredits(movieID: Int, language: String, apiKey: String)
-    case fetchTVShowCredits(tvShowID: Int, language: String, apiKey: String)
+    case fetchMovieCredits(movieID: Movie.ID, language: String, apiKey: String)
+    case fetchTVShowCredits(tvShowID: TVShow.ID, language: String, apiKey: String)
 }
 
 extension MovieDatabaseURL {
