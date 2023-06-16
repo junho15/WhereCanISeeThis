@@ -184,4 +184,36 @@ final public class MovieDatabaseAPIClient {
             throw MovieDatabaseAPIError.decodingError
         }
     }
+
+    public func fetchMovieCredits(movieID: Int, language: String) async throws -> [Credit] {
+        guard let url = MovieDatabaseURL.fetchMovieCredits(
+            movieID: movieID, language: language, apiKey: apiKey
+        ).url else {
+            throw MovieDatabaseAPIError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Credits.self, from: data).cast
+        } catch {
+            throw MovieDatabaseAPIError.decodingError
+        }
+    }
+
+    public func fetchTVShowCredits(tvShowID: Int, language: String) async throws -> [Credit] {
+        guard let url = MovieDatabaseURL.fetchTVShowCredits(
+            tvShowID: tvShowID, language: language, apiKey: apiKey
+        ).url else {
+            throw MovieDatabaseAPIError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Credits.self, from: data).cast
+        } catch {
+            throw MovieDatabaseAPIError.decodingError
+        }
+    }
 }

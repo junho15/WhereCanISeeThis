@@ -14,6 +14,8 @@ public enum MovieDatabaseURL {
     case fetchImage(imageSize: ImageSize, imagePath: String, apiKey: String)
     case fetchTrendingMovies(timeWindow: TimeWindow, language: String, apiKey: String)
     case fetchTrendingTVShows(timeWindow: TimeWindow, language: String, apiKey: String)
+    case fetchMovieCredits(movieID: Int, language: String, apiKey: String)
+    case fetchTVShowCredits(tvShowID: Int, language: String, apiKey: String)
 }
 
 extension MovieDatabaseURL {
@@ -36,6 +38,10 @@ extension MovieDatabaseURL {
         case .fetchTrendingMovies(_, let language, let apiKey):
             return url(path: path, queryItems: ["language": language], apiKey: apiKey)
         case .fetchTrendingTVShows(_, let language, let apiKey):
+            return url(path: path, queryItems: ["language": language], apiKey: apiKey)
+        case .fetchMovieCredits(_, let language, let apiKey):
+            return url(path: path, queryItems: ["language": language], apiKey: apiKey)
+        case .fetchTVShowCredits(_, let language, let apiKey):
             return url(path: path, queryItems: ["language": language], apiKey: apiKey)
         }
     }
@@ -60,6 +66,10 @@ extension MovieDatabaseURL {
             return "/3/trending/movie\(timeWindow.stringValue)"
         case .fetchTrendingTVShows(let timeWindow, _, _):
             return "/3/trending/tv\(timeWindow.stringValue)"
+        case .fetchMovieCredits(let movieID, _, _):
+            return "/3/movie/\(movieID)/credits"
+        case .fetchTVShowCredits(let tvShowID, _, _):
+            return "/3/tv/\(tvShowID)/credits"
         }
     }
 
