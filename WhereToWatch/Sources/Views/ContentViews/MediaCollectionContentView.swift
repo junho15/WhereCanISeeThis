@@ -93,6 +93,8 @@ extension MediaCollectionContentView {
     }
 }
 
+// MARK: - DataSource
+
 extension MediaCollectionContentView {
     enum Section {
         case main
@@ -174,7 +176,10 @@ extension MediaCollectionContentView: UICollectionViewDelegate {
               let viewController = configuration.viewController else {
             return false
         }
-        let mediaDetailViewController = MediaDetailViewController(mediaDetailViewModel: viewModel)
+        let mediaDetailViewController = MediaDetailViewController(
+            mediaDetailViewModel: viewModel,
+            creditsViewModel: CreditsViewModel()
+        )
         let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
         viewController.present(navigationController, animated: true)
         return false
