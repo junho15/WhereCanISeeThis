@@ -102,7 +102,7 @@ extension CreditContentView {
         static let nameFont = UIFont.preferredFont(forTextStyle: .footnote)
         static let characterFont = UIFont.preferredFont(forTextStyle: .caption2)
         static let imageViewRatio = CGFloat(1/1.3)
-        static let imageViewLabelRatio = CGFloat(3/2)
+        static let imageViewLabelRatio = CGFloat(5/3)
     }
 }
 

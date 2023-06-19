@@ -15,7 +15,7 @@ final class FavoriteViewController: UICollectionViewController {
         self.favoriteViewModel = favoriteViewModel
 
         super.init(collectionViewLayout: UICollectionViewLayout())
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.backgroundColor = Constants.collectionViewBackgroundColor
         configuration.showsSeparators = false
         configuration.trailingSwipeActionsConfigurationProvider = deleteSwipeAction(for:)
@@ -49,6 +49,7 @@ final class FavoriteViewController: UICollectionViewController {
             let tabBarHeight = tabBarController.tabBar.frame.size.height
             collectionView.contentInset.bottom = tabBarHeight
         }
+        collectionView.contentInset.top = Constants.collectionViewContentInsetTop
 
         favoriteViewModel.action(.fetchFavoriteMediaItems())
         addTapGestureRecognizer()
@@ -207,7 +208,10 @@ extension FavoriteViewController {
               let mediaDetailViewModel = favoriteViewModel.mediaDetailViewModel(for: itemID) else {
             return false
         }
-        let mediaDetailViewController = MediaDetailViewController(mediaDetailViewModel: mediaDetailViewModel)
+        let mediaDetailViewController = MediaDetailViewController(
+            mediaDetailViewModel: mediaDetailViewModel,
+            creditsViewModel: CreditsViewModel()
+        )
         mediaDetailViewController.bind { [weak self] updatedID in
             guard let self else { return }
             favoriteViewModel.action(.fetchFavoriteMediaItems())
@@ -230,6 +234,7 @@ extension FavoriteViewController {
         static let deleteActionTitle = NSLocalizedString("DELETE_ACTION_TITLE", comment: "Delete Action Title")
         static let viewBackgroundColor = UIColor.systemBackground
         static let collectionViewBackgroundColor = UIColor.systemGray6
+        static let collectionViewContentInsetTop = CGFloat(-25)
         static let emptyPosterImage = UIImage(named: "Empty")
         static let sortOptionButtonImage = UIImage(systemName: "list.number")
         static let posterImageSize = CGSize(width: 100, height: 150)

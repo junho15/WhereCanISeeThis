@@ -6,14 +6,16 @@ final class MediaDetailViewController: UICollectionViewController {
     // MARK: Properties
 
     private let mediaDetailViewModel: MediaDetailViewModel
+    private let creditsViewModel: CreditsViewModel
     private var dataSource: DataSource?
     private var favoriteBarButtonItem: UIBarButtonItem?
     private var onUpdate: ((FavoriteMediaItem.ID?) -> Void)?
 
     // MARK: View Lifecycle
 
-    init(mediaDetailViewModel: MediaDetailViewModel) {
+    init(mediaDetailViewModel: MediaDetailViewModel, creditsViewModel: CreditsViewModel) {
         self.mediaDetailViewModel = mediaDetailViewModel
+        self.creditsViewModel = creditsViewModel
 
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.backgroundColor = Constants.collectionViewBackgroundColor
@@ -31,6 +33,9 @@ final class MediaDetailViewController: UICollectionViewController {
 
         configureDataSource()
         configureNavigationItem()
+        creditsViewModel.bind(onError: { errorMessage in
+            print(errorMessage)
+        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +59,9 @@ extension MediaDetailViewController {
         let watchProviderCollectionCellRegistration = UICollectionView.CellRegistration(
             handler: watchProviderCollectionCellRegistrationHandler
         )
+        let creditsCollectionCellRegistration = UICollectionView.CellRegistration(
+            handler: creditsCollectionCellRegistrationHandler
+        )
         dataSource = DataSource(
             collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
                 switch itemIdentifier {
@@ -72,6 +80,10 @@ extension MediaDetailViewController {
                 case .image:
                     return collectionView.dequeueConfiguredReusableCell(
                         using: imageCellRegistration, for: indexPath, item: itemIdentifier
+                    )
+                case .credits:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: creditsCollectionCellRegistration, for: indexPath, item: itemIdentifier
                     )
                 }
             }
@@ -126,6 +138,7 @@ extension MediaDetailViewController {
         case watchProvider(WatchProviderType)
         case overView
         case justWatch
+        case credits
     }
 
     enum Row: Hashable {
@@ -134,6 +147,7 @@ extension MediaDetailViewController {
         case poster(poster: UIImage?, backdrop: UIImage?, title: String?, year: String?, genre: String?)
         case watchProviders(type: WatchProviderType, watchProviders: [WatchProvider])
         case image(UIImage?)
+        case credits([Credit.ID])
     }
 
     // MARK: typealias
@@ -184,7 +198,7 @@ extension MediaDetailViewController {
     private func watchProviderCollectionCellRegistrationHandler(
         cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row
     ) {
-        guard case.watchProviders(_, let watchProviders) = itemIdentifier else { return }
+        guard case .watchProviders(_, let watchProviders) = itemIdentifier else { return }
         var contentConfiguration = cell.watchProviderCollectionConfiguration()
         contentConfiguration.items = []
         cell.contentConfiguration = contentConfiguration
@@ -211,34 +225,69 @@ extension MediaDetailViewController {
         }
     }
 
+    private func creditsCollectionCellRegistrationHandler(
+        cell: UICollectionViewCell, indexPath: IndexPath, itemIdentifier: Row
+    ) {
+        guard case .credits(let creditIDs) = itemIdentifier else { return }
+        var contentConfiguration = cell.creditsCollectionConfiguration()
+        contentConfiguration.viewModel = creditsViewModel
+        contentConfiguration.creditIDs = creditIDs
+        cell.contentConfiguration = contentConfiguration
+    }
+
     // MARK: Snapshot
+
+    private struct MediaInfo {
+        let mediaItem: any MediaItemProtocol
+        let posterImage: UIImage?
+        let backdropImage: UIImage?
+        let watchProviderList: WatchProviderList?
+        let creditIDs: [Credit.ID]
+    }
+
+    private func mediaInfo() async -> MediaInfo {
+        let mediaItem = mediaDetailViewModel.mediaItemDetail()
+
+        async let fetchPosterImage = mediaDetailViewModel.image(
+            imageSize: .w500, imagePath: mediaItem.posterPath
+        ) ?? Constants.emptyPosterImage
+        async let fetchBackdropImage = mediaDetailViewModel.image(
+            imageSize: .w500, imagePath: mediaItem.backdropPath
+        )
+        async let fetchWatchProviderList = mediaDetailViewModel.fetchWatchProviderList()
+        async let fetchCreditIDs = {
+            switch mediaItem.mediaType {
+            case .movie:
+                return await creditsViewModel.fetchMovieCredits(movieID: mediaItem.id)
+            case .tvShow:
+                return await creditsViewModel.fetchTVShowCredits(tvShowID: mediaItem.id)
+            }
+        }()
+
+        return await MediaInfo(
+            mediaItem: mediaItem,
+            posterImage: fetchPosterImage,
+            backdropImage: fetchBackdropImage,
+            watchProviderList: fetchWatchProviderList,
+            creditIDs: fetchCreditIDs
+        )
+    }
 
     private func updateSnapshot() {
         Task {
-            let mediaItem = mediaDetailViewModel.mediaItemDetail()
+            let mediaInfo = await mediaInfo()
+
             var snapShot = Snapshot()
-
-            async let fetchPosterImage = mediaDetailViewModel.image(
-                imageSize: .w500, imagePath: mediaItem.posterPath
-            ) ?? Constants.emptyPosterImage
-            async let fetchBackdropImage = mediaDetailViewModel.image(
-                imageSize: .w500, imagePath: mediaItem.backdropPath
-            )
-            async let fetchWatchProviderList = mediaDetailViewModel.fetchWatchProviderList()
-            let (posterImage, backdropImage, watchProviderList) = await (
-                fetchPosterImage, fetchBackdropImage, fetchWatchProviderList
-            )
-
             snapShot.appendSections([.poster])
             snapShot.appendItems([.poster(
-                poster: posterImage,
-                backdrop: backdropImage,
-                title: mediaItem.title,
-                year: mediaItem.date,
-                genre: mediaItem.genre
+                poster: mediaInfo.posterImage,
+                backdrop: mediaInfo.backdropImage,
+                title: mediaInfo.mediaItem.title,
+                year: mediaInfo.mediaItem.date,
+                genre: mediaInfo.mediaItem.genre
             )], toSection: .poster)
 
-            if let watchProviderList {
+            if let watchProviderList = mediaInfo.watchProviderList {
                 WatchProviderType.allCases.forEach { type in
                     if let result = watchProviderList.results[type] {
                         snapShot.appendSections([.watchProvider(type)])
@@ -256,7 +305,19 @@ extension MediaDetailViewController {
             }
 
             snapShot.appendSections([.overView])
-            snapShot.appendItems([.header(Constants.overViewHeader), .text(mediaItem.overView)], toSection: .overView)
+            snapShot.appendItems(
+                [.header(Constants.overViewHeader), .text(mediaInfo.mediaItem.overView)],
+                toSection: .overView
+            )
+
+            if mediaInfo.creditIDs.isEmpty == false {
+                snapShot.appendSections([.credits])
+                snapShot.appendItems(
+                    [.header(Constants.creditsHeader), .credits(mediaInfo.creditIDs)],
+                    toSection: .credits
+                )
+            }
+
             await MainActor.run {
                 dataSource?.apply(snapShot)
             }
@@ -286,6 +347,7 @@ extension MediaDetailViewController {
         static let justWatchLogoImage = UIImage(named: "JustWatch")
         static let genreHeader = NSLocalizedString("GENRE_HEADER", comment: "Genre Header")
         static let overViewHeader = NSLocalizedString("OVERVIEW_HEADER", comment: "Overview Header")
+        static let creditsHeader = NSLocalizedString("CREDITS_HEADER", comment: "Credits Header")
         static let watchProviderLogoSize = CGSize(width: 40, height: 40)
         static let justWatchLogoSize = CGSize(width: 100, height: 100)
     }
