@@ -27,6 +27,7 @@
 		EB8B05072A12475E00C1BC37 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8B05062A12475E00C1BC37 /* SceneDelegate.swift */; };
 		EB8B050E2A12475F00C1BC37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB8B050D2A12475F00C1BC37 /* Assets.xcassets */; };
 		EB8B05112A12475F00C1BC37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB8B050F2A12475F00C1BC37 /* LaunchScreen.storyboard */; };
+		EBC7A9732A3C7C8A002A8698 /* CreditsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7A9722A3C7C8A002A8698 /* CreditsViewModel.swift */; };
 		EBDDA3852A1CEA4200A67637 /* TrendingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA3842A1CEA4200A67637 /* TrendingViewModel.swift */; };
 		EBDDA38B2A1DB1EA00A67637 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA38A2A1DB1EA00A67637 /* TrendingViewController.swift */; };
 		EBDDA38E2A1DDE4900A67637 /* MediaContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDDA38D2A1DDE4900A67637 /* MediaContentView.swift */; };
@@ -84,6 +85,7 @@
 		EB8B05122A12475F00C1BC37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB8B05662A12540D00C1BC37 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EBA775A02A1CBA9000C5E685 /* WhereToWatch.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhereToWatch.xctestplan; sourceTree = "<group>"; };
+		EBC7A9722A3C7C8A002A8698 /* CreditsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsViewModel.swift; sourceTree = "<group>"; };
 		EBDDA3842A1CEA4200A67637 /* TrendingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewModel.swift; sourceTree = "<group>"; };
 		EBDDA38A2A1DB1EA00A67637 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		EBDDA38D2A1DDE4900A67637 /* MediaContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaContentView.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 		EBE2E1FF2A1380C800373E75 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				EBC7A9722A3C7C8A002A8698 /* CreditsViewModel.swift */,
 				EB0957AA2A2DF77B00349B12 /* FavoriteViewModel.swift */,
 				EB0A74B72A1B8A1F007FB254 /* MediaDetailViewModel.swift */,
 				EBDDA39D2A1E0B9800A67637 /* MediaItemViewModelProtocol.swift */,
@@ -469,6 +472,7 @@
 				EB8B05052A12475E00C1BC37 /* AppDelegate.swift in Sources */,
 				EB0957A92A2DE03400349B12 /* NSPersistentContainer.swift in Sources */,
 				EB0957A62A2DDF4D00349B12 /* FavoriteMediaItem.swift in Sources */,
+				EBC7A9732A3C7C8A002A8698 /* CreditsViewModel.swift in Sources */,
 				EBE8380B2A26110400DCBA85 /* Secrets.swift in Sources */,
 				EB0957892A2ACD7100349B12 /* MainTabBarController.swift in Sources */,
 				EB0957A12A2DACBA00349B12 /* MediaItemEntity+CoreDataClass.swift in Sources */,
