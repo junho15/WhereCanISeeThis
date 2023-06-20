@@ -508,7 +508,11 @@ extension MovieDatabaseAPIClientTests {
             }
         }
     }
+}
 
+// MARK: - fetchMovieCredits
+
+extension MovieDatabaseAPIClientTests {
     func test_fetchMovieCredits호출시_올바른_결과를_받는지() async {
         // given
         session.data = creditsData
@@ -559,7 +563,11 @@ extension MovieDatabaseAPIClientTests {
             }
         }
     }
+}
 
+// MARK: - fetchTVShowCredits
+
+extension MovieDatabaseAPIClientTests {
     func test_fetchTVShowCredits호출시_올바른_결과를_받는지() async {
         // given
         session.data = creditsData
@@ -598,6 +606,116 @@ extension MovieDatabaseAPIClientTests {
         // when
         do {
             _ = try await sut.fetchTVShowCredits(tvShowID: tvShowID, language: language)
+
+            XCTFail("Should return MovieDatabaseAPIError.badStatus")
+        } catch {
+            if let error = error as? MovieDatabaseAPIError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return MovieDatabaseAPIError.badStatus")
+            }
+        }
+    }
+}
+
+// MARK: - fetchSimilarMovies
+
+extension MovieDatabaseAPIClientTests {
+    func test_fetchSimilarMovies호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = similarMovieData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let movieID = 298618
+        let language = "ko-KR"
+
+        // when
+        do {
+            let result = try await sut.fetchSimilarMovies(movieID: movieID, language: language)
+
+            // then
+            XCTAssertEqual(result.results[0].id, 22)
+            XCTAssertEqual(result.results[0].title, "캐리비안의 해적: 블랙펄의 저주")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_fetchSimilarMovies호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let movieID = 298618
+        let language = "ko-KR"
+
+        // when
+        do {
+            _ = try await sut.fetchSimilarMovies(movieID: movieID, language: language)
+
+            XCTFail("Should return MovieDatabaseAPIError.badStatus")
+        } catch {
+            if let error = error as? MovieDatabaseAPIError,
+               case .badStatus = error {
+                // then
+                XCTAssert(true)
+            } else {
+                XCTFail("Should return MovieDatabaseAPIError.badStatus")
+            }
+        }
+    }
+}
+
+// MARK: - fetchSimilarTVShows
+
+extension MovieDatabaseAPIClientTests {
+    func test_fetchSimilarTVShows호출시_올바른_결과를_받는지() async {
+        // given
+        session.data = similarTVShowData
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let tvShowID = 125988
+        let language = "ko-KR"
+
+        // when
+        do {
+            let result = try await sut.fetchSimilarTVShows(tvShowID: tvShowID, language: language)
+
+            // then
+            XCTAssertEqual(result.results[0].id, 201886)
+            XCTAssertEqual(result.results[0].title, "이 남자를 주웠다")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_fetchSimilarTVShows호출시_서버에서_404코드를_보내면_badStatus에러를_반환하는지() async {
+        // given
+        session.response = HTTPURLResponse(
+            url: URL(string: "https://test.com")!,
+            statusCode: 404,
+            httpVersion: nil,
+            headerFields: nil
+        )
+        let tvShowID = 125988
+        let language = "ko-KR"
+
+        // when
+        do {
+            _ = try await sut.fetchSimilarTVShows(tvShowID: tvShowID, language: language)
 
             XCTFail("Should return MovieDatabaseAPIError.badStatus")
         } catch {
