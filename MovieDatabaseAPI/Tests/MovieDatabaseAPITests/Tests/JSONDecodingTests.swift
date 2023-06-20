@@ -99,4 +99,36 @@ final class JSONDecodingTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+
+    func test_유효한_similarMovie_데이터를_올바르게_디코딩하는지() {
+        // given
+        let data = similarMovieData
+
+        // when
+        do {
+            let result = try decoder.decode(Page<Movie>.self, from: data)
+
+            // then
+            XCTAssertEqual(result.results[0].id, 22)
+            XCTAssertEqual(result.results[0].title, "캐리비안의 해적: 블랙펄의 저주")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func test_유효한_similarTVShow_데이터를_올바르게_디코딩하는지() {
+        // given
+        let data = similarTVShowData
+
+        // when
+        do {
+            let result = try decoder.decode(Page<TVShow>.self, from: data)
+
+            // then
+            XCTAssertEqual(result.results[0].id, 201886)
+            XCTAssertEqual(result.results[0].title, "이 남자를 주웠다")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
 }

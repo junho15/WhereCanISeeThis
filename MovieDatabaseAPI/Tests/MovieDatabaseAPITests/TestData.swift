@@ -4274,4 +4274,852 @@ var creditsData: Data {
     """.data(using: .utf8)!
 }
 
+var similarMovieData: Data {
+    return """
+    {
+      "page": 1,
+      "results": [
+        {
+          "adult": false,
+          "backdrop_path": "/uRNgkJSkNBFbbn9fPsEjDIy8Sh3.jpg",
+          "genre_ids": [
+            12,
+            14,
+            28
+          ],
+          "id": 22,
+          "original_language": "en",
+          "original_title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+          "overview": "잭 스패로우는 10년 전의 반란 사건으로 자신의 배 블랙펄을 빼앗긴 해적 선장이다. 혼자 대양을 떠돌던 그는 자메이카의 로열포트에 이르러 유령선처럼 변해버린 블랙펄과 재회하게 된다. 아즈텍의 황금을 훔친 블랙펄의 선원들은 영원히 죽지 못하는 저주에 걸린 처지. 보물을 모두 제자리에 돌려놓고 피의 제물을 바쳐야만 고대 신들이 내린 저주를 풀 수 있다. 그들은 로열포트를 습격해 아즈텍의 마지막 목걸이를 가진 총독의 딸 엘리자베스를 납치하고, 엘리자베스를 사랑하는 어린 시절 친구 윌과 스패로우는 그 뒤를 쫓는데...",
+          "popularity": 105.564,
+          "poster_path": "/3ovejwQO4fKOWx4VgGBJeT8CKCn.jpg",
+          "release_date": "2003-07-09",
+          "title": "캐리비안의 해적: 블랙펄의 저주",
+          "video": false,
+          "vote_average": 7.787,
+          "vote_count": 18855
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/14F9FtM2DOPex5zrZkauJwWobtl.jpg",
+          "genre_ids": [
+            12,
+            14,
+            28
+          ],
+          "id": 58,
+          "original_language": "en",
+          "original_title": "Pirates of the Caribbean: Dead Man's Chest",
+          "overview": "잭 스패로우는 블랙펄을 되찾아 포트 로열을 떠났지만 그를 기다리는 것은 수평선만이 아니었다. 유령선 플라잉 더치맨의 선장 데이비 존스는 잭이 자신에게 피로 진 빚이 있다면서 빚을 갚거나 영혼을 내놓으라고 요구한다. 불행 중 다행한 것은 잭에게 피의 빚 외에도 중매의 은총이 있었다는 것. 결혼을 앞둔 윌 터너와 엘리자베스 스완은 만사를 제쳐두고 옛 친구를 도우러 온다. 잭을 구할 수 있는 단 한 가지 방법은 세상 끝에 있다는 망자의 함을 찾는 것 뿐인데...",
+          "popularity": 95.74,
+          "poster_path": "/6tD4oT7C01aZLVfoZDz5VFVbJCi.jpg",
+          "release_date": "2006-07-06",
+          "title": "캐리비안의 해적: 망자의 함",
+          "video": false,
+          "vote_average": 7.343,
+          "vote_count": 14585
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/5EEdDTV0IBxJ2J4jDUDvl076v7f.jpg",
+          "genre_ids": [
+            18,
+            53,
+            80
+          ],
+          "id": 59,
+          "original_language": "en",
+          "original_title": "A History of Violence",
+          "overview": "가정적이고 친절한 남자 톰은 어느 날 그가 운영하던 작은 식당에 들이닥친 파산 직전의 살인자들을 죽이고 사람을 구한 일로 일약 마을의 영웅이 되어 매스컴에 대서특필된다. 그러나 며칠 후, 거대 갱단의 두목 포가티가 찾아와 그의 진짜 정체는 따뜻한 가장 톰이 아닌 자신의 적이자 킬러인 조이라며 가족을 위협한다. 아내 에디와 아이들 역시 톰에게서 문득문득 보이는 조이의 모습에 두려움을 느끼며 점점 그를 멀리하고, 마침내 포가티는 톰의 집에 총을 들고 들이닥치는데...",
+          "popularity": 17.928,
+          "poster_path": "/76e6VadQglaSRPKSfgFbQauODm4.jpg",
+          "release_date": "2005-09-23",
+          "title": "폭력의 역사",
+          "video": false,
+          "vote_average": 7.176,
+          "vote_count": 2828
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/ELsTifJ2lu4vsMhoHeZ5EnncHw.jpg",
+          "genre_ids": [
+            35,
+            14,
+            878
+          ],
+          "id": 75,
+          "original_language": "en",
+          "original_title": "Mars Attacks!",
+          "overview": "불분명한 시기, 어느 해 5월. 화성인이 지구에 나타난다. 세계 평화 유지와 자유 진영의 지도자임을 자청하는 미국 대통령 제임스 데일은 이들은 맞을 채비를 한다. 그러나 평화를 원한다던 화성인들은 네바다 사막에서 대기 중이던 지구의 환영단 케이시 대장을 비롯한 환영인파를 무참히 사살해버린다. 이러한 사태의 원인이 커뮤니케이션의 문화적 차이라고 판단한 제임스는 화성인과의 재교신을 시도한다. 이 교신에서 화성인들이 공식적인 사과문을 보내오자 제임스와 각료들은 기뻐하지만....",
+          "popularity": 29.989,
+          "poster_path": "/hll4O5vSAfnZDb6JbnP06GPtz7b.jpg",
+          "release_date": "1996-12-12",
+          "title": "화성 침공",
+          "video": false,
+          "vote_average": 6.397,
+          "vote_count": 4915
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/iuEhCOiMjGM1acgWJ1bSJ93Tq2a.jpg",
+          "genre_ids": [
+            16,
+            18
+          ],
+          "id": 255413,
+          "original_language": "ja",
+          "original_title": "劇場版 あの日見た花の名前を僕達はまだ知らない。",
+          "overview": "어린 시절 단짝 친구들인 ‘초평화 버스터즈’ 6인방. 수줍은 첫사랑에 어쩔 줄 모르던 어느 여름, ‘멘마’가 갑작스레 모두의 곁을 떠난다. 언제까지나 사이 좋게 지내자고 약속했지만, ‘멘마’와의 이별로 남은 친구들은 뿔뿔이 흩어진다. 모두의 마음에 커다란 상처와 짐을 안은 채. 그리고 5년 후, 팀의 리더였던 ‘진땅’의 앞에 ‘멘마’가 나타난다. 모두와 함께 소원을 이루고 싶다는 그녀. ‘진땅’은 그녀가 진심으로 바라는 소원을 찾기 위해 멀어졌던 친구들을 다시 찾는다. 무심코 준 상처, 전하지 못한 진심. 내일 말하면 된다고 생각하다가 모든 것을 놓쳐버린 그들에게 다시 찾아 온 기회. 친구들 사이에 멈춰있던 시간이 다시 흐르기 시작한다. 과연 이들은 ‘멘마’의 소원을 이루고 한여름의 첫사랑을 되돌릴 수 있을까?",
+          "popularity": 11.593,
+          "poster_path": "/6a6KP6zRpZacmoKcqvygv379Bn2.jpg",
+          "release_date": "2013-08-31",
+          "title": "그날 본 꽃의 이름을 우리는 아직 모른다",
+          "video": false,
+          "vote_average": 7.5,
+          "vote_count": 141
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/zQ8AxTPiCiS5nnwXpwTBPBHSaa5.jpg",
+          "genre_ids": [
+            14,
+            28
+          ],
+          "id": 557,
+          "original_language": "en",
+          "original_title": "Spider-Man",
+          "overview": "평범하고 내성적인 고등학생 피터 파커는 우연히 방사능에 감염된 거미에 물린다.그 후, 피터는 손에서 거미줄이 튀어 나오고 벽을 기어 오를 수 있는 거미와 같은 능력을 갖게 된다. 다가오는 위험을 본능적으로 감지하는 초감각과 엄청난 파워를 소유하게 된 것이다. 피터는 짝사랑하던 메리 제인의 관심을 끌기 위해 멋진 스포츠카를 구입하는데 초능력을 처음 사용한다. 그러다 사랑하는 벤 아저씨의 죽음을 계기로 그 힘을 악의 세력에 대항하는데 쓰기로 결심한다. 한편 피터의 절친 해리 오스본의 아버지인 노만은 실험 도중 가스에 중독되어 악의 화신 그린 고블린으로 변하는데...",
+          "popularity": 166.427,
+          "poster_path": "/eXbCqcUsUDUq2qqGmU5i20S0tjo.jpg",
+          "release_date": "2002-05-01",
+          "title": "스파이더맨",
+          "video": false,
+          "vote_average": 7.3,
+          "vote_count": 17226
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/6al048Lat3eLVQOuKtc9h6Tu94d.jpg",
+          "genre_ids": [
+            28,
+            12,
+            14
+          ],
+          "id": 558,
+          "original_language": "en",
+          "original_title": "Spider-Man 2",
+          "overview": "우연한 사고로 특별한 능력을 갖게된 피터 파커는 대학생과 슈퍼 히어로의 신분을 오가며 짜릿한 생활을 하지만 사랑 하는 메리 제인에게조차 자신의 마음을 열 수 없는 현실은 그들을 안타까운 로맨스로 이끈다. 한편 스파이더맨에게 아버지를 잃고 복수심에 불타는 피터의 친구 해리가 연구 중 폭발로 기계촉수와 엄청난 파워를 갖게된 닥터 옥토퍼스에게 뿌리치지 못할 제안을 하면서 도시 전체가 걷잡을 수 없는 위험에 휘말리게 되고, 스파이더맨의 운명은 점차 예측불가능한 상황으로 전개되는데...",
+          "popularity": 42.463,
+          "poster_path": "/hHrdrG8aRkLlrQaAJZjKhaweJNa.jpg",
+          "release_date": "2004-06-25",
+          "title": "스파이더맨 2",
+          "video": false,
+          "vote_average": 7.248,
+          "vote_count": 13784
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/w1oD1MzHjnBJc5snKupIQaSBLIh.jpg",
+          "genre_ids": [
+            14,
+            28,
+            12
+          ],
+          "id": 559,
+          "original_language": "en",
+          "original_title": "Spider-Man 3",
+          "overview": "대중의 사랑을 듬뿍 받으며 진정한 영웅으로 거듭난 스파이더맨, 피터 파커는 어느 날, 외계에서 온 수수께끼의 유기체인 심비오트에 감염되고 스파이더맨은 오리지날 스파이더맨에서 블랙 슈트 스파이더맨으로 변화한다. 한층 업그레이드 되고 강력해진 파워를 얻게 된 스파이더맨은 자신의 힘에 도취되어 마음껏 세상을 즐긴다. 그러나 아버지의 복수를 위해 뉴 고블린이 된 해리와 물리 실험에 노출되어 능력을 얻게 된 피터의 삼촌을 죽인 진범 샌드맨은 호시탐탐 스파이더맨을 노리는데...",
+          "popularity": 115.627,
+          "poster_path": "/tbPLMa0cZ4bUnyCYD0loAJeoz2H.jpg",
+          "release_date": "2007-05-01",
+          "title": "스파이더맨 3",
+          "video": false,
+          "vote_average": 6.4,
+          "vote_count": 12783
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/tIG8FwHRiHLOlWJdizp2oxdkSL2.jpg",
+          "genre_ids": [
+            14,
+            28,
+            27
+          ],
+          "id": 561,
+          "original_language": "en",
+          "original_title": "Constantine",
+          "overview": "인간의 형상을 한 혼혈 천사와 혼혈 악마가 존재하는 세상. 태어날 때부터 그들을 구분하는 능력을 타고난 존 콘스탄틴은 자신의 능력을 저주하며 운명에서 벗어나기 위해 자살을 시도하지만 실패하고 만다. 그 후 다시 살아난 그는 천국과 지옥의 경계를 넘나들며 세상에 존재하는 악을 지옥으로 돌려보내기에 나선다. 그래야만 지옥으로 가게 되어 있는 자신의 운명이 뒤바뀌어 천국으로 들어갈 수 있음을 깨달았기 때문이다. 술, 담배에 쩔어 살면서 계속되는 전투에 지쳐만 가던 콘스탄틴. 그런 그에게 어느 날, LA 강력계 소속의 형사 안젤라가 찾아와 쌍둥이 동생의 죽음에 대한 의문을 풀기 위해 도움을 요청한다. 그러나 사건을 파헤칠수록 거대한 어둠의 힘 속으로 빨려 들게 되는데...",
+          "popularity": 59.596,
+          "poster_path": "/zHqg19nxvHKu8OS7RZWMBLGWxrz.jpg",
+          "release_date": "2005-02-08",
+          "title": "콘스탄틴",
+          "video": false,
+          "vote_average": 7.047,
+          "vote_count": 6340
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/pxK1iK6anS6erGg4QePmMKbB1E7.jpg",
+          "genre_ids": [
+            12,
+            28,
+            53,
+            878
+          ],
+          "id": 604,
+          "original_language": "en",
+          "original_title": "The Matrix Reloaded",
+          "overview": "시온이 컴퓨터 군단에게 장악될 위기에 처하면서, 네오는 자신의 능력에 대한 더 큰 통제력을 갖게 된다. 이제 몇 시간 후면 지구상에 남은 인류 최후의 보루인 시온이 인간 말살을 목적으로 프로그래밍 된 센티넬 무리에 의해 짓밟히게 될 터. 그러나 시온의 시민들은 오라클의 예언이 이루어져 전쟁이 끝날 것이라는 모피어스의 신념에 용기를 얻고, 네오에게 모든 희망과 기대를 걸어보기로 한다. 서로에 대한 사랑의 힘으로, 스스로에 대한 믿음으로 용기를 얻은 네오와 트리니티는 모피어스와 함께 인간을 억압하고 착취하는 시스템에 맞서기 위해 매트릭스로 돌아간다.",
+          "popularity": 55.045,
+          "poster_path": "/5RsZJfcXUndClV1vaI68V2shJOs.jpg",
+          "release_date": "2003-05-15",
+          "title": "매트릭스 2: 리로디드",
+          "video": false,
+          "vote_average": 7.039,
+          "vote_count": 9915
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/533xAMhhVyjTy8hwMUFEt5TuDfR.jpg",
+          "genre_ids": [
+            12,
+            28,
+            53,
+            878
+          ],
+          "id": 605,
+          "original_language": "en",
+          "original_title": "The Matrix Revolutions",
+          "overview": "진실을 찾는 여정에 한 걸음 더 접근하게 된 네오. 그러나 그 와중에 능력을 소진하고 매트릭스와 현실세계의 중간계를 떠돌게 된다. 한편 기계들이 인간말살을 목적으로 인류 최후의 보루 시온으로 침공해오자 인간들은 인류의 미래를 지키기 위해 필사적인 전투를 벌인다. 그러나 베인의 몸 속에 침투한 에이전트 스미스가 본 모습을 드러내면서 네오에게는 예기치 못한 변수가 생긴다. 매 순간 세력이 커져가면서 기계들의 통제권까지 벗어난 스미스는 현실 세계와 매트릭스는 물론 기계도시까지 말살할 야욕을 불태우고, 오라클은 네오에게 마지막 조언을 건네는데...",
+          "popularity": 40.768,
+          "poster_path": "/wLS7CaUNyz4hVwCxj7mXhX66A7r.jpg",
+          "release_date": "2003-11-05",
+          "title": "매트릭스 3: 레볼루션",
+          "video": false,
+          "vote_average": 6.708,
+          "vote_count": 8912
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/wM1aNIXSqB8GSeQY38LOUHYMYIw.jpg",
+          "genre_ids": [
+            28,
+            12,
+            35,
+            878
+          ],
+          "id": 607,
+          "original_language": "en",
+          "original_title": "Men in Black",
+          "overview": "뉴욕 경찰 에드워드(윌 스미스)는 용의자를 추적 중 그가 건물을 기어오르고 허공을 떠오르는 등의 장면을 목격한다. 용의자는 지구가 멸망할 것이라 주장하며 투신 자살을 하고 에드워드는 검은 양복을 입은 MIB요원 캐이(토미 리 존스)를 만난다. 캐이는 에드워드의 탁월한 능력을 알아차리고 그를 비밀 요원으로 발탁한다.  MIB는 지구인의 모습으로 살고 있는 외계인들을 감시하고 외계인의 정체를 보호하며 혹시라도 일반인이 그들이 외계인임을 알아차리면 기억 말소 장치를 이용해 외계인들을 보호한다. 그러나 사악한 바퀴벌레 외계인 에드가가 지구에 침투해 오면서 이민외계인들은 불안해 하는 등 동요하기 시작한다.  이 때 지구를 방문한 외교 사절이 암살당하는 사건이 발생해 은하계가 전면전에 돌입하자 지구는 멸망의 위기에 처한다. 지구를 지키고 우주의 평화를 지키기 위해 에드워드와 케이는 에드가와의 결전을 준비하는데...",
+          "popularity": 57.158,
+          "poster_path": "/nWQNnOvrJJVrjLKKmmxieiivAWS.jpg",
+          "release_date": "1997-07-02",
+          "title": "맨 인 블랙",
+          "video": false,
+          "vote_average": 7.181,
+          "vote_count": 12570
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/o1l6OCqA3pYDZHIc5L1s7CEzCMv.jpg",
+          "genre_ids": [
+            28,
+            12,
+            35,
+            878
+          ],
+          "id": 608,
+          "original_language": "en",
+          "original_title": "Men in Black II",
+          "overview": "지구에 잠입한 외계인을 감시하는 MIB요원 제이. 요원 케이가 MIB를 떠난 후, 많은 파트너들과 호흡을 맞추지만 베테랑 케이의 빈자리가 크기만 하다. 또 다른 수다쟁이 요원 프랭크는 파트너라기보다 오히려 제이를 거추장스럽게 하며 말썽만 피울 뿐인데… 그러던 중 25년전, MIB에게 당한 복수를 위해 마이크로 우주선이 지구에 침입한다. 콜라캔 크기의 우주선에서 내린 외계 생명체는 여성지 모델로 자신을 복제하고 MIB에 침입한다. 그녀의 이름은 셀리나… MIB요원 중 일부가 셀리나와 손을 잡게 된 사실을 알게 되는 제이. 그러나 때는 이미 늦어 지구는 은하계의 전쟁에 휘말린 위험에 처하게 된다. 위기에 놓인 지구, 요원 제이는 요원 케이의 도움을 필요로 하게 되고 제이는 케이의 기억을 복구시키려 갖은 애를 쓰는데…",
+          "popularity": 43.341,
+          "poster_path": "/5KNvkuFXB3C6xBBgDWTVDKluh4E.jpg",
+          "release_date": "2002-07-03",
+          "title": "맨 인 블랙 2",
+          "video": false,
+          "vote_average": 6.355,
+          "vote_count": 9042
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/c6yfABGVKuB5cjoOwdX4AJMlzUz.jpg",
+          "genre_ids": [
+            35,
+            14
+          ],
+          "id": 620,
+          "original_language": "en",
+          "original_title": "Ghostbusters",
+          "overview": "초심리를 연구하는 뉴욕의 괴짜교수 피터 밴크맨(빌 머레이)와 레이몬드 스탠드(댄 애크로이드), 에곤 스펜글러(해롤드 래미스)는 루이스(릭 모라니스)를 비서로 고용한다. 이는 뉴욕에 출몰하는 유령들을 잡기 위해서다. 루이스를 포함한 이들 네 명은 유령을 잡는 회사를 설립해 각색의 유령들을 잡아들이기 시작한다. 이들은 처음에는 주위의 멸시를 받았으나 어느 날 강한 악령의 힘이 살아나기 시작하면서 활동의 힘을 얻는다.  이들 '고스트 버스터즈'는 마침내, 뉴욕의 다나의 집에 출현해 거대한 빌딩 옥상에 버티고 있는 유령들의 총두목격인 '카쟈'를 만나게 되는데...",
+          "popularity": 43.525,
+          "poster_path": "/kOYLNeEdVgfkwy7jYwJhkV1GBru.jpg",
+          "release_date": "1984-06-08",
+          "title": "고스트 버스터즈",
+          "video": false,
+          "vote_average": 7.463,
+          "vote_count": 7979
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/zL4gtCeoPZkAFCKR0kNERpUiuPR.jpg",
+          "genre_ids": [
+            12,
+            14,
+            10751
+          ],
+          "id": 630,
+          "original_language": "en",
+          "original_title": "The Wizard of Oz",
+          "overview": "회오리 바람에 휩쓸려 오즈의 나라로 내던져진 도로시는 집으로 되돌아갈 수 있는 유일한 길이 위대한 오즈의 마법사를 만나는 것임을 알고 그를 찾아 긴 여정이 시작된다. 도로시는 애견 토토와 함께 노란 길을 따라 오즈의 마법사가 사는 에메랄드 시티로 향한다. 도중에 만난 세 명의 친구들, 지능을 얻고자 하는 허수아비와 심장을 원하는 양철 나뭇꾼, 용기를 가지고 싶어하는 겁장이 사자와 함께 오즈의 마법사에게 자신의 소원이 이루어지도록 부탁하기 위해 도로시와 함께 경쾌한 발걸음을 옮긴다. 그러나 도로시 일행을 방해하기 위해 뒤쫓아오는 서쪽 나라 마녀의 검은 그림자.",
+          "popularity": 54.729,
+          "poster_path": "/yyWpOqSAd8uewpzrnPI9IiBhzSs.jpg",
+          "release_date": "1939-08-15",
+          "title": "오즈의 마법사",
+          "video": false,
+          "vote_average": 7.578,
+          "vote_count": 4988
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/45He7gApNQyDbqCDjxew9BnHzjf.jpg",
+          "genre_ids": [
+            18,
+            10749,
+            35
+          ],
+          "id": 153,
+          "original_language": "en",
+          "original_title": "Lost in Translation",
+          "overview": "일상이 무료하고 외로운 밥 해리스와 샬롯은 도쿄로 여행온 미국인이다. 영화배우인 밥은 위스키 광고 촬영차 일본을 방문했지만 일본의 낯선 문화와 의사소통의 어려움으로 소외감을 느낀다. 갓 결혼한 샬롯은 사진작가인 남편을 따라 일본에 왔지만, 외로움과 불확실한 앞날에 대해 번민한다.  같은 호텔에 머무르고 있던 밥과 샬롯은 호텔바에서 우연히 마주친다. 두 사람은 서로의 모습 속에서 공통점을 발견하고 서로에게 이끌리게 된다. 이 둘은 도쿄 시내를 함께 구경하고, 얘기를 나누면서 급속도로 가까워지는데...",
+          "popularity": 25.69,
+          "poster_path": "/rGyDyUyepFIdFQLnzBelp3vsSaB.jpg",
+          "release_date": "2003-09-18",
+          "title": "사랑도 통역이 되나요?",
+          "video": false,
+          "vote_average": 7.395,
+          "vote_count": 6561
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/dqK9Hag1054tghRQSqLSfrkvQnA.jpg",
+          "genre_ids": [
+            18,
+            28,
+            80,
+            53
+          ],
+          "id": 155,
+          "original_language": "en",
+          "original_title": "The Dark Knight",
+          "overview": "범죄와 부정부패를 제거하여 고담시를 지키려는 배트맨. 그는 짐 고든 형사와 패기 넘치는 고담시 지방 검사 하비 덴트와 함께 도시를 범죄 조직으로부터 영원히 구원하고자 한다. 세 명의 의기투합으로 위기에 처한 악당들이 모인 자리에 보라색 양복을 입고 얼굴에 짙게 화장을 한 괴이한 존재가 나타나 배트맨을 죽이자는 사상 초유의 제안을 한다. 그는 바로 어떠한 룰도, 목적도 없는 사상 최악의 악당 미치광이 살인광대 조커. 배트맨을 죽이고 고담시를 끝장내버리기 위한 조커의 광기 어린 행각에 도시는 혼란에 빠지는데...",
+          "popularity": 101.341,
+          "poster_path": "/f6dNinWX8rBM79JXKcShkfSh2oA.jpg",
+          "release_date": "2008-07-14",
+          "title": "다크 나이트",
+          "video": false,
+          "vote_average": 8.509,
+          "vote_count": 29889
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/lt1rGQSqhk2T2T4lHo6CTQYvoWP.jpg",
+          "genre_ids": [
+            53,
+            28,
+            80
+          ],
+          "id": 187,
+          "original_language": "en",
+          "original_title": "Sin City",
+          "overview": "형사 하티건은 천사와 같이 순수한 댄서 낸시를 지키기 위해 자신의 모든 것을 버리고 총을 잡는다. 그러나 상원의원인 아버지의 권력을 이용하는 유괴범 로크는 낸시를 손에 넣기 위해 하티건을 죽음으로 몰아간다. 거리의 파이터인 마브는 하룻밤 사랑을 나눈 금발 여인 골디가 다음날 아침 싸늘한 주검이 되어있는 것을 발견하게 된다. 살인 누명을 쓰고 쫓기게 된 마브는 그녀를 위해 복수를 시작한다. 한편 올드 타운에서 부패한 형사반장이 살해당하는 사건에 휘말린 사진작가 드와이트는 타운의 보스인 게일과 함께 경찰의 비호를 받는 갱들과 한바탕 전쟁을 준비한다.",
+          "popularity": 29.394,
+          "poster_path": "/7EUpW9XRy1QlNgiHh9i9IPTG9Iu.jpg",
+          "release_date": "2005-04-01",
+          "title": "씬 시티",
+          "video": false,
+          "vote_average": 7.44,
+          "vote_count": 7391
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/8BpYPAmba2ozCxnQbJTnNmkwsoU.jpg",
+          "genre_ids": [
+            18
+          ],
+          "id": 224,
+          "original_language": "pl",
+          "original_title": "Człowiek z marmuru",
+          "overview": "",
+          "popularity": 6.13,
+          "poster_path": "/cRrWaVNGTxrDDaH2izNKBw2K2RW.jpg",
+          "release_date": "1977-02-25",
+          "title": "Człowiek z marmuru",
+          "video": false,
+          "vote_average": 6.992,
+          "vote_count": 64
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/v28YYcN5p9hD8PKGAeWLz0ugsfX.jpg",
+          "genre_ids": [
+            12,
+            28,
+            53
+          ],
+          "id": 253,
+          "original_language": "en",
+          "original_title": "Live and Let Die",
+          "overview": "24시간 동안 뉴욕, 뉴 올리언즈, 산 모니크에서 세 명의 영국 정보부 요원이 잇따라 피살된다. 세 사건이 서로 연관된 것이라 생각한 M의 지시를 받은 제임스 본드는 CIA 요원 필릭스 라이터와 함께 사태의 규명에 나선다. 미국에 도착하여 CIA로 향하던 007은 괴한의 습격을 받지만, 펠릭스의 도움으로 위기를 면한다. 헤로인 시장의 독점을 통해서 미국 경제를 지배하려는 산 모니크의 수상 커냉가 일당의 계획을 저지하기 위해 본드의 추적이 시작되고, 그 와중에  카드점으로 모든 일을 알아내는 아름다운 점술사 솔리테어와의 사랑이 무르익는데...",
+          "popularity": 21.426,
+          "poster_path": "/plLI68PhR6kgQvpk3Eo86ixW08i.jpg",
+          "release_date": "1973-07-05",
+          "title": "007 죽느냐 사느냐",
+          "video": false,
+          "vote_average": 6.478,
+          "vote_count": 1767
+        }
+      ],
+      "total_pages": 110,
+      "total_results": 2187
+    }
+    """.data(using: .utf8)!
+}
+
+var similarTVShowData: Data {
+    return """
+    {
+      "page": 1,
+      "results": [
+        {
+          "adult": false,
+          "backdrop_path": "/8vXsRW0A1RGYZfhfsn8zybsL4Ru.jpg",
+          "genre_ids": [
+            18,
+            35
+          ],
+          "id": 201886,
+          "origin_country": [
+            "JP"
+          ],
+          "original_language": "ja",
+          "original_name": "拾われた男",
+          "overview": "배우의 꿈을 안고 도쿄로 상경한 마츠도 사토루. 돈도, 연줄도 없는 그였으나 우연히 자판기 밑에서 연예 기획사 사장의 항공권을 주운 후 배우 인생을 시작하게 된다. 그리고 몇 년이 지나 어엿이 배우로 자리를 잡은 그에게 미국에서 한 통의 전화가 걸려 오고. 이대로 할리우드까지 진출하나 싶었으나, 뜻밖에도 연을 끊었던 형에 대한 충격적인 소식을 듣게 되는데.",
+          "popularity": 9.051,
+          "poster_path": "/6X3dVyyNZepSftYOJLxPkifko3a.jpg",
+          "first_air_date": "2022-06-26",
+          "name": "이 남자를 주웠다",
+          "vote_average": 7.5,
+          "vote_count": 4
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/4jr9jVYHkmAt8CLHchwBjNZZ2M8.jpg",
+          "genre_ids": [
+            18,
+            10759
+          ],
+          "id": 32992,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Ivanhoe",
+          "overview": "",
+          "popularity": 8.824,
+          "poster_path": "/9n0JRWRAjpy0POpZjGBesUOzUYQ.jpg",
+          "first_air_date": "1997-01-12",
+          "name": "Ivanhoe",
+          "vote_average": 7.7,
+          "vote_count": 3
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/jg3iq5KFCVrYHVZrPLqznKW2Fz0.jpg",
+          "genre_ids": [
+            18,
+            10765,
+            9648
+          ],
+          "id": 33001,
+          "origin_country": [
+            "CA",
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Haven",
+          "overview": "스티븐 킹(Stephen King)의 소설 『콜로라도 키드(The Colorado Kid)』를 원작으로 한 드라마. 작은 시골 마을 헤이븐에서 일어나는 초자연현상을 풀어나가는 FBI요원과 경찰의 이야기를 다루고 있다",
+          "popularity": 71.131,
+          "poster_path": "/iKBXRi46aIHV2o8tUOiiNbWYJjV.jpg",
+          "first_air_date": "2010-07-09",
+          "name": "헤이븐",
+          "vote_average": 7.607,
+          "vote_count": 398
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/uliwYmaqsqv0FmcbNcNGuzwEc8y.jpg",
+          "genre_ids": [
+            18,
+            10765
+          ],
+          "id": 3824,
+          "origin_country": [
+            "CN"
+          ],
+          "original_language": "zh",
+          "original_name": "神雕侠侣",
+          "overview": "전편인 사조영웅전에서 사망한 양강의 아들 양과(楊過)가 아버지의 죽음을 둘러싼 은원을 알아가고, 사회적 관습을 뛰어넘는 스승 소용녀(小龍女)와의 사랑을 이루기 위해 투쟁하는 것이 작품의 주내용이다.",
+          "popularity": 23.134,
+          "poster_path": "/1HCeAF2LIs9fFyNgndsSzODbop4.jpg",
+          "first_air_date": "2006-03-17",
+          "name": "신조협려 2006",
+          "vote_average": 6,
+          "vote_count": 20
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/nMJiIufYXzOvqg3WuLu8z6Tmuvw.jpg",
+          "genre_ids": [
+            80,
+            9648
+          ],
+          "id": 3876,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Dalziel & Pascoe",
+          "overview": "",
+          "popularity": 35.56,
+          "poster_path": "/mVpcAmAgCo6CQQNAwMCbmycPvJT.jpg",
+          "first_air_date": "1996-03-16",
+          "name": "Dalziel & Pascoe",
+          "vote_average": 7.308,
+          "vote_count": 13
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/cINYjXSZzeAvdpXMb0y0nIdS0cW.jpg",
+          "genre_ids": [
+            18
+          ],
+          "id": 4409,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Pride and Prejudice",
+          "overview": "",
+          "popularity": 8.616,
+          "poster_path": "/uzGPFb6gM81WnRAGprOFKnVkbuD.jpg",
+          "first_air_date": "1980-01-13",
+          "name": "Pride and Prejudice",
+          "vote_average": 6.8,
+          "vote_count": 22
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/potIAEPLGdgwaeLzWjA9QIL06Wl.jpg",
+          "genre_ids": [
+            35,
+            10751,
+            10765
+          ],
+          "id": 4475,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Hogfather",
+          "overview": "",
+          "popularity": 7.657,
+          "poster_path": "/nH9kXeiWMhjDFXTKQLC8QqqKN2J.jpg",
+          "first_air_date": "2006-12-17",
+          "name": "Hogfather",
+          "vote_average": 7.8,
+          "vote_count": 11
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/54F3Mm0cep0kAZQByhZUOiqyCjW.jpg",
+          "genre_ids": [
+            18,
+            35
+          ],
+          "id": 4503,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Life As We Know It",
+          "overview": "",
+          "popularity": 13.856,
+          "poster_path": "/zAcvZvHXlvJabsrzkBPR2drp7iL.jpg",
+          "first_air_date": "2004-10-07",
+          "name": "Life As We Know It",
+          "vote_average": 6.154,
+          "vote_count": 14
+        },
+        {
+          "adult": false,
+          "backdrop_path": null,
+          "genre_ids": [
+            18
+          ],
+          "id": 125123,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Ohio",
+          "overview": "",
+          "popularity": 1.71,
+          "poster_path": null,
+          "first_air_date": "",
+          "name": "Ohio",
+          "vote_average": 0,
+          "vote_count": 0
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/cTTDm4TTqNm0vmyuMsIwRmtovqN.jpg",
+          "genre_ids": [
+            18,
+            35
+          ],
+          "id": 33860,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Mapp & Lucia",
+          "overview": "",
+          "popularity": 3.171,
+          "poster_path": "/6jWJBb1YN7CyDhrBCpX9mgD0m6t.jpg",
+          "first_air_date": "1985-04-14",
+          "name": "Mapp & Lucia",
+          "vote_average": 6.5,
+          "vote_count": 2
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/63m3snpQuRxxDXDTkzvWQfOrL8.jpg",
+          "genre_ids": [
+            18
+          ],
+          "id": 33862,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "To the Ends of the Earth",
+          "overview": "",
+          "popularity": 13.749,
+          "poster_path": "/bMBn5C3MTjb8aQpM8lN0sotj9uG.jpg",
+          "first_air_date": "2005-07-06",
+          "name": "To the Ends of the Earth",
+          "vote_average": 6.068,
+          "vote_count": 22
+        },
+        {
+          "adult": false,
+          "backdrop_path": null,
+          "genre_ids": [
+            18
+          ],
+          "id": 33957,
+          "origin_country": [],
+          "original_language": "en",
+          "original_name": "The Three Hostages",
+          "overview": "",
+          "popularity": 1.228,
+          "poster_path": "/9d1gcwo9C5XRaPZtbks8zPLYxo.jpg",
+          "first_air_date": "1952-06-21",
+          "name": "The Three Hostages",
+          "vote_average": 0,
+          "vote_count": 0
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/oobSrBR9Fw2w3Gk3tfZZUd0R7S7.jpg",
+          "genre_ids": [
+            10759,
+            18
+          ],
+          "id": 62286,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Fear the Walking Dead",
+          "overview": "2015년 8월 AMC에서 방영을 시작한 좀비 좀비 아포칼립스물. 인기 시리즈 워킹 데드의 스핀오프 작품으로, 본편과 달리 좀비 사태가 벌어진 최초의 시점에서 당황하며 어쩔 줄 몰라하던 사람들이 점차 적응해 가는 이야기를 다루고 있다. 폐쇄된 교회에서 약에 취한 채 깨어난 닉은 함께 마약을 하던 글로리아가 사라지자 그녀를 찾기 위해 아래층으로 내려간다. 그곳에서 피와 시체들이 널부러져 있는 사이에서 글로리아가 시체를 뜯어먹고 있는 모습을 보게 된다. 겁에 질려 교회 밖으로 도망치다가 차에 치여 병원에 실려간 닉은 마약 중독 치료 권고를 받고, 자신이 본 것을 얘기하지만 정신병으로 오해 받는다.",
+          "popularity": 693.334,
+          "poster_path": "/sQleNHhKl32QFnSlahb5IHDWcDq.jpg",
+          "first_air_date": "2015-08-23",
+          "name": "피어 더 워킹 데드",
+          "vote_average": 7.694,
+          "vote_count": 4500
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/yZSU8ZO1HNA3IPSDMd3GcHThf5l.jpg",
+          "genre_ids": [
+            18,
+            80,
+            9648
+          ],
+          "id": 62296,
+          "origin_country": [
+            "JP"
+          ],
+          "original_language": "ja",
+          "original_name": "ビター・ブラッド",
+          "overview": "12년 전 자신을 버렸던 아버지와 파트너가 된 신참 형사의 이야기",
+          "popularity": 5.769,
+          "poster_path": "/zQDodl73yaCjuByTeP3g3luTui7.jpg",
+          "first_air_date": "2014-04-15",
+          "name": "비터 블러드",
+          "vote_average": 7.6,
+          "vote_count": 6
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/dGZYpoQP30o94ZJcBA8D2vGxuMZ.jpg",
+          "genre_ids": [
+            16,
+            10759,
+            35
+          ],
+          "id": 62369,
+          "origin_country": [
+            "JP"
+          ],
+          "original_language": "ja",
+          "original_name": "ミカグラ学園組曲",
+          "overview": "문화계 동아리밖에 없는 전 기숙사제 고등학교에서 벌어지는 학생들의 일들을 그린 애니메이션",
+          "popularity": 5.223,
+          "poster_path": "/gmQtiPckDeAlLFuZYGf4kru1Blo.jpg",
+          "first_air_date": "2015-04-07",
+          "name": "미카구라 학원 조곡",
+          "vote_average": 6,
+          "vote_count": 4
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/mGu1GhnhhGO0vX5Z29bamDnLhMM.jpg",
+          "genre_ids": [
+            10765,
+            18
+          ],
+          "id": 4624,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Roswell",
+          "overview": "",
+          "popularity": 44.628,
+          "poster_path": "/47CaTpah62bxbAkWANDzZdJxkxw.jpg",
+          "first_air_date": "1999-10-06",
+          "name": "Roswell",
+          "vote_average": 7.799,
+          "vote_count": 385
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/8mlPjKqMROLwpuuvKb0qXIFXAwf.jpg",
+          "genre_ids": [
+            10765,
+            18,
+            10759
+          ],
+          "id": 62417,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "Emerald City",
+          "overview": "20세의 도로시 게일과 K9 경찰견이 토네이도를 타고 마법의 땅 오즈로 가게 되면서 펼쳐지는 모험을 그린 판타지 드라마. L. 프랭크 바움의 소설 를 원작으로 한다.",
+          "popularity": 21.711,
+          "poster_path": "/xjJSsAMd1kQrIslv4qHSMyGx9UT.jpg",
+          "first_air_date": "2017-01-06",
+          "name": "에메랄드 시티",
+          "vote_average": 6.7,
+          "vote_count": 157
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/65xYEOcS6d5bYIZryfyb49csa9d.jpg",
+          "genre_ids": [
+            18,
+            35
+          ],
+          "id": 62458,
+          "origin_country": [
+            "US"
+          ],
+          "original_language": "en",
+          "original_name": "The Astronaut Wives Club",
+          "overview": "",
+          "popularity": 11.792,
+          "poster_path": "/2q9bSJnZlMgHwevjiNVKtpgCyrC.jpg",
+          "first_air_date": "2015-06-18",
+          "name": "The Astronaut Wives Club",
+          "vote_average": 7,
+          "vote_count": 29
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/tAdmbGEywXlWZvbcnYgfpYwuc9H.jpg",
+          "genre_ids": [
+            9648,
+            10759,
+            18,
+            80
+          ],
+          "id": 62478,
+          "origin_country": [
+            "GB"
+          ],
+          "original_language": "en",
+          "original_name": "Partners in Crime",
+          "overview": "",
+          "popularity": 8.214,
+          "poster_path": "/2Zwurp836fMcLpOwMDciWiiak0X.jpg",
+          "first_air_date": "2015-07-26",
+          "name": "부부탐정",
+          "vote_average": 7.385,
+          "vote_count": 26
+        },
+        {
+          "adult": false,
+          "backdrop_path": "/nKgHsTibflGgGv3QeEEu7jtzqjR.jpg",
+          "genre_ids": [
+            35,
+            16,
+            10751,
+            10759
+          ],
+          "id": 62495,
+          "origin_country": [
+            "JP"
+          ],
+          "original_language": "ja",
+          "original_name": "山賊の娘ローニャ",
+          "overview": "",
+          "popularity": 19.429,
+          "poster_path": "/cFdQv0bmQqaTAtPJU5MhyfhIZ28.jpg",
+          "first_air_date": "2014-10-11",
+          "name": "산적의 딸 로냐",
+          "vote_average": 6.5,
+          "vote_count": 21
+        }
+      ],
+      "total_pages": 77,
+      "total_results": 1540
+    }
+    """.data(using: .utf8)!
+}
+
 // swiftlint:enable line_length file_length
