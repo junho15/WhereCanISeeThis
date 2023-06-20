@@ -216,4 +216,38 @@ final public class MovieDatabaseAPIClient {
             throw MovieDatabaseAPIError.decodingError
         }
     }
+
+    public func fetchSimilarMovies(movieID: Movie.ID, language: String, page: Int? = nil) async throws -> Page<Movie> {
+        guard let url = MovieDatabaseURL.fetchSimilarMovies(
+            movieID: movieID, language: language, page: page ?? 1, apiKey: apiKey
+        ).url else {
+            throw MovieDatabaseAPIError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Page<Movie>.self, from: data)
+        } catch {
+            throw MovieDatabaseAPIError.decodingError
+        }
+    }
+
+    public func fetchSimilarTVShows(
+        tvShowID: TVShow.ID, language: String, page: Int? = nil
+    ) async throws -> Page<TVShow> {
+        guard let url = MovieDatabaseURL.fetchSimilarTVShows(
+            tvShowID: tvShowID, language: language, page: page ?? 1, apiKey: apiKey
+        ).url else {
+            throw MovieDatabaseAPIError.invalidRequest
+        }
+
+        let data = try await session.execute(url: url)
+
+        do {
+            return try JSONDecoder.movieDatabaseDecoder.decode(Page<TVShow>.self, from: data)
+        } catch {
+            throw MovieDatabaseAPIError.decodingError
+        }
+    }
 }

@@ -16,6 +16,8 @@ public enum MovieDatabaseURL {
     case fetchTrendingTVShows(timeWindow: TimeWindow, language: String, apiKey: String)
     case fetchMovieCredits(movieID: Movie.ID, language: String, apiKey: String)
     case fetchTVShowCredits(tvShowID: TVShow.ID, language: String, apiKey: String)
+    case fetchSimilarMovies(movieID: Movie.ID, language: String, page: Int, apiKey: String)
+    case fetchSimilarTVShows(tvShowID: TVShow.ID, language: String, page: Int, apiKey: String)
 }
 
 extension MovieDatabaseURL {
@@ -43,6 +45,10 @@ extension MovieDatabaseURL {
             return url(path: path, queryItems: ["language": language], apiKey: apiKey)
         case .fetchTVShowCredits(_, let language, let apiKey):
             return url(path: path, queryItems: ["language": language], apiKey: apiKey)
+        case .fetchSimilarMovies(_, let language, let page, let apiKey):
+            return url(path: path, queryItems: ["language": language, "page": "\(page)"], apiKey: apiKey)
+        case .fetchSimilarTVShows(_, let language, let page, let apiKey):
+            return url(path: path, queryItems: ["language": language, "page": "\(page)"], apiKey: apiKey)
         }
     }
 
@@ -70,6 +76,10 @@ extension MovieDatabaseURL {
             return "/3/movie/\(movieID)/credits"
         case .fetchTVShowCredits(let tvShowID, _, _):
             return "/3/tv/\(tvShowID)/credits"
+        case .fetchSimilarMovies(let movieID, _, _, _):
+            return "/3/movie/\(movieID)/similar"
+        case .fetchSimilarTVShows(let tvShowID, _, _, _):
+            return "/3/tv/\(tvShowID)/similar"
         }
     }
 
