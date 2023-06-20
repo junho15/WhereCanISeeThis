@@ -80,7 +80,8 @@ extension SearchViewModel {
         }
     }
 
-    func mediaItem(for id: MediaItem.ID, type: MediaType) -> MediaItem? {
+    func mediaItem(for id: MediaItem.ID, type: MediaType?) -> MediaItem? {
+        guard let type else { return nil }
         switch type {
         case .movie:
             return movieItem(for: id)
@@ -119,13 +120,28 @@ extension SearchViewModel {
         }
     }
 
-    func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType) -> MediaDetailViewModel? {
+    func mediaDetailViewModel(for id: MediaItem.ID, type: MediaType?) -> MediaDetailViewModel? {
+        guard let type else { return nil }
         switch type {
         case .movie:
             return movieDetail(for: id)
         case .tvShow:
             return tvShowDetail(for: id)
         }
+    }
+
+    func similarViewModel<T: MediaProtocol>(
+        for id: MediaItem.ID, type: MovieDatabaseAPI.MediaType?
+    ) -> SimilarViewModel<T>? {
+        guard let type, let mediaItem = mediaItem(for: id, type: type) else { return nil }
+        let generesList: GenreList?
+        switch type {
+        case .movie:
+            generesList = movieGenresList
+        case .tvShow:
+            generesList = tvShowGenresList
+        }
+        return SimilarViewModel(mediaItem: mediaItem, genresList: generesList)
     }
 
     func bind(onError: @escaping (String) -> Void) {

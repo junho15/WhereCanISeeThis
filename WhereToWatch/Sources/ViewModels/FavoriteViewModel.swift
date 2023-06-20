@@ -62,6 +62,13 @@ extension FavoriteViewModel {
         return MediaDetailViewModel(mediaItem: favoriteItem)
     }
 
+    func similarViewModel<T: MediaProtocol>(
+        for id: FavoriteMediaItem.ID, type: MovieDatabaseAPI.MediaType?
+    ) -> SimilarViewModel<T>? {
+        guard let mediaItem = favoriteMediaItem(for: id) else { return nil }
+        return SimilarViewModel(mediaItem: mediaItem)
+    }
+
     func image(imageSize: MovieDatabaseURL.ImageSize, imagePath: String?) async -> UIImage? {
         guard let imagePath else { return nil }
         do {
