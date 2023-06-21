@@ -9,7 +9,7 @@ final class CreditsViewModel {
     private var credits: [Credit] = []
     private var onError: ((String) -> Void)?
     private var creditIDs: [Credit.ID] {
-        return credits.map { $0.id }
+        return credits.map { $0.id }.deduplicate()
     }
     private var language: String? {
         return Locale.current.language.languageCode?.identifier

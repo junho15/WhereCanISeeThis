@@ -21,7 +21,7 @@ final class SimilarViewModel<Type: MediaProtocol> {
         return pages.flatMap { $0.results }
     }
     private var similarMediaIDs: [MediaItem.ID] {
-        return similarMedia.map { $0.id }
+        return similarMedia.map { $0.id }.deduplicate()
     }
     private var lastPage: Int {
         return pages.last?.page ?? 0
