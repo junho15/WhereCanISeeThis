@@ -22,6 +22,7 @@ final class SimilarContentView: UIView, UIContentView {
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
+
         configureSubviews()
     }
 
@@ -37,6 +38,11 @@ extension SimilarContentView {
         guard let configuration = configuration as? Configuration else { return }
         imageView.image = configuration.image
         titleLabel.text = configuration.title
+
+        let spacing = Constants.spacing
+        if stackView.frame.height > spacing {
+            stackView.spacing = spacing
+        }
     }
 
     private func configureSubviews() {
@@ -52,6 +58,7 @@ extension SimilarContentView {
         addSubview(stackView)
 
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Constants.imageViewRatio),
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -85,6 +92,7 @@ extension SimilarContentView {
     private enum Constants {
         static let titleFont = UIFont.preferredFont(forTextStyle: .caption2)
         static let imageViewRatio = CGFloat(1/1.3)
+        static let spacing = CGFloat(10)
     }
 }
 extension UICollectionViewCell {

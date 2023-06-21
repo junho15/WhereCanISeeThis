@@ -142,6 +142,8 @@ extension MediaCollectionContentView {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension MediaCollectionContentView: UICollectionViewDelegate {
     func collectionView(
         _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath

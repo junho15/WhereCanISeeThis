@@ -10,7 +10,7 @@ final class MediaDetailViewController<Type: MediaProtocol>: UICollectionViewCont
     private let similarViewModel: SimilarViewModel<Type>
     private var dataSource: DataSource?
     private var favoriteBarButtonItem: UIBarButtonItem?
-    private var onUpdate: ((FavoriteMediaItem.ID?) -> Void)?
+    private(set) var onUpdate: ((FavoriteMediaItem.ID?) -> Void)?
 
     // MARK: View Lifecycle
 
@@ -42,11 +42,6 @@ final class MediaDetailViewController<Type: MediaProtocol>: UICollectionViewCont
         creditsViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
         updateSnapshot()
     }
 
@@ -111,16 +106,18 @@ extension MediaDetailViewController {
     }
 
     private func configureNavigationItem() {
-        favoriteBarButtonItem = UIBarButtonItem(image: nil, primaryAction: favoriteBarButtonAction())
+        let favoriteBarButtonItem = UIBarButtonItem(image: nil, primaryAction: favoriteBarButtonAction())
+        self.favoriteBarButtonItem = favoriteBarButtonItem
         setImageFavoriteBarButton(mediaDetailViewModel.isFavorite())
-        navigationItem.leftBarButtonItem = favoriteBarButtonItem
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        let closeBarButtonItem = UIBarButtonItem(
             systemItem: .close, primaryAction: UIAction(handler: { [weak self] _ in
                 guard let self else { return }
                 dismiss(animated: true)
             })
         )
+
+        navigationItem.rightBarButtonItems = [closeBarButtonItem, favoriteBarButtonItem]
     }
 
     private func favoriteBarButtonAction() -> UIAction {
@@ -265,11 +262,13 @@ extension MediaDetailViewController {
             var contentConfiguration = cell.similarMoviesCollectionConfiguration()
             contentConfiguration.itemIDs = mediaItemIDs
             contentConfiguration.viewModel = similarViewModel
+            contentConfiguration.viewController = self
             cell.contentConfiguration = contentConfiguration
         } else if let similarViewModel = similarViewModel as? SimilarViewModel<TVShow> {
             var contentConfiguration = cell.similarTVShowsCollectionConfiguration()
             contentConfiguration.itemIDs = mediaItemIDs
             contentConfiguration.viewModel = similarViewModel
+            contentConfiguration.viewController = self
             cell.contentConfiguration = contentConfiguration
         }
     }

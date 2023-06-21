@@ -1,7 +1,7 @@
 import UIKit
 import MovieDatabaseAPI
 
-final class SimilarCollectionContentView<Type: MediaProtocol>: UIView, UIContentView {
+final class SimilarCollectionContentView<Type: MediaProtocol>: UIView, UIContentView, UICollectionViewDelegate {
 
     // MARK: Properties
 
@@ -33,6 +33,20 @@ final class SimilarCollectionContentView<Type: MediaProtocol>: UIView, UIContent
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard let configuration = configuration as? Configuration,
+              let itemID = dataSource?.itemIdentifier(for: indexPath),
+              let viewController = configuration.viewController else {
+            return false
+        }
+        guard let mediaDetailViewController: MediaDetailViewController<Type> = mediaDetailViewController(
+            itemID: itemID
+        ) else { return false }
+        viewController.navigationController?.pushViewController(mediaDetailViewController, animated: true)
+        return false
+    }
 }
 
 // MARK: - Methods
@@ -63,6 +77,7 @@ extension SimilarCollectionContentView {
         let layout = UICollectionViewCompositionalLayout(section: section, configuration: configuration)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView?.backgroundColor = Constants.collectionViewBackgroundColor
+        collectionView?.delegate = self
     }
 
     private func configureDataSource() {
@@ -90,6 +105,23 @@ extension SimilarCollectionContentView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+
+    private func mediaDetailViewController(itemID: MediaItem.ID) -> MediaDetailViewController<Type>? {
+        guard let configuration = configuration as? Configuration,
+              let viewModel = configuration.viewModel,
+              let detailViewModel = viewModel.mediaDetailViewModel(for: itemID),
+              let similarViewModel: SimilarViewModel<Type> = viewModel.similarViewModel(for: itemID) else { return nil }
+        let mediaDetailViewController = MediaDetailViewController(
+            mediaDetailViewModel: detailViewModel,
+            creditsViewModel: CreditsViewModel(),
+            similarViewModel: similarViewModel
+        )
+        if let viewController = configuration.viewController as? MediaDetailViewController<Type>,
+           let onUpdate = viewController.onUpdate {
+            mediaDetailViewController.bind(onUpdate: onUpdate)
+        }
+        return mediaDetailViewController
     }
 }
 
@@ -142,6 +174,7 @@ extension SimilarCollectionContentView {
     struct Configuration: UIContentConfiguration {
         var viewModel: SimilarViewModel<Type>?
         var itemIDs: [MediaItem.ID] = []
+        var viewController: UIViewController?
 
         func makeContentView() -> UIView & UIContentView {
             return SimilarCollectionContentView(self)
