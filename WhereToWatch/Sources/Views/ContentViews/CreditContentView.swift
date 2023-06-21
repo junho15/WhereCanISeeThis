@@ -17,7 +17,7 @@ final class CreditContentView: UIView, UIContentView {
     private let nameLabel = UILabel()
     private let characterLabel = UILabel()
     private let labelStackView = UIStackView()
-    private let outerStackView = UIStackView(frame: .zero)
+    private let outerStackView = UIStackView()
 
     // MARK: View Lifecycle
 
@@ -48,6 +48,7 @@ extension CreditContentView {
         [nameLabel, characterLabel].forEach { label in
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
+            label.textAlignment = .center
             labelStackView.addArrangedSubview(label)
         }
         imageView.contentMode = .scaleAspectFit
