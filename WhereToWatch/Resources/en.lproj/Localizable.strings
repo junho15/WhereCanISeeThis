@@ -10,6 +10,7 @@
 "GENRE_HEADER" = "Genre";
 "OVERVIEW_HEADER" = "Overview";
 "CREDITS_HEADER" = "Credits";
+"SIMILAR_HEADER" = "Similar";
 "WATCH_PROVIDER_TYPE_FLATRATE" = "Flatrate";
 "WATCH_PROVIDER_TYPE_BUY" = "Buy";
 "WATCH_PROVIDER_TYPE_ADS" = "Ads";

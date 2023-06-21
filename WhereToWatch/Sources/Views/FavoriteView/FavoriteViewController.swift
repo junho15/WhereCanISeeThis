@@ -1,4 +1,5 @@
 import UIKit
+import MovieDatabaseAPI
 
 final class FavoriteViewController: UICollectionViewController {
 
@@ -132,6 +133,30 @@ extension FavoriteViewController {
     private func deleteFavoriteMediaItem(for id: FavoriteMediaItem.ID) {
         favoriteViewModel.action(.deleteFavoriteMediaItem(id))
     }
+
+    private func mediaDetailViewController<T: MediaProtocol>(
+        favoriteMediaItem: FavoriteMediaItem
+    ) -> MediaDetailViewController<T>? {
+        guard let mediaDetailViewModel = favoriteViewModel.mediaDetailViewModel(for: favoriteMediaItem.id),
+              let similarViewModel: SimilarViewModel<T> = favoriteViewModel.similarViewModel(
+                for: favoriteMediaItem.id, type: favoriteMediaItem.mediaType
+              ) else { return nil }
+        let mediaDetailViewController = MediaDetailViewController(
+            mediaDetailViewModel: mediaDetailViewModel,
+            creditsViewModel: CreditsViewModel(),
+            similarViewModel: similarViewModel
+        )
+        mediaDetailViewController.bind { [weak self] updatedID in
+            guard let self else { return }
+            favoriteViewModel.action(.fetchFavoriteMediaItems())
+            if let updatedID {
+                if let indexPath = dataSource?.indexPath(for: updatedID) {
+                    collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+                }
+            }
+        }
+        return mediaDetailViewController
+    }
 }
 
 // MARK: - DataSource
@@ -205,24 +230,24 @@ extension FavoriteViewController: UISearchBarDelegate {
 extension FavoriteViewController {
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let itemID = dataSource?.itemIdentifier(for: indexPath),
-              let mediaDetailViewModel = favoriteViewModel.mediaDetailViewModel(for: itemID) else {
+              let favoriteMediaItem = favoriteViewModel.favoriteMediaItem(for: itemID) else {
             return false
         }
-        let mediaDetailViewController = MediaDetailViewController(
-            mediaDetailViewModel: mediaDetailViewModel,
-            creditsViewModel: CreditsViewModel()
-        )
-        mediaDetailViewController.bind { [weak self] updatedID in
-            guard let self else { return }
-            favoriteViewModel.action(.fetchFavoriteMediaItems())
-            if let updatedID {
-                if let indexPath = dataSource?.indexPath(for: updatedID) {
-                    collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
-                }
-            }
+
+        switch favoriteMediaItem.mediaType {
+        case .movie:
+            guard let mediaDetailViewController: MediaDetailViewController<Movie> = mediaDetailViewController(
+                favoriteMediaItem: favoriteMediaItem
+            ) else { return false }
+            let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+            present(navigationController, animated: true)
+        case .tvShow:
+            guard let mediaDetailViewController: MediaDetailViewController<TVShow> = mediaDetailViewController(
+                favoriteMediaItem: favoriteMediaItem
+            ) else { return false }
+            let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+            present(navigationController, animated: true)
         }
-        let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
-        present(navigationController, animated: true)
         return false
     }
 }

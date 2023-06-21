@@ -172,17 +172,39 @@ extension MediaCollectionContentView: UICollectionViewDelegate {
         guard let configuration = configuration as? Configuration,
               let mediaType = configuration.mediaType,
               let itemID = dataSource?.itemIdentifier(for: indexPath),
-              let viewModel = configuration.viewModel.mediaDetailViewModel(for: itemID, type: mediaType),
               let viewController = configuration.viewController else {
             return false
         }
-        let mediaDetailViewController = MediaDetailViewController(
-            mediaDetailViewModel: viewModel,
-            creditsViewModel: CreditsViewModel()
-        )
-        let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
-        viewController.present(navigationController, animated: true)
+        switch mediaType {
+        case .movie:
+            guard let mediaDetailViewController: MediaDetailViewController<Movie> = mediaDetailViewController(
+                itemID: itemID, mediaType: mediaType
+            ) else { return false }
+            let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+            viewController.present(navigationController, animated: true)
+        case .tvShow:
+            guard let mediaDetailViewController: MediaDetailViewController<TVShow> = mediaDetailViewController(
+                itemID: itemID, mediaType: mediaType
+            ) else { return false }
+            let navigationController = UINavigationController(rootViewController: mediaDetailViewController)
+            viewController.present(navigationController, animated: true)
+        }
         return false
+    }
+
+    private func mediaDetailViewController<T: MediaProtocol>(
+        itemID: MediaItem.ID, mediaType: MediaType
+    ) -> MediaDetailViewController<T>? {
+        guard let configuration = configuration as? Configuration,
+              let detailViewModel = configuration.viewModel.mediaDetailViewModel(for: itemID, type: mediaType),
+              let similarViewModel: SimilarViewModel<T> = configuration.viewModel.similarViewModel(
+            for: itemID, type: mediaType
+        ) else { return nil }
+        return MediaDetailViewController(
+            mediaDetailViewModel: detailViewModel,
+            creditsViewModel: CreditsViewModel(),
+            similarViewModel: similarViewModel
+        )
     }
 }
 
