@@ -36,17 +36,12 @@ final class TrendingViewController: UICollectionViewController {
         trendingViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
-        trendingViewModel.bind(onUpdate: { [weak self] in
-            guard let self else { return }
-            updateSnapshot()
-        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        trendingViewModel.action(.fetchTrendingMovies(.day))
-        trendingViewModel.action(.fetchTrendingTVShows(.day))
+        updateMediaItems(.day)
     }
 }
 
@@ -77,13 +72,23 @@ extension TrendingViewController {
         let actions = MovieDatabaseURL.TimeWindow.allCases.map { timeWindow in
             UIAction(title: timeWindow.description) { [weak self] _ in
                 guard let self else { return }
-                trendingViewModel.action(.fetchTrendingMovies(timeWindow))
-                trendingViewModel.action(.fetchTrendingTVShows(timeWindow))
+                updateMediaItems(timeWindow)
             }
         }
         let segmentedControl = UISegmentedControl(frame: .zero, actions: actions)
         segmentedControl.selectedSegmentIndex = 0
         navigationItem.titleView = segmentedControl
+    }
+
+    private func updateMediaItems(_ timeWindow: MovieDatabaseURL.TimeWindow) {
+        Task {
+            async let fetchMovieIDs = trendingViewModel.fetchTrendingMovies(of: timeWindow)
+            async let fetchTVShowIDs = trendingViewModel.fetchTrendingTVShows(of: timeWindow)
+
+            let (movieIDs, tVShowIDs) = await (fetchMovieIDs, fetchTVShowIDs)
+            guard let movieIDs, let tVShowIDs else { return }
+            updateSnapshot([.movie: movieIDs, .tvShow: tVShowIDs])
+        }
     }
 }
 
@@ -124,11 +129,11 @@ extension TrendingViewController {
 
     // MARK: Snapshot
 
-    private func updateSnapshot() {
+    private func updateSnapshot(_ items: [MediaType: [MediaItem.ID]]) {
         var snapShot = Snapshot()
         snapShot.appendSections(MediaType.allCases)
-        MediaType.allCases.forEach { mediaType in
-            let itemIDs = trendingViewModel.mediaItemIDs(of: mediaType)
+        items.forEach {
+            let (mediaType, itemIDs) = ($0.key, $0.value)
             snapShot.appendItems(
                 [.header(mediaType), .media(mediaType: mediaType, itemIDs: itemIDs)], toSection: mediaType
             )

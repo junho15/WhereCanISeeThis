@@ -39,10 +39,6 @@ class SearchViewController: UICollectionViewController {
         searchViewModel.bind { errorMessage in
             print(errorMessage)
         }
-        searchViewModel.bind(onUpdate: { [weak self] in
-            guard let self else { return }
-            updateSnapshot()
-        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,8 +46,7 @@ class SearchViewController: UICollectionViewController {
 
         addTapGestureRecognizer()
         guard let query = searchBar?.text else { return }
-        searchViewModel.action(.searchMovie(query: query))
-        searchViewModel.action(.searchTVShow(query: query))
+        updateMediaItems(query)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,6 +81,16 @@ extension SearchViewController {
     private func configureSearchBar() {
         searchBar = UISearchBar(.media, delegate: self)
         navigationItem.titleView = searchBar
+    }
+
+    private func updateMediaItems(_ query: String) {
+        Task {
+            async let fetchMovieIDs = searchViewModel.searchMovie(query: query)
+            async let fetchTVShowIDs = searchViewModel.searchTVShow(query: query)
+            let (movieIDs, tvShowIDs) = await (fetchMovieIDs, fetchTVShowIDs)
+            guard let movieIDs, let tvShowIDs else { return }
+            updateSnapshot([.movie: movieIDs, .tvShow: tvShowIDs])
+        }
     }
 
     private func addTapGestureRecognizer() {
@@ -144,14 +149,15 @@ extension SearchViewController {
 
     // MARK: Snapshot
 
-    private func updateSnapshot() {
+    private func updateSnapshot(_ items: [MediaType: [MediaItem.ID]]) {
         var snapShot = Snapshot()
         snapShot.appendSections(MediaType.allCases)
-        MediaType.allCases.forEach { mediaType in
-            let itemCount = searchViewModel.itemCount(of: mediaType)
-            let itemIDs = searchViewModel.mediaItemIDs(of: mediaType)
+        items.forEach {
+            let (mediaType, itemIDs) = ($0.key, $0.value)
+            let itemTotalCount = searchViewModel.itemTotalCount(of: mediaType)
             snapShot.appendItems(
-                [.header(mediaType: mediaType, itemCount: itemCount), .media(mediaType: mediaType, itemIDs: itemIDs)],
+                [.header(mediaType: mediaType, itemCount: itemTotalCount),
+                 .media(mediaType: mediaType, itemIDs: itemIDs)],
                 toSection: mediaType
             )
         }
@@ -165,8 +171,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text else { return }
         searchBar.endEditing(true)
-        searchViewModel.action(.searchMovie(query: query))
-        searchViewModel.action(.searchTVShow(query: query))
+        updateMediaItems(query)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

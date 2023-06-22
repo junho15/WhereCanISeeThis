@@ -11,7 +11,6 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
     private var movieGenresList: GenreList?
     private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
-    private var onUpdate: (() -> Void)?
 
     private var movies: [Movie] {
         return moviePage?.results ?? []
@@ -56,20 +55,6 @@ final class TrendingViewModel: MediaItemViewModelProtocol {
 // MARK: - Methods
 
 extension TrendingViewModel {
-    enum Action {
-        case fetchTrendingMovies(MovieDatabaseURL.TimeWindow)
-        case fetchTrendingTVShows(MovieDatabaseURL.TimeWindow)
-    }
-
-    func action(_ action: Action) {
-        switch action {
-        case .fetchTrendingMovies(let timeWindow):
-            fetchTrendingMovies(of: timeWindow)
-        case .fetchTrendingTVShows(let timeWindow):
-            fetchTrendingTVShows(of: timeWindow)
-        }
-    }
-
     func mediaItemIDs(of type: MediaType) -> [MediaItem.ID] {
         switch type {
         case .movie:
@@ -86,6 +71,52 @@ extension TrendingViewModel {
             return movieItem(for: id)
         case .tvShow:
             return tvShowItem(for: id)
+        }
+    }
+
+    func fetchTrendingMovies(of timeWindow: MovieDatabaseURL.TimeWindow) async -> [MediaItem.ID]? {
+        do {
+            guard let language,
+                  let country else { return nil }
+
+            if movieGenresList == nil {
+                self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
+            }
+
+            let languageCode = "\(language)-\(country)"
+            self.moviePage = try await movieDatabaseAPIClient.fetchTrendingMovies(
+                timeWindow: timeWindow,
+                language: languageCode
+            )
+            return movieIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
+        }
+    }
+
+    func fetchTrendingTVShows(of timeWindow: MovieDatabaseURL.TimeWindow) async -> [MediaItem.ID]? {
+        do {
+            guard let language,
+                  let country else { return nil }
+
+            if tvShowGenresList == nil {
+                self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
+            }
+
+            let languageCode = "\(language)-\(country)"
+            self.tvShowPage = try await movieDatabaseAPIClient.fetchTrendingTVShows(
+                timeWindow: timeWindow,
+                language: languageCode
+            )
+            return tvShowIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
         }
     }
 
@@ -129,10 +160,6 @@ extension TrendingViewModel {
         self.onError = onError
     }
 
-    func bind(onUpdate: @escaping () -> Void) {
-        self.onUpdate = onUpdate
-    }
-
     private func movie(for id: Movie.ID) -> Movie? {
         return movies.first(where: { $0.id == id })
     }
@@ -149,58 +176,6 @@ extension TrendingViewModel {
     private func tvShowItem(for id: TVShow.ID) -> MediaItem? {
         guard let tvShow = tvShow(for: id) else { return nil }
         return MediaItem(media: tvShow, genreList: tvShowGenresList)
-    }
-
-    private func fetchTrendingMovies(of timeWindow: MovieDatabaseURL.TimeWindow) {
-        Task {
-            do {
-                guard let language,
-                      let country else { return }
-
-                if movieGenresList == nil {
-                    self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-                }
-
-                let languageCode = "\(language)-\(country)"
-                self.moviePage = try await movieDatabaseAPIClient.fetchTrendingMovies(
-                    timeWindow: timeWindow,
-                    language: languageCode
-                )
-                await MainActor.run {
-                    onUpdate?()
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func fetchTrendingTVShows(of timeWindow: MovieDatabaseURL.TimeWindow) {
-        Task {
-            do {
-                guard let language,
-                      let country else { return }
-
-                if tvShowGenresList == nil {
-                    self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-                }
-
-                let languageCode = "\(language)-\(country)"
-                self.tvShowPage = try await movieDatabaseAPIClient.fetchTrendingTVShows(
-                    timeWindow: timeWindow,
-                    language: languageCode
-                )
-                await MainActor.run {
-                    onUpdate?()
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
     }
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {

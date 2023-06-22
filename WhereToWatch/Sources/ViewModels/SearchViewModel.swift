@@ -12,7 +12,6 @@ final class SearchViewModel: MediaItemViewModelProtocol {
     private var movieGenresList: GenreList?
     private var tvShowGenresList: GenreList?
     private var onError: ((String) -> Void)?
-    private var onUpdate: (() -> Void)?
 
     private var movies: [Movie] {
         return moviePages.flatMap { $0.results }
@@ -60,23 +59,79 @@ final class SearchViewModel: MediaItemViewModelProtocol {
 // MARK: - Methods
 
 extension SearchViewModel {
-    enum Action {
-        case searchMovie(query: String)
-        case searchTVShow(query: String)
-        case fetchNextMoviePage(completion: ([MediaItem.ID]) -> Void)
-        case fetchNextTVShowPage(completion: ([MediaItem.ID]) -> Void)
+    func searchMovie(query: String) async -> [MediaItem.ID]? {
+        do {
+            if movieGenresList == nil,
+               let language {
+                self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
+            }
+
+            self.moviePages = try await [movieDatabaseAPIClient.searchMovies(query: query, language: languageCode)]
+            self.query = query
+            return movieIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
+        }
     }
 
-    func action(_ action: Action) {
-        switch action {
-        case .searchMovie(let query):
-            searchMovie(query: query)
-        case .searchTVShow(let query):
-            searchTVShow(query: query)
-        case .fetchNextMoviePage(let completion):
-            fetchNextMoviePage(completion: completion)
-        case .fetchNextTVShowPage(let completion):
-            fetchNextTVShowPage(completion: completion)
+    func searchTVShow(query: String) async -> [MediaItem.ID]? {
+        do {
+            if tvShowGenresList == nil,
+               let language {
+                self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
+            }
+
+            self.tvShowPages = try await [movieDatabaseAPIClient.searchTVShows(query: query, language: languageCode)]
+            self.query = query
+            return tvShowIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return nil
+        }
+    }
+
+    func fetchNextMoviePage() async -> [MediaItem.ID]? {
+        guard let lastPage = moviePages.last?.page,
+              let totalPages = moviePages.first?.totalPages,
+              lastPage < totalPages else { return movieIDs }
+        do {
+            let moviePage = try await movieDatabaseAPIClient.searchMovies(
+                query: query,
+                language: languageCode,
+                page: lastPage + 1
+            )
+            moviePages.append(moviePage)
+            return movieIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return tvShowIDs
+        }
+    }
+
+    func fetchNextTVShowPage() async -> [MediaItem.ID]? {
+        guard let lastPage = tvShowPages.last?.page,
+              let totalPages = tvShowPages.first?.totalPages,
+              lastPage < totalPages else { return tvShowIDs }
+        do {
+            let tvShowPage = try await movieDatabaseAPIClient.searchTVShows(
+                query: query,
+                language: languageCode,
+                page: lastPage + 1
+            )
+            tvShowPages.append(tvShowPage)
+            return tvShowIDs
+        } catch let error {
+            await MainActor.run {
+                onError?(error.localizedDescription)
+            }
+            return tvShowIDs
         }
     }
 
@@ -111,7 +166,7 @@ extension SearchViewModel {
         }
     }
 
-    func itemCount(of type: MediaType) -> Int {
+    func itemTotalCount(of type: MediaType) -> Int {
         switch type {
         case .movie:
             return moviePages.first?.totalResults ?? 0
@@ -148,10 +203,6 @@ extension SearchViewModel {
         self.onError = onError
     }
 
-    func bind(onUpdate: @escaping () -> Void) {
-        self.onUpdate = onUpdate
-    }
-
     private func movie(for id: Movie.ID) -> Movie? {
         return movies.first(where: { $0.id == id })
     }
@@ -168,90 +219,6 @@ extension SearchViewModel {
     private func tvShowItem(for id: TVShow.ID) -> MediaItem? {
         guard let tvShow = tvShow(for: id) else { return nil }
         return MediaItem(media: tvShow, genreList: tvShowGenresList)
-    }
-
-    private func searchMovie(query: String) {
-        Task {
-            do {
-                if movieGenresList == nil,
-                   let language {
-                    self.movieGenresList = try await movieDatabaseAPIClient.fetchMovieGenresList(language: language)
-                }
-
-                moviePages = try await [movieDatabaseAPIClient.searchMovies(query: query, language: languageCode)]
-                await MainActor.run {
-                    self.query = query
-                    onUpdate?()
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func searchTVShow(query: String) {
-        Task {
-            do {
-                if tvShowGenresList == nil,
-                   let language {
-                    self.tvShowGenresList = try await movieDatabaseAPIClient.fetchTVShowGenresList(language: language)
-                }
-
-                tvShowPages = try await [movieDatabaseAPIClient.searchTVShows(query: query, language: languageCode)]
-                await MainActor.run {
-                    self.query = query
-                    onUpdate?()
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func fetchNextMoviePage(completion: @escaping ([MediaItem.ID]) -> Void) {
-        guard let lastPage = moviePages.last?.page,
-              let totalPages = moviePages.first?.totalPages,
-              lastPage < totalPages else { return }
-        Task {
-            do {
-                let moviePage = try await movieDatabaseAPIClient.searchMovies(query: query,
-                                                                              language: languageCode,
-                                                                              page: lastPage + 1)
-                moviePages.append(moviePage)
-                await MainActor.run {
-                    completion(movieIDs)
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func fetchNextTVShowPage(completion: @escaping ([MediaItem.ID]) -> Void) {
-        guard let lastPage = tvShowPages.last?.page,
-              let totalPages = tvShowPages.first?.totalPages,
-              lastPage < totalPages else { return }
-        Task {
-            do {
-                let tvShowPage = try await movieDatabaseAPIClient.searchTVShows(query: query,
-                                                                                language: languageCode,
-                                                                                page: lastPage + 1)
-                tvShowPages.append(tvShowPage)
-                await MainActor.run {
-                    completion(tvShowIDs)
-                }
-            } catch let error as MovieDatabaseAPIError {
-                await MainActor.run {
-                    onError?(error.localizedDescription)
-                }
-            }
-        }
     }
 
     private func movieDetail(for id: Movie.ID) -> MediaDetailViewModel? {

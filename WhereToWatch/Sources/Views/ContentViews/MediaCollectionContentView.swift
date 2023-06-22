@@ -154,19 +154,23 @@ extension MediaCollectionContentView: UICollectionViewDelegate {
               let mediaType = configuration.mediaType else { return }
         switch mediaType {
         case .movie:
-            viewModel.action(.fetchNextMoviePage { [weak self] itemIDs in
-                guard let self,
-                      var configuration = self.configuration as? Configuration else { return }
-                configuration.itemIDs = itemIDs
-                self.configuration = configuration
-            })
+            Task {
+                let itemIDs = await viewModel.fetchNextMoviePage()
+                guard var configuration = self.configuration as? Configuration else { return }
+                await MainActor.run {
+                    configuration.itemIDs = itemIDs
+                    self.configuration = configuration
+                }
+            }
         case .tvShow:
-            viewModel.action(.fetchNextTVShowPage { [weak self] itemIDs in
-                guard let self,
-                      var configuration = self.configuration as? Configuration else { return }
-                configuration.itemIDs = itemIDs
-                self.configuration = configuration
-            })
+            Task {
+                let itemIDs = await viewModel.fetchNextTVShowPage()
+                guard var configuration = self.configuration as? Configuration else { return }
+                await MainActor.run {
+                    configuration.itemIDs = itemIDs
+                    self.configuration = configuration
+                }
+            }
         }
     }
 
