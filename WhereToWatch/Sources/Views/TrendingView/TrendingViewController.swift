@@ -33,15 +33,10 @@ final class TrendingViewController: UICollectionViewController {
 
         configureDataSource()
         configureSegmentedControl()
+        updateMediaItems(.day)
         trendingViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        updateMediaItems(.day)
     }
 }
 
