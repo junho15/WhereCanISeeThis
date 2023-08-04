@@ -16,6 +16,7 @@
 "WATCH_PROVIDER_TYPE_ADS" = "Ads";
 "WATCH_PROVIDER_TYPE_RENT" = "Rent";
 "WATCH_PROVIDER_TYPE_FREE" = "Free";
+"NO_PLACE_MESSAGE" = "There is currently no place to watch.";
 "TRENDING_TAB_TITLE" = "Trending";
 "SEARCH_TAB_TITLE" = "Search";
 "FAVORITE_TAB_TITLE" = "Favorite";

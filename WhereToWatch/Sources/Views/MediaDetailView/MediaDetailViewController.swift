@@ -157,6 +157,7 @@ extension MediaDetailViewController {
         case justWatch
         case credits
         case similar
+        case instructions
     }
 
     enum Row: Hashable {
@@ -321,28 +322,28 @@ extension MediaDetailViewController {
             var snapShot = Snapshot()
             snapShot.appendSections([.poster])
             snapShot.appendItems([.poster(
-                poster: mediaInfo.posterImage,
-                backdrop: mediaInfo.backdropImage,
-                title: mediaInfo.mediaItem.title,
-                year: mediaInfo.mediaItem.date,
+                poster: mediaInfo.posterImage, backdrop: mediaInfo.backdropImage,
+                title: mediaInfo.mediaItem.title, year: mediaInfo.mediaItem.date,
                 genre: mediaInfo.mediaItem.genre
             )], toSection: .poster)
 
             if let watchProviderList = mediaInfo.watchProviderList {
                 WatchProviderType.allCases.forEach { type in
-                    if let result = watchProviderList.results[type] {
+                    guard let result = watchProviderList.results[type] else { return }
                         snapShot.appendSections([.watchProvider(type)])
-                        snapShot.appendItems([.header(type.title)], toSection: .watchProvider(type))
                         snapShot.appendItems(
-                            [.watchProviders(type: type, watchProviders: result)], toSection: .watchProvider(type)
+                            [.header(type.title), .watchProviders(type: type, watchProviders: result)],
+                            toSection: .watchProvider(type)
                         )
-                    }
                 }
                 snapShot.appendSections([.justWatch])
                 snapShot.appendItems(
                     [.image(Constants.justWatchLogoImage?.resized(targetSize: Constants.justWatchLogoSize))],
                     toSection: .justWatch
                 )
+            } else {
+                snapShot.appendSections([.instructions])
+                snapShot.appendItems([.header(Constants.noPlaceMessage)], toSection: .instructions)
             }
 
             snapShot.appendSections([.overView])
@@ -387,6 +388,7 @@ private enum Constants {
     static let overViewHeader = NSLocalizedString("OVERVIEW_HEADER", comment: "Overview Header")
     static let creditsHeader = NSLocalizedString("CREDITS_HEADER", comment: "Credits Header")
     static let similarHeader = NSLocalizedString("SIMILAR_HEADER", comment: "Similar Header")
+    static let noPlaceMessage = NSLocalizedString("NO_PLACE_MESSAGE", comment: "No Place Message")
     static let watchProviderLogoSize = CGSize(width: 40, height: 40)
     static let justWatchLogoSize = CGSize(width: 100, height: 100)
 }
