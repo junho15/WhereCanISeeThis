@@ -6,6 +6,7 @@ final class FavoriteViewController: UICollectionViewController {
     // MARK: Properties
 
     private let favoriteViewModel: FavoriteViewModel
+    private let noFavoriteMediaLabel = UILabel()
     private var dataSource: DataSource?
     private var searchBar: UISearchBar?
     private var tapGestureRecognizer: UIGestureRecognizer?
@@ -34,11 +35,13 @@ final class FavoriteViewController: UICollectionViewController {
 
         configureDataSource()
         configureNavigationItem()
+        configureNoFavoriteMediaLabel()
         favoriteViewModel.bind(onError: { errorMessage in
             print(errorMessage)
         })
         favoriteViewModel.bind(onUpdate: { [weak self] itemIDs in
             guard let self else { return }
+            noFavoriteMediaLabel.isHidden = !itemIDs.isEmpty
             updateSnapshot(itemIDs)
         })
     }
@@ -86,6 +89,13 @@ extension FavoriteViewController {
             image: Constants.sortOptionButtonImage,
             menu: sortOptionMenu()
         )
+    }
+
+    private func configureNoFavoriteMediaLabel() {
+        noFavoriteMediaLabel.text = Constants.noFavoriteMediaText
+        noFavoriteMediaLabel.font = Constants.noFavoriteMediaLabelFont
+        noFavoriteMediaLabel.textAlignment = .center
+        collectionView.backgroundView = noFavoriteMediaLabel
     }
 
     private func sortOptionMenu() -> UIMenu {
@@ -202,8 +212,10 @@ extension FavoriteViewController {
 
     private func updateSnapshot(_ itemIDs: [FavoriteMediaItem.ID]) {
         var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(itemIDs)
+        if itemIDs.isEmpty == false {
+            snapshot.appendSections([.main])
+            snapshot.appendItems(itemIDs)
+        }
         dataSource?.apply(snapshot)
     }
 }
@@ -265,5 +277,7 @@ extension FavoriteViewController {
         static let emptyPosterImage = UIImage(named: "Empty")
         static let sortOptionButtonImage = UIImage(systemName: "list.number")
         static let posterImageSize = CGSize(width: 100, height: 150)
+        static let noFavoriteMediaText = NSLocalizedString("NO_FAVORITE_MEDIA", comment: "No Favorite Media Text")
+        static let noFavoriteMediaLabelFont = UIFont.preferredFont(forTextStyle: .body)
     }
 }

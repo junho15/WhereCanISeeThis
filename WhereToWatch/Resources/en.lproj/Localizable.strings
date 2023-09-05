@@ -6,7 +6,7 @@
 "MOVIE_TITLE" = "Movies";
 "TVSHOW_TITLE" = "TV Shows";
 "TRENDING" = "Trending - %@";
-"SEARCH_BAR_PLACEHOLDER" = "Search for a movie, tv show";
+"SEARCH_BAR_PLACEHOLDER" = "Search for movies, TV shows";
 "GENRE_HEADER" = "Genre";
 "OVERVIEW_HEADER" = "Overview";
 "CREDITS_HEADER" = "Credits";
@@ -30,3 +30,4 @@
 "TIME_WINDOW_WEEK" = "This Week";
 "VIEW_ALL" = "View All";
 "NO_RESULTS" = "No Results";
+"NO_FAVORITE_MEDIA" = "No Favorite movies, TV shows";
