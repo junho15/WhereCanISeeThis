@@ -199,6 +199,17 @@ extension SearchViewModel {
         return SimilarViewModel(mediaItem: mediaItem, genresList: genresList)
     }
 
+    func searchListViewModel<T: MediaProtocol>(type: MovieDatabaseAPI.MediaType) -> SearchListViewModel<T> {
+        switch type {
+        case .movie:
+            let pages = moviePages.compactMap { $0 as? Page<T> }
+            return SearchListViewModel(query: query, mediaType: type, pages: pages, genresList: movieGenresList)
+        case .tvShow:
+            let pages = tvShowPages.compactMap { $0 as? Page<T> }
+            return SearchListViewModel(query: query, mediaType: type, pages: pages, genresList: tvShowGenresList)
+        }
+    }
+
     func bind(onError: @escaping (String) -> Void) {
         self.onError = onError
     }
