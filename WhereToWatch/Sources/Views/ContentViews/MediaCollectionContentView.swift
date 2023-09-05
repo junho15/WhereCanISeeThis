@@ -145,35 +145,6 @@ extension MediaCollectionContentView {
 // MARK: - UICollectionViewDelegate
 
 extension MediaCollectionContentView: UICollectionViewDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath
-    ) {
-        guard let configuration = configuration as? Configuration,
-              indexPath.row == (configuration.itemIDs?.count ?? 0) - 1,
-              let viewModel = configuration.viewModel as? SearchViewModel,
-              let mediaType = configuration.mediaType else { return }
-        switch mediaType {
-        case .movie:
-            Task {
-                let itemIDs = await viewModel.fetchNextMoviePage()
-                guard var configuration = self.configuration as? Configuration else { return }
-                await MainActor.run {
-                    configuration.itemIDs = itemIDs
-                    self.configuration = configuration
-                }
-            }
-        case .tvShow:
-            Task {
-                let itemIDs = await viewModel.fetchNextTVShowPage()
-                guard var configuration = self.configuration as? Configuration else { return }
-                await MainActor.run {
-                    configuration.itemIDs = itemIDs
-                    self.configuration = configuration
-                }
-            }
-        }
-    }
-
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let configuration = configuration as? Configuration,
               let mediaType = configuration.mediaType,
