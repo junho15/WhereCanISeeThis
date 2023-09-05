@@ -319,9 +319,9 @@ extension MediaDetailViewController {
         Task {
             let mediaInfo = await mediaInfo()
 
-            var snapShot = Snapshot()
-            snapShot.appendSections([.poster])
-            snapShot.appendItems([.poster(
+            var snapshot = Snapshot()
+            snapshot.appendSections([.poster])
+            snapshot.appendItems([.poster(
                 poster: mediaInfo.posterImage, backdrop: mediaInfo.backdropImage,
                 title: mediaInfo.mediaItem.title, year: mediaInfo.mediaItem.date,
                 genre: mediaInfo.mediaItem.genre
@@ -330,46 +330,46 @@ extension MediaDetailViewController {
             if let watchProviderList = mediaInfo.watchProviderList {
                 WatchProviderType.allCases.forEach { type in
                     guard let result = watchProviderList.results[type] else { return }
-                        snapShot.appendSections([.watchProvider(type)])
-                        snapShot.appendItems(
+                        snapshot.appendSections([.watchProvider(type)])
+                        snapshot.appendItems(
                             [.header(type.title), .watchProviders(type: type, watchProviders: result)],
                             toSection: .watchProvider(type)
                         )
                 }
-                snapShot.appendSections([.justWatch])
-                snapShot.appendItems(
+                snapshot.appendSections([.justWatch])
+                snapshot.appendItems(
                     [.image(Constants.justWatchLogoImage?.resized(targetSize: Constants.justWatchLogoSize))],
                     toSection: .justWatch
                 )
             } else {
-                snapShot.appendSections([.instructions])
-                snapShot.appendItems([.header(Constants.noPlaceMessage)], toSection: .instructions)
+                snapshot.appendSections([.instructions])
+                snapshot.appendItems([.header(Constants.noPlaceMessage)], toSection: .instructions)
             }
 
-            snapShot.appendSections([.overView])
-            snapShot.appendItems(
+            snapshot.appendSections([.overView])
+            snapshot.appendItems(
                 [.header(Constants.overViewHeader), .text(mediaInfo.mediaItem.overView)],
                 toSection: .overView
             )
 
             if mediaInfo.creditIDs.isEmpty == false {
-                snapShot.appendSections([.credits])
-                snapShot.appendItems(
+                snapshot.appendSections([.credits])
+                snapshot.appendItems(
                     [.header(Constants.creditsHeader), .credits(mediaInfo.creditIDs)],
                     toSection: .credits
                 )
             }
 
             if mediaInfo.similarIDs.isEmpty == false {
-                snapShot.appendSections([.similar])
-                snapShot.appendItems(
+                snapshot.appendSections([.similar])
+                snapshot.appendItems(
                     [.header(Constants.similarHeader), .similar(mediaInfo.similarIDs)],
                     toSection: .similar
                 )
             }
 
             await MainActor.run {
-                dataSource?.apply(snapShot)
+                dataSource?.apply(snapshot)
             }
         }
     }

@@ -125,15 +125,15 @@ extension TrendingViewController {
     // MARK: Snapshot
 
     private func updateSnapshot(_ items: [MediaType: [MediaItem.ID]]) {
-        var snapShot = Snapshot()
-        snapShot.appendSections(MediaType.allCases)
+        var snapshot = Snapshot()
+        snapshot.appendSections(MediaType.allCases)
         items.forEach {
             let (mediaType, itemIDs) = ($0.key, $0.value)
-            snapShot.appendItems(
+            snapshot.appendItems(
                 [.header(mediaType), .media(mediaType: mediaType, itemIDs: itemIDs)], toSection: mediaType
             )
         }
-        dataSource?.apply(snapShot)
+        dataSource?.apply(snapshot)
     }
 }
 

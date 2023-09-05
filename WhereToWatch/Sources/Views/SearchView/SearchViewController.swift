@@ -153,18 +153,18 @@ extension SearchViewController {
     // MARK: Snapshot
 
     private func updateSnapshot(_ items: [MediaType: [MediaItem.ID]]) {
-        var snapShot = Snapshot()
-        snapShot.appendSections(MediaType.allCases)
+        var snapshot = Snapshot()
+        snapshot.appendSections(MediaType.allCases)
         items.forEach {
             let (mediaType, itemIDs) = ($0.key, $0.value)
             let itemTotalCount = searchViewModel.itemTotalCount(of: mediaType)
-            snapShot.appendItems(
+            snapshot.appendItems(
                 [.header(mediaType: mediaType, itemCount: itemTotalCount),
                  .media(mediaType: mediaType, itemIDs: itemIDs)],
                 toSection: mediaType
             )
         }
-        dataSource?.apply(snapShot)
+        dataSource?.apply(snapshot)
     }
 }
 

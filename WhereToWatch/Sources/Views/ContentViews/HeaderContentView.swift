@@ -1,10 +1,3 @@
-//
-//  HeaderContentView.swift
-//  WhereToWatch
-//
-//  Created by junho lee on 2023/09/05.
-//
-
 import UIKit
 
 final class HeaderContentView: UIView, UIContentView {

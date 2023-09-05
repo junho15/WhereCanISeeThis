@@ -189,14 +189,14 @@ extension SearchViewModel {
         for id: MediaItem.ID, type: MovieDatabaseAPI.MediaType?
     ) -> SimilarViewModel<T>? {
         guard let type, let mediaItem = mediaItem(for: id, type: type) else { return nil }
-        let generesList: GenreList?
+        let genresList: GenreList?
         switch type {
         case .movie:
-            generesList = movieGenresList
+            genresList = movieGenresList
         case .tvShow:
-            generesList = tvShowGenresList
+            genresList = tvShowGenresList
         }
-        return SimilarViewModel(mediaItem: mediaItem, genresList: generesList)
+        return SimilarViewModel(mediaItem: mediaItem, genresList: genresList)
     }
 
     func bind(onError: @escaping (String) -> Void) {

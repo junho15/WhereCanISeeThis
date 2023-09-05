@@ -175,6 +175,7 @@ extension FavoriteViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, FavoriteMediaItem.ID>
 
     // MARK: CellRegistrationHandler
+
     private func cellRegistrationHandler(
         cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: FavoriteMediaItem.ID
     ) {
@@ -253,6 +254,7 @@ extension FavoriteViewController {
 }
 
 // MARK: - Constants
+
 extension FavoriteViewController {
     enum Constants {
         static let sortOptionMenuTitle = NSLocalizedString("SORT_OPTION_MENU_TITLE", comment: "Sort Option Menu Title")

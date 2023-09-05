@@ -135,10 +135,10 @@ extension MediaCollectionContentView {
     }
 
     private func updateSnapshot(_ itemIDs: [MediaItem.ID]) {
-        var snapShot = Snapshot()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(itemIDs)
-        dataSource?.apply(snapShot)
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(itemIDs)
+        dataSource?.apply(snapshot)
     }
 }
 

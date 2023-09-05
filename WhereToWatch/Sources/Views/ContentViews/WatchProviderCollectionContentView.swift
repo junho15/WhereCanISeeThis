@@ -117,10 +117,10 @@ extension WatchProviderCollectionContentView {
     }
 
     private func updateSnapshot(_ items: [(image: UIImage?, title: String?)] = []) {
-        var snapShot = Snapshot()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(items.map { .item(image: $0.image, title: $0.title) }, toSection: .main)
-        dataSource?.apply(snapShot)
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items.map { .item(image: $0.image, title: $0.title) }, toSection: .main)
+        dataSource?.apply(snapshot)
     }
 }
 
