@@ -29,6 +29,7 @@
 		EB8B050E2A12475F00C1BC37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB8B050D2A12475F00C1BC37 /* Assets.xcassets */; };
 		EB8B05112A12475F00C1BC37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB8B050F2A12475F00C1BC37 /* LaunchScreen.storyboard */; };
 		EB9B93ED2AA6F10000088C66 /* SearchListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9B93EC2AA6F10000088C66 /* SearchListViewModel.swift */; };
+		EB9B93EF2AA6FC0D00088C66 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9B93EE2AA6FC0D00088C66 /* SearchListViewController.swift */; };
 		EBC11E8A2A42CE7A00394752 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC11E892A42CE7A00394752 /* Array.swift */; };
 		EBC6A1C52AA6C80900BA56CF /* HeaderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC6A1C42AA6C80900BA56CF /* HeaderContentView.swift */; };
 		EBC7A9732A3C7C8A002A8698 /* CreditsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC7A9722A3C7C8A002A8698 /* CreditsViewModel.swift */; };
@@ -94,6 +95,7 @@
 		EB8B05122A12475F00C1BC37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB8B05662A12540D00C1BC37 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EB9B93EC2AA6F10000088C66 /* SearchListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewModel.swift; sourceTree = "<group>"; };
+		EB9B93EE2AA6FC0D00088C66 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		EBA775A02A1CBA9000C5E685 /* WhereToWatch.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhereToWatch.xctestplan; sourceTree = "<group>"; };
 		EBC11E892A42CE7A00394752 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		EBC6A1C42AA6C80900BA56CF /* HeaderContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderContentView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		EBDDA3872A1DB1A400A67637 /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
+				EB9B93EE2AA6FC0D00088C66 /* SearchListViewController.swift */,
 				EBDDA3A52A20595E00A67637 /* SearchViewController.swift */,
 			);
 			path = SearchView;
@@ -515,6 +518,7 @@
 				EB09578C2A2D6F2F00349B12 /* FavoriteViewController.swift in Sources */,
 				EBF090352A40656E00178D61 /* CreditContentView.swift in Sources */,
 				EBDDA3A22A204F0400A67637 /* UISearchBar.swift in Sources */,
+				EB9B93EF2AA6FC0D00088C66 /* SearchListViewController.swift in Sources */,
 				EBE838052A2601A200DCBA85 /* MovieDatabaseAPIError.swift in Sources */,
 				EBE837F42A258CE500DCBA85 /* WatchProviderContentView.swift in Sources */,
 				EBDDA3852A1CEA4200A67637 /* TrendingViewModel.swift in Sources */,
