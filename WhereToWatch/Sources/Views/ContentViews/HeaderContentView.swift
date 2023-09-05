@@ -67,7 +67,7 @@ extension HeaderContentView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.spacing),
 
-            button.trailingAnchor.constraint(equalToSystemSpacingAfter: trailingAnchor, multiplier: -Constants.spacing),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing),
             button.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
