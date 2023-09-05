@@ -7,7 +7,7 @@ final class FavoriteViewModel {
 
     private let favoriteService = FavoriteService.shared
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private var sortOption: FavoriteService.SortOption
+    private(set) var sortOption: FavoriteService.SortOption
     private var query: String
     private var favoriteMediaItems: [FavoriteMediaItem] {
         didSet {

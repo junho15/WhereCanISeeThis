@@ -84,7 +84,10 @@ extension FavoriteViewController {
     private func configureNavigationItem() {
         searchBar = UISearchBar(.media, delegate: self)
         navigationItem.titleView = searchBar
+        updateSortOptionMenu()
+    }
 
+    private func updateSortOptionMenu() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: Constants.sortOptionButtonImage,
             menu: sortOptionMenu()
@@ -100,16 +103,19 @@ extension FavoriteViewController {
 
     private func sortOptionMenu() -> UIMenu {
         let children = FavoriteService.SortOption.allCases.map { sortOption in
-            UIAction(title: sortOption.description) { [weak self] _ in
+            let action = UIAction(title: sortOption.description) { [weak self] _ in
                 guard let self else { return }
                 sortOptionMenuAction(sortOption)
             }
+            action.state = favoriteViewModel.sortOption == sortOption ? .on : .off
+            return action
         }
         return UIMenu(title: Constants.sortOptionMenuTitle, options: .displayInline, children: children)
     }
 
     private func sortOptionMenuAction(_ sortOption: FavoriteService.SortOption) {
         favoriteViewModel.action(.fetchFavoriteMediaItems(sortOption: sortOption, query: searchBar?.text ?? nil))
+        updateSortOptionMenu()
     }
 
     private func addTapGestureRecognizer() {
