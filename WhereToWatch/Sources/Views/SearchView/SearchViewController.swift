@@ -139,11 +139,14 @@ extension SearchViewController {
 
     private func headerRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Row) {
         guard case .header(let mediaType, let itemCount) = itemIdentifier else { return }
-        var contentConfiguration = cell.defaultContentConfiguration()
+        var contentConfiguration = cell.headerConfiguration()
         let attributedTitle = AttributedStringMaker.searchListHeader(
             title: mediaType.title, count: itemCount
         ).attributedString
         contentConfiguration.attributedText = attributedTitle
+        if itemCount > 0 {
+            contentConfiguration.buttonTitle = NSLocalizedString("VIEW_ALL", comment: "View All")
+        }
         cell.contentConfiguration = contentConfiguration
     }
 
