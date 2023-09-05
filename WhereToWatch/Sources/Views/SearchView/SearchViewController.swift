@@ -1,7 +1,7 @@
 import UIKit
 import MovieDatabaseAPI
 
-class SearchViewController: UICollectionViewController {
+final class SearchViewController: UICollectionViewController {
 
     // MARK: Properties
 
@@ -39,14 +39,15 @@ class SearchViewController: UICollectionViewController {
         searchViewModel.bind { errorMessage in
             print(errorMessage)
         }
+
+        guard let query = searchBar?.text else { return }
+        updateMediaItems(query)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         addTapGestureRecognizer()
-        guard let query = searchBar?.text else { return }
-        updateMediaItems(query)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,6 +109,19 @@ extension SearchViewController {
     @objc private func dismissSearchBarKeyboard() {
         searchBar?.endEditing(true)
     }
+
+    private func presentSearchListViewController(for mediaType: MediaType) {
+        switch mediaType {
+        case .movie:
+            let viewModel: SearchListViewModel<Movie> = searchViewModel.searchListViewModel(type: mediaType)
+            let viewController = SearchListViewController(searchListViewModel: viewModel)
+            navigationController?.pushViewController(viewController, animated: true)
+        case .tvShow:
+            let viewModel: SearchListViewModel<TVShow> = searchViewModel.searchListViewModel(type: mediaType)
+            let viewController = SearchListViewController(searchListViewModel: viewModel)
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 }
 
 // MARK: - DataSource
@@ -145,7 +159,11 @@ extension SearchViewController {
         ).attributedString
         contentConfiguration.attributedText = attributedTitle
         if itemCount > 0 {
-            contentConfiguration.buttonTitle = NSLocalizedString("VIEW_ALL", comment: "View All")
+            contentConfiguration.buttonTitle = Constants.viewAllButtonText
+            contentConfiguration.buttonAction = UIAction { [weak self] _ in
+                guard let self else { return }
+                self.presentSearchListViewController(for: mediaType)
+            }
         }
         cell.contentConfiguration = contentConfiguration
     }
@@ -189,5 +207,6 @@ extension SearchViewController {
     private enum Constants {
         static let viewBackgroundColor = UIColor.systemBackground
         static let collectionViewBackgroundColor = UIColor.systemGray6
+        static let viewAllButtonText = NSLocalizedString("VIEW_ALL", comment: "View All")
     }
 }
