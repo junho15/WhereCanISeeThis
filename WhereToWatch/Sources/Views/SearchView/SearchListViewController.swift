@@ -33,7 +33,22 @@ final class SearchListViewController<Type: MediaProtocol>: UICollectionViewContr
         view.backgroundColor = Constants.viewBackgroundColor
 
         configureDataSource()
+        configureNavigationItem()
         updateSnapshot(searchListViewModel.mediaItemIDs)
+
+        searchListViewModel.bind(onError: { errorMessage in
+            print(errorMessage)
+        })
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let tabBarController {
+            let tabBarHeight = tabBarController.tabBar.frame.size.height
+            collectionView.contentInset.bottom = tabBarHeight
+        }
+        collectionView.contentInset.top = Constants.collectionViewContentInsetTop
     }
 }
 
@@ -50,6 +65,10 @@ extension SearchListViewController {
                 )
             }
         )
+    }
+
+    private func configureNavigationItem() {
+        navigationItem.title = "\(searchListViewModel.query) (\(searchListViewModel.itemTotalCount))"
     }
 }
 
@@ -113,7 +132,7 @@ extension SearchListViewController: SearchListCollectionViewDelegate {
     }
 
     func collectionView(willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard indexPath.row == searchListViewModel.itemTotalCount - 1 else { return }
+        guard indexPath.row == searchListViewModel.itemCount - 1 else { return }
         Task {
             guard let itemIDs = await searchListViewModel.fetchNextPage() else { return }
             await MainActor.run {
@@ -159,6 +178,7 @@ extension SearchListViewController: SearchListCollectionViewDelegate {
 private enum Constants {
     static let viewBackgroundColor = UIColor.systemBackground
     static let collectionViewBackgroundColor = UIColor.systemGray6
+    static let collectionViewContentInsetTop = CGFloat(-25)
     static let emptyPosterImage = UIImage(named: "Empty")
     static let posterImageSize = CGSize(width: 100, height: 150)
 }

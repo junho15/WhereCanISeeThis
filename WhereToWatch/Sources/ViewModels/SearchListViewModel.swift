@@ -6,17 +6,20 @@ final class SearchListViewModel<Type: MediaProtocol> {
     // MARK: Properties
 
     private let movieDatabaseAPIClient: MovieDatabaseAPIClient
-    private let query: String
     private let mediaType: MediaType
     private var pages: [Page<Type>]
     private var genresList: GenreList?
+    private(set) var query: String
     private var onError: ((String) -> Void)?
 
     var mediaItemIDs: [MediaItem.ID] {
         return mediaIDs.compactMap { $0 as? MediaItem.ID }
     }
-    var itemTotalCount: Int {
+    var itemCount: Int {
         return media.count
+    }
+    var itemTotalCount: Int {
+        return pages.first?.totalResults ?? 0
     }
     private var media: [Type] {
         return pages.flatMap { $0.results }
