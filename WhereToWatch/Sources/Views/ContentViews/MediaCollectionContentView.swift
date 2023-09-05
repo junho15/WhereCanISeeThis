@@ -16,6 +16,7 @@ final class MediaCollectionContentView: UIView, UIContentView {
         }
         return CGSize(width: screenSize.width, height: screenSize.height * 0.30)
     }
+    private let noResultsLabel = UILabel()
     private var collectionView: UICollectionView?
     private var dataSource: DataSource?
 
@@ -40,7 +41,9 @@ final class MediaCollectionContentView: UIView, UIContentView {
 extension MediaCollectionContentView {
     func configure(_ configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
-        updateSnapshot(configuration.itemIDs ?? [])
+        let itemIDs = configuration.itemIDs ?? []
+        noResultsLabel.isHidden = !itemIDs.isEmpty
+        updateSnapshot(itemIDs)
     }
 
     private func configureCollectionView() {
@@ -90,6 +93,11 @@ extension MediaCollectionContentView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+
+        noResultsLabel.text = Constants.noResultsText
+        noResultsLabel.font = Constants.noResultsLabelFont
+        noResultsLabel.textAlignment = .center
+        collectionView.backgroundView = noResultsLabel
     }
 }
 
@@ -211,6 +219,8 @@ extension MediaCollectionContentView {
         static let collectionViewBackgroundColor = UIColor.systemBackground
         static let spacing = CGFloat(10)
         static let emptyPosterImage = UIImage(named: "Empty")
+        static let noResultsText = NSLocalizedString("NO_RESULTS", comment: "No Results Text")
+        static let noResultsLabelFont = UIFont.preferredFont(forTextStyle: .body)
     }
 }
 
